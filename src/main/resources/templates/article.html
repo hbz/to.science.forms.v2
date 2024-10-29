@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout-forms}" >
+
+<head>
+	<title>Artikel</title>
+</head>
+<body>
+
+	<div layout:fragment="content-zettel">
+		<div class="col-md-8 offset-md-2">
+		
+			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+		
+			<form th:action="@{/article/{pid}(pid=${pid})}" th:object="${article}" method="post">
+				<a th:href="@{${@environment.getProperty('forms.article.helpText')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
+				
+				<div class="accordion" id="accordion">
+	  				
+	  				<!-- ******** Accordion Panel 1 (Angaben zur Publikation) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingOne','collapseOne','publicationStatus-section',${statusHeaderZF})}"> 
+			      		
+			      		<div layout:fragment="accordionPanel-content">
+			      		
+					 		<!-- Publikationstyp -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="rdfType">
+		      						<li class="multi-field">
+		      							<div class="first-child-of-multi-field">
+				        					<div>
+				        						<label for="select-input">Publikationstyp*</label>
+				  								<button type="button" class="inline-help" name="rdfType">
+													<span class="fas fa-question-circle"></span>
+												</button>
+												<!-- div class="help-text" name="rdfType" style="display: none;">
+													<button name="rdfType" type="button" class="close-help" style="float: right">
+														<span class="fas fa-times-circle"></span>
+													</button>
+												</div-->
+											</div>
+											<div class="select-pg">
+												<select id="rdfType" tabindex="1" class="form-select input-widget custom-siz" th:field="*{rdftype[0].id}">
+													  <option value="">Bitte wählen...</option>
+													  <option th:each="type : ${@articleData.getRdftype()}" th:value="${type.key}" th:text="${type.value}"></option>
+												</select>
+											</div>
+											<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('rdftype[0]')}" th:errors="*{rdftype[0]}"></div>
+				   				 		</div>
+			   				 			<div class="buttonBox">
+											<div class="btn-group">
+												<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+												<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+											</div>	
+											<div class="btn-group">
+												<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+												<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+											</div>	
+										</div>
+					 				</li>
+		      					</ol>
+					 		</div>
+					 		<!-- Publikationstyp END -->
+				      				
+					 		<!-- Publikationsstatus -->
+		      				<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="select-input">Publikationsstatus*</label>
+		 								<button type="button" class="inline-help" name="publicationStatus">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="publicationStatus" style="display: none;">
+										<button name="publicationStatus" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-pg">
+									<select id="select-input" tabindex="2" class="form-select input-widget custom-siz" th:field="*{publicationStatus[0].id}">
+										  <option value="">Bitte wählen...</option>
+										  <option th:each="state : ${@articleData.getPublicationStatus()}" th:value="${state.key}" th:text="${state.value}"></option>
+									</select>
+								</div>
+								<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('publicationStatus[0]')}" th:errors="*{publicationStatus[0]}"></div>
+					 		</div>
+					 		<br />
+					 		<!-- Publikationsstatus END -->
+		  				 		
+					 		<!-- Begutachtungsstatus -->
+		      				<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="select-input">Begutachtungsstatus</label>
+		 								<button type="button" class="inline-help" name="reviewStatus">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="reviewStatus" style="display: none;">
+										<button name="reviewStatus" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-pg">
+									<select id="select-input" tabindex="3" class="form-select input-widget custom-siz" th:field="*{reviewStatus[0].id}">
+										  <option value="">Bitte wählen Sie...</option>
+										  <option th:each="review : ${@articleData.getReviewStatus()}" th:value="${review.key}" th:text="${review.value}"></option>
+									</select>
+								</div>
+					 		</div>
+					 		<br />
+					 		<!-- Begutachtungsstatus END -->
+		   				 </div>		
+	      			</div>
+	  				<!-- ******** Accordion Panel 1 (Angaben zur Publikation) END ******** -->	
+	  				
+	  				<!-- ******** Accordion Panel 2 (Titelangaben) ******** -->
+	      			<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingTwo','collapseTwo','title-section',${titleHeaderZF})}"> 
+		      					
+		      			<div layout:fragment="accordionPanel-content">
+		      			
+		      				<!-- Titel
+							<div layout:replace="~{fragments/smalltextarea :: smallTextArea('title',${titleZF}+'*','4')}"></div>
+							 Titel END -->
+							
+							<div>
+								<label th:for="title">Titel*</label>
+								<button type="button" class="inline-help" name="title">
+									<span class="fas fa-question-circle"></span>
+								</button>
+								<div class="help-text" name="title" style="display: none;">
+									<button name="title" type="button" class="close-help" style="float: right">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+				
+							<div>
+								<textarea class="form-control" tabindex="4" rows="1" id="title" th:field="*{title[0]}"></textarea>
+							</div>
+							<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('title[0]')}" th:errors="*{title[0]}"></div>
+							
+							<br/>
+							
+							<!-- Alternativer Titel
+							<div layout:replace="~{fragments/smalltextarea :: smallTextArea('alternative',${alternativeTitleZF},'5')}"></div>
+							Alternativer Titel END -->
+							
+							<div>
+								<label th:for="alternative">Alternativer Titel</label>
+								<button type="button" class="inline-help" name="alternative">
+									<span class="fas fa-question-circle"></span>
+								</button>
+								<div class="help-text" name="alternative" style="display: none;">
+									<button name="alternative" type="button" class="close-help" style="float: right">
+										<span class="fas fa-times-circle"></span>
+									</button>
+								</div>
+							</div>
+				
+							<div>
+								<textarea class="form-control" tabindex="5" rows="1" id="alternative" th:field="*{alternative[0]}"></textarea>
+							</div>
+							
+						</div>
+	
+	  				</div>
+	  				<!-- ******** Accordion Panel 2 (Titelangaben) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 3 (Urheberschaft) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingThree','collapseThree','creator-section',${creatorshipHeaderZF})}"> 
+	  	
+						<div layout:fragment="accordionPanel-content">		      				
+		      				<!-- Autor -->	
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="creator">
+		      					
+			      					<!-- Feld gefüllt -->
+			      					<th:block th:each="cre,i : ${article.creator}">
+			      						<li class="multi-field mb-3">
+			      							<div class="first-child-of-multi-field">
+			      								<div>
+		        									<label for="creator[0]">Autor/in</label>
+		  											<button type="button" class="inline-help" name="creator">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="creator" style="display: none;">
+														<button name="creator" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{creator[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{creator[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{creator[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{creator[__${i.index}__].prefLabel}" style="display:none;"/>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="display:none;max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+												  			<option th:each="art : ${@articleData.getPersonLookupEndpoints()}" th:value="${art.key}" th:text="${art.value}"></option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- MULTISELECT AREA START -->	
+							      				<div class="roles-container px-2 pb-3">
+								      				<div class="role-field">
+														<div>
+							        						<label th:for="'role-creator' + ${i.index}">Rolle/n</label>
+							  								<button type="button" class="inline-help" th:name="'role-creator' + ${i.index}">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" th:name="'role-creator' + ${i.index}" style="display: none;">
+																<button th:name="'role-creator' + ${i.index}" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select th:id="'role-creator' + ${i.index}" multiple class="form-select" th:field="*{creator[__${i.index}__].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>
+												<!-- MULTISELECT AREA END -->
+												
+			      							</div>
+
+											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
+			      							<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>
+												<div></div>
+											</div>
+			      						</li>
+			      					</th:block>
+		      						<!-- Feld gefüllt ENDE -->
+		      							
+		      						<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.creator)}">
+			      						<li class="multi-field mb-3">
+			      							<div class="first-child-of-multi-field">
+			      								<div>
+		        									<label for="creator[0]">Autor/in</label>
+		  											<button type="button" class="inline-help" name="creator">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="creator" style="display: none;">
+														<button name="creator" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>										
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." autocomplete="off" th:field="*{creator[0].id}"/>
+														<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+												  			<option th:each="art : ${@articleData.getPersonLookupEndpoints()}" th:value="${art.key}" th:text="${art.value}"></option>
+														</select>
+													</div>
+												</div>
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3" style="display:none;">
+								      				<div class="role-field">
+														<div>
+							        						<label for="role-creator0">Rolle/n</label>
+							  								<button type="button" class="inline-help" name="role-creator0">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" name="role-creator0" style="display: none;">
+																<button name="role-creator0" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select id="role-creator0" multiple class="form-select" th:field="*{creator[0].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+												
+											</div>
+											
+											
+												
+											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
+			      	
+			      							<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>
+											</div>
+			      						</li>
+			      					
+		      						<!-- Feld leer ENDE -->
+		      						
+		      					</ol>
+	   				 		</div>
+	   				 		<!-- Autor END -->
+		   				 		
+	   				 		<!-- Mitwirkende -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="contributor">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.contributor}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="contributor[0]">Mitwirkende/r</label>
+					  								<button type="button" class="inline-help" name="contributor">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="contributor" style="display: none;">
+														<button name="contributor" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{contributor[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{contributor[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{contributor[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{contributor[__${i.index}__].prefLabel}" style="display:none;"/>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+														  	<option th:each="con : ${@articleData.getPersonLookupEndpoints()}" th:value="${con.key}" th:text="${con.value}"></option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3">
+								      				<div class="role-field">
+														<div>
+							        						<label th:for="'role-contributor' + ${i.index}">Rolle/n</label>
+							  								<button type="button" class="inline-help" th:name="'role-contributor' + ${i.index}">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" th:name="'role-contributor' + ${i.index}" style="display: none;">
+																<button th:name="'role-contributor' + ${i.index}" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select th:id="'role-contributor' + ${i.index}" multiple class="form-select" th:field="*{contributor[__${i.index}__].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+					   				 		</div>
+											
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>		
+											</div>
+			      						</li>
+		      						</th:block>
+		      						<!-- Feld gefüllt ENDE -->
+		      						
+		      						<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.contributor)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="contributor[0]">Mitwirkende/r</label>
+					  								<button type="button" class="inline-help" name="contributor">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="contributor" style="display: none;">
+														<button name="contributor" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>									
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." autocomplete="off" th:field="*{contributor[0].id}"/>
+														<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+														  	<option th:each="con : ${@articleData.getPersonLookupEndpoints()}" th:value="${con.key}" th:text="${con.value}"></option>
+														</select>
+													</div>
+												</div>	
+												
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3" style="display:none;">
+								      				<div class="role-field">
+														<div>
+							        						<label for="role-contributor0">Rolle/n</label>
+							  								<button type="button" class="inline-help" name="role-contributor0">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" name="role-contributor0" style="display: none;">
+																<button name="role-contributor0" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select id="role-contributor0" multiple class="form-select" th:field="*{contributor[0].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+					   				 		</div>
+					   				 		
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>		
+											</div>
+			      						</li>
+		      						</th:block>
+		      						<!-- Feld leer ENDE -->
+		      						
+		      					</ol>
+	   				 		</div>
+	   				 		
+	   				 		<!-- Mitwirkende END -->
+	   				 		
+	   				 		<!-- (Academic) Editor -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="editor">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.editor}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="editor[0]">(Academic) Editor</label>
+					  								<button type="button" class="inline-help" name="editor">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="editor" style="display: none;">
+														<button name="editor" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{editor[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{editor[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{editor[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>												
+														<input type="hidden" autocomplete="off" th:field="*{editor[__${i.index}__].prefLabel}" style="display:none;">
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+														  	<option th:each="edit : ${@articleData.getPersonLookupEndpoints()}" th:value="${edit.key}" th:text="${edit.value}">Lokal</option>
+														</select>
+													</div>
+												</div>
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3">
+								      				<div class="role-field">
+														<div>
+							        						<label th:for="'role-editor' + ${i.index}">Rolle/n</label>
+							  								<button type="button" class="inline-help" th:name="'role-editor' + ${i.index}">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" th:name="'role-editor' + ${i.index}" style="display: none;">
+																<button th:name="'role-editor' + ${i.index}" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select th:id="'role-editor' + ${i.index}" multiple class="form-select" th:field="*{editor[__${i.index}__].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+												
+					   				 		</div>
+					   				 		
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		   				 				</li>
+		   				 			</th:block>
+		   				 			<!-- Feld gefüllt ENDE -->
+		   				 			
+		   				 			<!-- Feld leer -->
+		      						<th:block th:if= "${#lists.isEmpty(article.editor)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="editor[0]">(Academic) Editor</label>
+					  								<button type="button" class="inline-help" name="editor">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="editor" style="display: none;">
+														<button name="editor" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>									
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." autocomplete="off" th:field="*{editor[0].id}"/>
+														<p class="input-field-heading"></p>	
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+														  	<option th:each="edit : ${@articleData.getPersonLookupEndpoints()}" th:value="${edit.key}" th:text="${edit.value}">Lokal</option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3" style="display:none;">
+								      				<div class="role-field">
+														<div>
+							        						<label for="role-editor0">Rolle/n</label>
+							  								<button type="button" class="inline-help" name="role-editor0">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" name="role-editor0" style="display: none;">
+																<button name="role-editor0" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select id="role-editor0" multiple class="form-select" th:field="*{editor[0].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+					   				 		</div>
+											
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		   				 				</li>
+		   				 			</th:block>
+		   				 			<!-- Feld leer ENDE -->
+		   				 			
+		      					</ol>
+	   				 		</div>
+	   				 		<!-- (Academic) Editor END -->
+	   				 		
+	   				 		<!-- Andere -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="other">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.other}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="other[0]">Sonstige</label>
+					  								<button type="button" class="inline-help" name="other">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="other" style="display: none;">
+														<button name="other" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{other[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{other[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{other[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{other[__${i.index}__].prefLabel}" style="display:none;"/>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+														  	<option th:each="oth : ${@articleData.getPersonLookupEndpoints()}" th:value="${oth.key}" th:text="${oth.value}">Lokal</option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3">
+								      				<div class="role-field">
+														<div>
+							        						<label th:for="'role-other' + ${i.index}">Rolle/n</label>
+							  								<button type="button" class="inline-help" th:name="'role-other' + ${i.index}">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" th:name="'role-other' + ${i.index}" style="display: none;">
+																<button th:name="'role-other' + ${i.index}" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select th:id="'role-other' + ${i.index}" multiple class="form-select" th:field="*{other[__${i.index}__].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+					   				 		</div>
+					   				 		
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		   				 				</li>
+		   							</th:block>
+		   							<!-- Feld gefüllt ENDE -->
+		   							
+		   							<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.other)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="other[0]">Sonstige</label>
+					  								<button type="button" class="inline-help" name="other">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="other" style="display: none;">
+														<button name="other" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>										
+												<div class="search p-2 pt-3">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." autocomplete="off" th:field="*{other[0].id}"/>
+														<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+														  	<option th:each="oth : ${@articleData.getPersonLookupEndpoints()}" th:value="${oth.key}" th:text="${oth.value}">Lokal</option>
+														</select>
+													</div>
+												</div>
+												
+												<!-- MULTISELECT AREA START -->		
+							      				<div class="roles-container px-2 pb-3" style="display:none;">
+								      				<div class="role-field">
+														<div>
+							        						<label for="role-other0">Rolle/n</label>
+							  								<button type="button" class="inline-help" name="role-other0">
+																<span class="fas fa-question-circle"></span>
+															</button>
+															<div class="help-text" name="role-other0" style="display: none;">
+																<button name="role-other0" type="button" class="close-help" style="float: right">
+																	<span class="fas fa-times-circle"></span>
+																</button>
+															</div>
+														</div>
+														<div>
+															<select id="role-other0" multiple class="form-select" th:field="*{other[0].role}">
+																<option value="">Bitte wählen...</option>
+																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+															</select>
+														</div>
+													</div>	
+												</div>	
+												<!-- MULTISELECT AREA END -->
+					   				 		</div>
+					   				 		
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		   				 				</li>
+		   							</th:block>
+		   							<!-- Feld leer ENDE -->
+		   							
+		      					</ol>
+	   				 		</div>
+	   				 		<!-- Andere END -->	
+		   				</div>
+		   				 		
+			      	</div>		
+	  				<!-- ******** Accordion Panel 3 (Urheberschaft) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 4 (Angaben zur Quelle) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingFour','collapseFour','upload-section',${resourceHeaderZF})}">
+			      		
+			      		<div layout:fragment="accordionPanel-content">		
+		      				<!-- Erschienen in -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="containedIn">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.containedIn}">
+		      							<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="containedIn[0]" class="form-control-label">Erschienen in *</label>
+					  								<button type="button" class="inline-help" name="containedIn">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="containedIn" style="display: none;">
+														<button name="containedIn" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" tabindex="10" autocomplete="off" th:field="*{containedIn[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{containedIn[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{containedIn[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="display: none;max-width:fit-content;">
+															<option value="">Bitte wählen...</option>
+															<option th:each="title : ${@articleData.getTitleLookupEndpoints()}" th:value="${title.key}" th:text="${title.value}"></option>
+														</select>
+													</div>
+												</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		  				 				</li>
+		  				 			</th:block>
+		      						<!-- Feld gefüllt ENDE-->
+		      						
+		      						<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.containedIn)}">
+		      							<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="containedIn[0]">Erschienen in *</label>
+					  								<button type="button" class="inline-help" name="containedIn">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="containedIn" style="display: none;">
+														<button name="containedIn" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+						    							<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." tabindex="10" autocomplete="off" th:field="*{containedIn[0].id}"/>
+														<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+															<option th:each="title : ${@articleData.getTitleLookupEndpoints()}" th:value="${title.key}" th:text="${title.value}"></option>
+														</select>
+													</div>
+												</div>
+												<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('containedIn[0]')}" th:errors="*{containedIn[0]}"></div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		  				 				</li>
+		  				 			</th:block>
+		      						<!-- Feld leer ENDE-->
+	
+		      					</ol>
+					 		</div>
+					 		<!-- Erschienen in ENDE -->
+						   			
+				   			<!-- Quellenangabe -->
+							<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="bibliographicCitation">Quellenangabe</label>
+		 								<button type="button" class="inline-help" name="bibliographicCitation">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="bibliographicCitation" style="display: none;">
+										<button name="bibliographicCitation" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<div class="numbering"></div>
+									<input type="text" class="form-control input-widget" value="" tabindex="11" th:field="*{bibliographicCitation[0]}"/>
+								</div>
+					 		</div>
+					 		<br />
+				   			<!-- Quellenangabe END -->
+						   			
+				   			<!-- Online veröffentlicht -->
+							<div class="first-child-of-multi-field">
+		      					<div>
+		      						<label for="publicationYear">Online veröffentlicht *</label>
+									<button type="button" class="inline-help" name="publicationYear">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="publicationYear" style="display: none;">
+										<button name="publicationYear" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<div class="input-group date">
+								        <input type="text" class="form-control input-widget" autocomplete="off" id="date" tabindex="12" th:field="*{publicationYear[0]}"/>
+								        <span class="input-group-append">
+								        	<span class="input-group-text bg-light d-block">
+								            	<i class="fa fa-calendar"></i>
+								          	</span>
+								        </span>
+								    </div>
+								</div>
+								<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('publicationYear[0]')}" th:errors="*{publicationYear[0]}"></div>
+				 			</div>
+					 		<br />
+				   			<!-- Online veröffentlicht END -->
+				   			
+				   			<!-- Erscheinungsjahr -->
+							<div class="first-child-of-multi-field">
+		      					<div>
+		      						<label for="issued">Erscheinungsjahr</label>
+									<button type="button" class="inline-help" name="issued">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="issued" style="display: none;">
+										<button name="issued" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<div class="input-group">
+								        <input type="text" class="form-control input-widget yearpicker" autocomplete="off" tabindex="13" th:field="*{issued}"/>
+								        <span class="input-group-append">
+								        	<span class="input-group-text bg-light d-block">
+								            	<i class="fa fa-calendar"></i>
+								          	</span>
+								        </span>
+								    </div>
+								</div>
+				 			</div>
+					 		<br />
+				   			<!-- Erscheinungsjahr END -->
+				   			
+					   	</div>
+					   					
+	  				</div>
+	  				<!-- ******** Accordion Panel 4 (Angaben zur Quelle) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 5 (Zuordnung zur Sammlung) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingFive','collapseFive','collection-section',${collectionHeaderZF})}"> 
+	  	
+						<div layout:fragment="accordionPanel-content">		      				
+		      				<!-- FRL-Sammlung -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="institution">
+		      					
+			      					<!-- Feld gefüllt -->
+			      					<th:block th:each="cre,i : ${article.institution}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+			      								<div>
+		        									<label for="institution[0]">FRL-Sammlung</label>
+		  											<button type="button" class="inline-help" name="institution">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="institution" style="display: none;">
+														<button name="institution" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" tabindex="14" autocomplete="off" th:field="*{institution[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{institution[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{institution[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{institution[__${i.index}__].prefLabel}" style="display: none;"/>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="display: none;max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+												  			<option th:each="inst : ${@articleData.getInstitutionLookupEndpoints()}" th:value="${inst.key}" th:text="${inst.value}"></option>
+														</select>
+													</div>
+												</div>
+			      							</div>
+			      							<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>
+												<div></div>
+												<br />	
+											</div>
+			      						</li>
+			      					</th:block>
+			      					<!-- Feld gefüllt ENDE-->
+			      					
+			      					<!-- Feld leer -->
+			      					<th:block th:if="${#lists.isEmpty(article.institution)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+			      								<div>
+		        									<label for="institution[0]">FRL-Sammlung</label>
+		  											<button type="button" class="inline-help" name="institution">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="institution" style="display: none;">
+														<button name="institution" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+			    										<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." value="" tabindex="14" autocomplete="off" th:field="*{institution[0].id}"/>
+			    										<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+												  			<option th:each="inst : ${@articleData.getInstitutionLookupEndpoints()}" th:value="${inst.key}" th:text="${inst.value}"></option>
+														</select>
+													</div>
+												</div>
+			      							</div>
+			      							<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>
+												<div></div>
+												<br />	
+											</div>
+			      						</li>
+			      					</th:block>
+			      					<!-- Feld leer ENDE-->
+		      						
+		      					</ol>
+	   				 		</div>
+	   				 		<!-- FRL-Sammlung END -->
+		   				 		
+	   				 		<!-- Übergeordneter Kongress -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="collectionTwo">
+		      					
+		      						<!-- Feld gefüllt -->
+			      					<th:block th:each="cre,i : ${article.collectionTwo}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="collectionTwo[0]">Übergeordneter Kongress</label>
+					  								<button type="button" class="inline-help" name="collectionTwo">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="collectionTwo" style="display: none;">
+														<button name="collectionTwo" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+														<input class="form-control search input-widget focus ui-autocomplete-input" tabindex="15" autocomplete="off" th:field="*{collectionTwo[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{collectionTwo[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{collectionTwo[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{collectionTwo[__${i.index}__].prefLabel}" style="display: none;">
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="display: none;max-width:fit-content;">
+															  <option value="/forms/localAutocomplete">Lokal</option>
+															  <option th:each="col : ${@articleData.getCollectionTwoEndpoints()}" th:value="${col.key}" th:text="${col.value}"></option>
+														</select>
+													</div>
+												</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+												<div></div>
+												<br />	
+											</div>
+			      						</li>
+			      					</th:block>
+			      					<!-- Feld gefüllt ENDE-->
+			      					
+			      					<!-- Feld leer -->
+			      					<th:block th:if="${#lists.isEmpty(article.collectionTwo)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="collectionTwo[0]">Übergeordneter Kongress</label>
+					  								<button type="button" class="inline-help" name="collectionTwo">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="collectionTwo" style="display: none;">
+														<button name="collectionTwo" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+						    							<input class="form-control search input-widget focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." tabindex="15" autocomplete="off" th:field="*{collectionTwo[0].id}"/>
+						    							<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="max-width:fit-content;">
+															  <option value="/forms/localAutocomplete">Lokal</option>
+															  <option th:each="col : ${@articleData.getCollectionTwoEndpoints()}" th:value="${col.key}" th:text="${col.value}"></option>
+														</select>
+													</div>
+												</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+												<div></div>
+												<br />	
+											</div>
+			      						</li>
+			      					</th:block>
+			      					<!-- Feld leer ENDE-->
+			      					
+		      					</ol>
+	   				 		</div>
+	   				 		<!-- Übergeordneter Kongress END -->
+	   				 		
+		   				 	<!-- LeibnizOpen -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="collectionOne">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.collectionOne}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="collectionOne">LeibnizOpen</label>
+					  								<button type="button" class="inline-help" name="collectionOne">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="collectionOne" style="display: none;">
+														<button name="collectionOne" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="leibniz-open-search">
+													<select id="collectionOne" tabindex="16" class="form-select input-widget custom-siz" th:field="*{collectionOne[__${i.index}__].id}">
+														  <option value="">Bitte wählen...</option>
+														  <option th:each="coll : ${@articleData.getCollectionOne()}" th:value="${coll.key}" th:text="${coll.value}"></option>
+													</select>
+												</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+						 				</li>
+					 				</th:block>
+					 				<!-- Feld gefüllt ENDE -->
+					 				
+					 				<!-- Feld leer -->
+					 				<th:block th:if="${#lists.isEmpty(article.collectionOne)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="select-input">LeibnizOpen</label>
+					  								<button type="button" class="inline-help" name="collectionOne">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="collectionOne" style="display: none;">
+														<button name="collectionOne" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="leibniz-open-search">
+													<select id="select-input" tabindex="16" class="form-select input-widget" th:field="*{collectionOne[0].id}">
+														  <option value="">Bitte wählen...</option>
+														  <option th:each="coll : ${@articleData.getCollectionOne()}" th:value="${coll.key}" th:text="${coll.value}"></option>
+													</select>
+												</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+						 				</li>
+					 				</th:block>
+					 				<!-- Feld leer ENDE -->
+					 				
+		      					</ol>
+					 		</div>
+		   				 	<!-- LeibnizOpen END -->	
+		   				</div>
+		   				 		
+			      	</div>		
+	  				<!-- ******** Accordion Panel 5 (Zuordnung zur Sammlung) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 6 (Angaben zur Datei) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingSix','collapseSix','upload-section','Angaben zur Datei')}">
+			      		
+			      		<div layout:fragment="accordionPanel-content">
+				      		<!-- Copyright Jahr -->
+		      				<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="select-input">Copyrightjahr</label>
+		 								<button type="button" class="inline-help" name="yearOfCopyright">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="yearOfCopyright" style="display: none;">
+										<button name="yearOfCopyright" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<div class="input-group">
+								        <input type="text" class="form-control input-widget yearpicker" autocomplete="off" tabindex="17" th:field="*{yearOfCopyright[0]}"/>
+								        <span class="input-group-append">
+								        	<span class="input-group-text bg-light d-block">
+								            	<i class="fa fa-calendar"></i>
+								          	</span>
+								        </span>
+								    </div>
+								</div>
+								<!-- div class="datepicker-year">
+									<select name="yearOfCopyright" id="select-input" tabindex="16" class="form-select input-widget" th:field="*{copyrightYear[0]}">
+										<option value="">Bitte wählen...</option>
+										<option th:each="year : ${@articleData.getCopyrightYear()}" th:value="${year.key}" th:text="${year.value}"></option>
+									</select>
+								</div -->
+					 		</div>
+					 		<br />
+					 		<!-- Copyright Jahr END -->
+				      		
+				      		<!-- Lizenz -->
+							<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="license">Lizenz</label>
+		 								<button type="button" class="inline-help" name="license">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="license" style="display: none;">
+										<button name="license" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<div class="numbering"></div>
+									<input type="text" class="form-control input-widget" value="" tabindex="18" th:field="*{license[0].id}"/>
+								</div>
+					 		</div>
+					 		<br />
+				   			<!-- Lizenz END -->
+			   				 		
+					 		<!-- Embargo -->
+		      				<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="embargoTime">Embargo</label>
+		 								<button type="button" class="inline-help" name="embargoTime">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="embargoTime" style="display: none;">
+										<button name="embargoTime" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<div class="input-group date">
+								        <input type="text" class="form-control input-widget" autocomplete="off" id="date" tabindex="19" th:field="*{embargoTime[0]}"/>
+								        <span class="input-group-append">
+								        	<span class="input-group-text bg-light d-block">
+								            	<i class="fa fa-calendar"></i>
+								          	</span>
+								        </span>
+								    </div>
+								</div>
+					 		</div>
+					 		<br />
+					 		<!-- Embargo END -->
+				 		</div>
+	
+	  				</div>
+	  				<!-- ******** Accordion Panel 6 (Angaben zur Datei) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 7 (Angaben zum Inhalt) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingSeven','collapseSeven','upload-section','Angaben zum Inhalt')}">
+			      		
+			      		<div layout:fragment="accordionPanel-content">
+				      		<!-- Abstract/Summary -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="abstractText">
+		      						<li class="multi-field">
+		      							<div>
+				        					<div>
+				        						<label for="abstractText_0">Zusammenfassung</label>
+				  								<button type="button" class="inline-help" name="abstractText_0">
+													<span class="fas fa-question-circle"></span>
+												</button>
+												<div class="help-text" name="abstractText_0" style="display: none;">
+													<button name="abstractText_0" type="button" class="close-help" style="float: right">
+														<span class="fas fa-times-circle"></span>
+													</button>
+												</div>
+											</div>
+											<div>
+												<textarea class="form-control" rows="10" tabindex="20" id="abstractText_0" th:field="*{abstractText[0]}"></textarea>
+											</div>
+				   				 		</div>
+			   				 			<div class="buttonBox">
+											<div class="btn-group">
+												<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+												<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+											</div>	
+											<div class="btn-group">
+												<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+												<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+											</div>	
+										</div>
+					 				</li>
+		      					</ol>
+					 		</div>
+					 		<br />
+					 		<!-- Abstract/Summary END -->
+				      		
+					 		<!-- Sprache der Publikation -->
+		      				<div class="first-child-of-multi-field">
+		       					<div>
+		       						<label for="select-input">Sprache der Publikation *</label>
+		 								<button type="button" class="inline-help" name="language">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="language" style="display: none;">
+										<button name="language" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-language">
+									<select id="select-input" tabindex="21" class="form-select input-widget custom-siz" th:field="*{language[0].id}">
+										  <option value="">Bitte wählen...</option>
+										  <option th:each="lang : ${@articleData.getLanguage()}" th:value="${lang.key}" th:text="${lang.value}"></option>
+									</select>
+								</div>
+								<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('language[0]')}" th:errors="*{language[0]}"></div>
+					 		</div>
+					 		<br />
+					 		<!-- Sprache der Publikation END -->
+			   				 		
+					 		<!-- Fächerklassifikation (DDC) -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="ddc">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.ddc}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="select-input">Fächerklassifikation (DDC)*</label>
+					  								<button type="button" class="inline-help" name="ddc">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="ddc" style="display: none;">
+														<button name="ddc" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="select-ddc">
+													<select id="select-input" tabindex="12" class="form-select" th:field="*{ddc[__${i.index}__].id}">
+														  <option value="">Bitte wählen...</option>
+														  <option th:each="d : ${@articleData.getSortedDdc()}" th:value="${d.key}" th:text="${d.value}"></option>
+													</select>
+												</div>
+												<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('ddc[0]')}" th:errors="*{ddc[0]}"></div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		   				 				</li>
+	   				 				</th:block>
+	   				 				<!-- Feld gefüllt ENDE -->
+	   				 			
+	   				 				<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.ddc)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="select-input">Fächerklassifikation (DDC)*</label>
+					  								<button type="button" class="inline-help" name="ddc">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="ddc" style="display: none;">
+														<button name="ddc" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="select-ddc">
+													<select id="select-input" tabindex="12" class="form-select custom-siz" th:field="*{ddc[0].id}">
+														  <option value="">Bitte wählen...</option>
+														  <option th:each="d : ${@articleData.getSortedDdc()}" th:value="${d.key}" th:text="${d.value}"></option>
+													</select>
+												</div>
+												<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('ddc[0]')}" th:errors="*{ddc[0]}"></div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+		   				 				</li>
+	   				 				</th:block>
+	   				 				<!-- Feld leer ENDE -->
+	   				 			
+		      					</ol>
+					 		</div>
+					 		<br />
+					 		<!-- Fächerklassifikation (DDC) END -->
+			   				 		
+					 		<!-- Sacherschließung -->
+					 		<div class="multi-field-wrapper">
+		   				 		<ol class="multi-fields" id="subject">
+		   				 		
+		   				 			<!-- Feld gefüllt -->
+			      					<th:block th:each="cre,i : ${article.subject}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="subject[0]">Sacherschließung</label>
+					  								<button type="button" class="inline-help" name="subject">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="subject" style="display: none;">
+														<button name="subject" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+														<input type="text" class="form-control input-widget search focus ui-autocomplete-input" tabindex="23" autocomplete="off" th:field="*{subject[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{subject[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{subject[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{subject[__${i.index}__].prefLabel}" style="display: none;"/>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="display: none;max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+															<option th:each="sub : ${@articleData.getSubjectLookupEndpoints()}" th:value="${sub.key}" th:text="${sub.value}"></option>
+														</select>
+													</div>
+					   				 			</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>
+												<div></div>
+											</div>
+					 					</li>
+					 				</th:block>
+			      					<!-- Feld gefüllt ENDE-->
+			      					
+			      					<!-- Feld leer -->
+			      					<th:block th:if="${#lists.isEmpty(article.subject)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="subject[0]">Sacherschließung</label>
+					  								<button type="button" class="inline-help" name="subject">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="subject" style="display: none;">
+														<button name="subject" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+						    							<input type="text" class="form-control input-widget search focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." tabindex="23" autocomplete="off" th:field="*{subject[0].id}"/>
+						    							<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select endpointselect" style="max-width:fit-content;">
+															<option value="/forms/localAutocomplete">Lokal</option>
+															<option th:each="sub : ${@articleData.getSubjectLookupEndpoints()}" th:value="${sub.key}" th:text="${sub.value}"></option>
+														</select>
+													</div>
+												</div>
+					   				 		</div>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+					 					</li>
+					 				</th:block>
+			      					<!-- Feld leer ENDE -->
+			      					
+		      					</ol>
+					 		</div>
+					 		<!-- Normierte Schlagwörter END -->
+		   				</div> 		
+	  				</div>
+	  				<!-- ******** Accordion Panel 7 (Angaben zum Inhalt) END ******** -->		
+	  				
+	  				<!-- ******** Accordion Panel 8 (Externe und interne Referenzen) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingEight','collapseEight','identifier-section','Externe und interne Referenzen')}">
+			      		
+			      		<div layout:fragment="accordionPanel-content">		
+		      				<!-- Verlagsversion -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="publisherVersion">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.publisherVersion}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="publisherVersion[0]">Verlagsversion</label>
+					  								<button type="button" class="inline-help" name="publisherVersion">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="publisherVersion" style="display: none;">
+														<button name="publisherVersion" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="24" th:field="*{publisherVersion[__${i.index}__]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+					   				 </th:block>
+					   				 <!-- Feld gefüllt ENDE -->
+					   				 
+					   				 <!-- Feld leer -->
+					   				 <th:block th:if="${#lists.isEmpty(article.publisherVersion)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="publisherVersion[0]">Verlagsversion</label>
+					  								<button type="button" class="inline-help" name="publisherVersion">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="publisherVersion" style="display: none;">
+														<button name="publisherVersion" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="24" th:field="*{publisherVersion[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+					   				 </th:block>
+					   				 <!-- Feld leer ENDE -->
+				   				 	
+				   				 </ol>
+				   			</div>
+				   			<!-- Verlagsversion END -->
+						   			
+				   			<!-- Volltext -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="fulltextVersion">
+		      						
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.fulltextVersion}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="fulltextVersion[0]">Volltext</label>
+					  								<button type="button" class="inline-help" name="fulltextVersion">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="fulltextVersion" style="display: none;">
+														<button name="fulltextVersion" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="25" th:field="*{fulltextVersion[__${i.index}__]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	<!-- Feld gefüllt ENDE -->
+				   				 	
+				   				 	<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.fulltextVersion)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="fulltextVersion[0]">Volltext</label>
+					  								<button type="button" class="inline-help" name="fulltextVersion">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="fulltextVersion" style="display: none;">
+														<button name="fulltextVersion" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="25" th:field="*{fulltextVersion[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	<!-- Feld leer ENDE -->
+				   				 	
+				   				 </ol>
+				   			</div>
+				   			<!-- Volltext END -->
+						   			
+				   			<!-- Ergänzendes Material -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="additionalMaterial">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.additionalMaterial}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="additionalMaterial[0]">Erg&auml;nzendes Material</label>
+					  								<button type="button" class="inline-help" name="additionalMaterial">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="additionalMaterial" style="display: none;">
+														<button name="additionalMaterial" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="26" th:field="*{additionalMaterial[__${i.index}__]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	<!-- Feld gefüllt ENDE -->
+				   				 	
+				   				 	<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.additionalMaterial)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="additionalMaterial[0]">Erg&auml;nzendes Material</label>
+					  								<button type="button" class="inline-help" name="additionalMaterial">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="additionalMaterial" style="display: none;">
+														<button name="additionalMaterial" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="26" th:field="*{additionalMaterial[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	<!-- Feld leer ENDE -->
+				   				 	
+				   				 </ol>
+				   			</div>
+				   			<!-- Ergänzendes Material END -->
+				   			
+				   			<!-- Interne Referenz -->
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="internalReference">
+		      					
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre,i : ${article.internalReference}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="internalReference[0]">Interne Referenz</label>
+					  								<button type="button" class="inline-help" name="internalReference">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="internalReference" style="display: none;">
+														<button name="internalReference" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" value="" tabindex="27" th:field="*{internalReference[__${i.index}__]}"/>
+												</div>
+					   				 		</div>
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	<!-- Feld gefüllt ENDE-->
+				   				 	
+				   				 	<!-- Feld leer -->
+		      						<th:block th:if="${#lists.isEmpty(article.internalReference)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="internalReference[0]">Interne Referenz</label>
+					  								<button type="button" class="inline-help" name="internalReference">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="internalReference" style="display: none;">
+														<button name="internalReference" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" value="" tabindex="27" th:field="*{internalReference[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	<!-- Feld leer ENDE-->
+				   				 	
+				   				 </ol>
+				   			</div>
+				   			<!-- Interne Referenz END -->
+						</div>
+	  				</div>
+	  				<!-- ******** Accordion Panel 8 (Externe und interne Referenzen) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 9 (Angaben zur Förderung) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingNine','collapseNine','identifier-section',${fundingsHeaderZF})}">
+			      		
+			      		<div layout:fragment="accordionPanel-content">		
+		      				<div class="multi-field-wrapper">
+		      					<ol class="multi-fields" id="funding">
+		      					
+		      						<!-- Feld gefüllt -->
+			      					<th:block th:each="cre,i : ${article.fundingId}">
+			      						<li class="multi-field">
+			      						
+			      							<!-- Förderer -->
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="fundingId[0]">F&ouml;rderer</label>
+					  								<button type="button" class="inline-help" name="funding">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="funding" style="display: none;">
+														<button name="funding" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+														<input type="text" class="form-control input-widget search focus ui-autocomplete-input" tabindex="28" autocomplete="off" th:field="*{fundingId[__${i.index}__].id}" style="display: none;"/>
+														<p class="input-field-heading">
+															<b th:text="*{fundingId[__${i.index}__].prefLabel}"></b>
+															<a th:href="*{fundingId[__${i.index}__].id}" target="_blank">
+																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+															</a>
+														</p>
+														<input type="hidden" autocomplete="off" th:field="*{fundingId[__${i.index}__].prefLabel}" style="display: none;"/>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="display: none;max-width: fit-content;">
+															  <option value="/forms/localAutocomplete">Lokal</option>
+															  <option th:each="fund : ${@articleData.getFundingLookupEndpoints()}" th:value="${fund.key}" th:text="${fund.value}"></option>
+														</select>
+													</div>
+												</div>
+					   				 		</div>
+					   				 		<br />
+					   				 		<!-- Förderer END -->
+			  				 		
+					   				 		<!-- Projekt-ID -->
+						      				<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="projectId[0]">Projekt-ID</label>
+					  								<button type="button" class="inline-help" name="projectId">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="projectId" style="display: none;">
+														<button name="projectId" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+					    							<input type="text" class="form-control input-widget focus" tabindex="29" autocomplete="off" th:field="*{projectId[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		<br />
+					   				 		<!-- Projekt-ID END -->
+			  				 		
+					   				 		<!-- Förderprogramm -->
+						      				<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="fundingProgram[0]">F&ouml;rderprogramm</label>
+					  								<button type="button" class="inline-help" name="fundingProgram">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="fundingProgram" style="display: none;">
+														<button name="fundingProgram" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+					    							<input type="text" class="form-control input-widget focus" tabindex="30" autocomplete="off" th:field="*{fundingProgram[0]}" value="-"/>
+												</div>
+					   				 		</div>
+					   				 		<!-- Förderprogramm END-->
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+					   				 		
+					   				 	</li>
+					   				</th:block>
+			      					<!-- Feld gefüllt ENDE-->	
+					   				
+					   				<!-- Feld leer -->
+			      					<th:block th:if="${#lists.isEmpty(article.fundingId)}">
+			      						<li class="multi-field">
+			      						
+			      							<!-- Förderer -->
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="fundingId[0]">F&ouml;rderer</label>
+					  								<button type="button" class="inline-help" name="funding">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="funding" style="display: none;">
+														<button name="funding" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div class="search">
+													<div class="input-group">
+						    							<input type="text" class="form-control input-widget search focus ui-autocomplete-input" placeholder="Bitte Suchbegriff eingeben..." tabindex="28" autocomplete="off" th:field="*{fundingId[0].id}"/>
+						    							<p class="input-field-heading"></p>
+														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+														<select class="form-select" style="max-width:fit-content;">
+															  <option value="/forms/localAutocomplete">Lokal</option>
+															  <option th:each="fund : ${@articleData.getFundingLookupEndpoints()}" th:value="${fund.key}" th:text="${fund.value}"></option>
+														</select>
+													</div>
+												</div>
+					   				 		</div>
+					   				 		<br />
+					   				 		<!-- Förderer END -->
+			  				 		
+					   				 		<!-- Projekt-ID -->
+						      				<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="projectId[0]">Projekt-ID</label>
+					  								<button type="button" class="inline-help" name="projectId">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="projectId" style="display: none;">
+														<button name="projectId" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+					    							<input type="text" class="form-control input-widget focus" tabindex="29" autocomplete="off" th:field="*{projectId[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		<br />
+					   				 		<!-- Projekt-ID END -->
+			  				 		
+					   				 		<!-- Förderprogramm -->
+						      				<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="fundingProgram[0]">F&ouml;rderprogramm</label>
+					  								<button type="button" class="inline-help" name="fundingProgram">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="fundingProgram" style="display: none;">
+														<button name="fundingProgram" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+					    							<input type="text" class="form-control input-widget focus" tabindex="30" autocomplete="off" th:field="*{fundingProgram[0]}" value="-"/>
+												</div>
+					   				 		</div>
+					   				 		<!-- Förderprogramm END-->
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+					   				 		
+					   				 	</li>
+					   				</th:block>
+			      					<!-- Feld leer ENDE-->	
+			      					
+				   				 </ol>
+				   			</div>
+					   	</div>
+					   					
+	  				</div>
+	  				<!-- ******** Accordion Panel 9 (Angaben zur Förderung) END ******** -->
+	  				
+	  				<!-- ******** Accordion Panel 10 (Erweiterte Angaben) ******** -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingTen','collapseTen','additionalNotes-section','Erweiterte Angaben')}">
+		   				
+		   				<div layout:fragment="accordionPanel-content"> 		
+					 		<!-- Hinweis -->
+		   					<div>	
+		       					<div>
+		       						<label for="additionalNotes">Hinweis</label>
+		 								<button type="button" class="inline-help" name="additionalNotes">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="additionalNotes" style="display: none;">
+										<button name="additionalNotes" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div>
+									<textarea class="form-control" rows="10" tabindex="31" id="additionalNotes" th:field="*{additionalNotes[0]}"></textarea>
+								</div>
+					 		</div>
+					 		<br />
+					 		<!-- Hinweis END -->
+		   				</div>		
+	  				</div>
+	  				<!-- ******** Accordion Panel 10 (Erweiterte Angaben) END ******** -->
+	  				
+				</div>
+				
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+	  				<br/>
+	  				<h4 tyle="color:rgb(33, 37, 41); padding: .5rem .5rem"><strong>Das Formular enthält noch Fehler!</strong></h4>
+	  				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	  				<table class="table" >
+				        <tbody>			            
+				            <tr th:with="fieldName=${err.fieldName}" th:each="err : ${#fields.detailedErrors()}">
+				               	<!-- td th:text="${#strings.substringBefore(fieldName,'[')}"></td-->
+				               	<td th:text="${err.message}"></td>
+				            </tr>
+				         </tbody>
+					</table>
+				</div>
+				
+				<div class="form-group row mt-3">
+					<div class="col-sm-offset-8 col-sm-4">
+						<input id="cancel" class="cancel btn btn-secondary" type="button" value="Cancel"/>
+						<input type="submit" value="Save" class="btn btn-primary"/>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+</body>
+</html>

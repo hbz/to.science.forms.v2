@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+	<body>
+	
+	
+		
+			<div layout:fragment="helpText(name,for,ZF)">
+				<label th:for="${for}" th:text="${ZF}"></label>
+				<button type="button" class="inline-help" th:name="${name}">
+					<span class="fas fa-question-circle"></span>
+				</button>
+				<div class="help-text" th:name="${name}" style="display: none;">
+					<button th:name="${name}" type="button" class="close-help" style="float: right">
+						<span class="fas fa-times-circle"></span>
+					</button>
+				</div>
+			</div>
+	 		
+
+	
+	</body>
+</html>

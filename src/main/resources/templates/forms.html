@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	  layout:decorate="~{layout-forms}" >
+
+	<head>
+		<title>Formulare</title>
+	</head>
+	<body>
+	
+		<div layout:fragment="content-zettel">
+			<br/>
+			<table class="table">
+			  <thead class="thead-dark">
+			    <tr>
+			      <th scope="col">Verfügbare Formulare</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <th scope="row"><a th:href="@{/article}">Artikel</a></th>
+			    </tr>
+			    <tr>
+			      <th scope="row"><a th:href="@{/researchdata}">Researchdata</a></th>
+			    </tr>
+			    <tr>
+			      <th scope="row"><a th:href="@{/researchdataktbl}">Researchdata (with Ktbl)</a></th>
+			    </tr>
+			    <tr>
+			      <th scope="row"><a th:href="@{/monograph}">Monograph</a></th>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+	
+	</body>
+</html>

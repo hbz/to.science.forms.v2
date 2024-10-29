@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+	<body>
+			<!-- MULTISELECT AREA START -->			
+													
+				<div th:fragment="subDropDown(id,list,)" class="sub-multi-field-wrapper bg-light pb-3">
+					<ol class="sub-multi-fields" id="role">
+					
+						<!-- Feld gefüllt -->
+						<th:block th:each="cre,e : ${article.creator[0].role}">
+ 						<li class="sub-multi-field">
+ 							<div class="first-child-of-multi-field">
+     					<div>
+     						<label for="role">Rolle</label>
+							<button type="button" class="inline-help" name="role">
+						<span class="fas fa-question-circle"></span>
+					</button>
+					<div class="help-text" name="role" style="display: none;">
+						<button name="role" type="button" class="close-help" style="float: right">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+				<div class="search">
+					<select id="role" tabindex="16" class="form-select input-widget custom-size" th:field="*{creator[0].role[__${e.index}__]}">
+						  <option value="">Bitte wählen Sie...</option>
+						  <option th:each="rol : ${@formsData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+					</select>
+				</div>
+				 		</div>
+			 			<div class="buttonBox">
+				<div class="btn-group">
+					<button type="button" class="add-field-sub" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+					<button type="button" class="remove-field-sub" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+				</div>	
+				<div class="btn-group">
+					<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+					<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+				</div>	
+			</div>
+			</li>
+		</th:block>
+		<!-- Feld gefüllt ENDE -->
+		
+		<!-- Feld leer -->
+		<th:block th:if="${#lists.isEmpty(article.creator[0].role)}">
+ 						<li class="sub-multi-field">
+ 							<div class="first-child-of-multi-field">
+     					<div>
+     						<label for="role">Rolle</label>
+							<button type="button" class="inline-help" name="role">
+						<span class="fas fa-question-circle"></span>
+					</button>
+					<div class="help-text" name="role" style="display: none;">
+						<button name="collectionOne" type="button" class="close-help" style="float: right">
+							<span class="fas fa-times-circle"></span>
+						</button>
+					</div>
+				</div>
+				<div class="search">
+					<select id="role" tabindex="16" class="form-select input-widget" th:field="*{creator[0].role[0]}">
+						  <option value="">Bitte wählen Sie...</option>
+						  <option th:each="rol : ${@formsData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+					</select>
+				</div>
+				 		</div>
+			 			<div class="buttonBox">
+				<div class="btn-group">
+					<button type="button" class="add-field-sub" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+					<button type="button" class="remove-field-sub" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+				</div>	
+				<div class="btn-group">
+					<button type="button" class="moveUp-sub" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+					<button type="button" class="moveDown-sub" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+				</div>	
+			</div>
+			</li>
+		</th:block>
+		<!-- Feld leer ENDE -->
+		
+					</ol>
+</div>
+
+<!-- MULTISELECT AREA END -->
+	
+	</body>
+</html>

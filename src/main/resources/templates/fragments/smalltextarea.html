@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+	<body>
+	
+		<div layout:fragment="smallTextArea(fieldName,ZF,tabNr)">
+		
+			<div>
+				<label th:for="${fieldName}" th:text="${ZF}"></label>
+				<button type="button" class="inline-help" th:name="${fieldName}">
+					<span class="fas fa-question-circle"></span>
+				</button>
+				<div class="help-text" th:name="${fieldName}" style="display: none;">
+					<button th:name="${fieldName}" type="button" class="close-help" style="float: right">
+						<span class="fas fa-times-circle"></span>
+					</button>
+				</div>
+			</div>
+			
+			<div>
+				<textarea class="form-control" th:attr="tabindex=${tabNr}" rows="1" th:id="${fieldName}" th:field="*{__${fieldName}__}"></textarea>
+			</div>
+			<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('__${fieldName}__')}" th:errors="*{__${fieldName}__}"></div>
+			<div>
+	    		<span class="errors"></span>
+	   		</div>
+		</div>
+	
+	</body>
+</html>

@@ -1,0 +1,239 @@
+body, .form-select, .form-control, .input-group-text {
+	font-size: 1.2rem;
+}
+
+h2 .accordion-button {
+	font-size: 1.4rem;
+}
+
+tr, td {
+	border-style: none;
+}
+
+.errors{
+	color:red;
+}
+.error{
+	border-style: solid;
+    border-width: 1px;
+    border-color:red;
+    border-radius: 5px;
+}
+/*@media (min-width: 600px) { .container { max-width: 700px; } }*/
+​
+.embeddedJson{
+	display:none;
+	visibility:hidden;
+}
+
+.data{
+	display:none;
+	visibility:hidden;
+}
+
+.add-field, .remove-field, .moveUp, .moveDown {
+	color:#375b9a;
+}
+
+.add-field-sub, .remove-field-sub, .moveUp-sub, .moveDown-sub {
+	color: #6c757d;
+}
+
+.inline-help{
+	color:#375b9a;
+}
+.panel-heading{
+	padding: 2px 15px;
+}
+.panel-title{
+	font-size: 1.5em;
+    font-weight: 400;
+    font-family: "TabletGothicNarrow","roboto_condensedregular",sans-serif;
+    color: #375b9a;
+}
+
+.inline-help , .close-help ,.moveDown ,.moveUp,.remove-field , .add-field{
+	background:none;
+	border:0;
+	padding:0px;
+	width:24px; 
+	text-align:center;
+}
+.help-text {
+    background:#d9edf7;
+    border:1px solid #8ed9f6;
+    border-radius: 4px;
+    margin: 0px;
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.help-text h2{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+    font-weight:700;
+}
+ol {
+	padding-left:1.2em;
+	list-style-type: decimal;	
+}
+
+ul {
+	list-style-type: none;
+}
+/*
+select:not(.sub-multi-fields select){
+	max-width:300px;	
+}
+
+.sub-multi-fields select {
+	max-width:350px;
+}
+*/
+#ktbl-section select, #medium, #license, #language, #dataOrigin, #ddc {
+	max-width:none;	
+}
+
+.search p {
+	margin-bottom: .5rem;
+}
+
+.custom-size {
+	max-width:550px;	
+}
+
+.search {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Success modal styles */
+.modal-newsletter {	
+	color: #999;
+	font-size: 15px;
+}
+.modal-newsletter .modal-content {
+	padding: 40px;
+	border-radius: 0;		
+	border: none;
+}
+.modal-newsletter .modal-header {
+	border-bottom: none;   
+       position: relative;
+	text-align: center;
+	border-radius: 5px 5px 0 0;
+}
+.modal-newsletter h4 {
+	color: #000;
+	text-align: center;
+	font-size: 30px;
+	margin: 0 0 25px;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+.modal-newsletter .close {
+	background: #c0c3c8;
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	color: #fff;
+	text-shadow: none;
+	opacity: 0.5;
+	width: 22px;
+	height: 22px;
+	border-radius: 20px;
+	font-size: 16px;
+}
+.modal-newsletter .close span {
+	position: relative;
+	top: -1px;
+}
+.modal-newsletter .close:hover {
+	opacity: 0.8;
+}
+.modal-newsletter .icon-box {
+	color: #0d6efd;		
+	display: inline-block;
+	z-index: 9;
+	text-align: center;
+	position: relative;
+	margin-bottom: 10px;
+}
+.modal-newsletter .icon-box i {
+	font-size: 100px;
+}
+.modal-newsletter .form-control, .modal-newsletter .btn {
+	min-height: 46px;
+	border-radius: 3px; 
+}
+.modal-newsletter .form-control {
+	box-shadow: none;
+	border-color: #dbdbdb;
+}
+.modal-newsletter .form-control:focus {
+	border-color: #7265ea;
+	box-shadow: 0 0 8px rgba(114, 101, 234, 0.5);
+}
+.modal-newsletter .btn {
+    color: #fff;
+    border-radius: 4px;
+	background: #7265ea;
+	text-decoration: none;
+	transition: all 0.4s;
+    line-height: normal;
+	padding: 6px 20px;
+	min-width: 150px;
+    border: none;
+}
+.modal-newsletter .btn:hover, .modal-newsletter .btn:focus {
+	background: #4e3de4;
+	outline: none;
+}
+.modal-newsletter .input-group {
+	margin: 30px 0 15px;
+}
+.hint-text {
+	margin: 100px auto;
+	text-align: center;
+}
+
+.author-title-list, .contributors-title-list, .creators-title-list {
+    display: inline;
+    list-style: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.author-title-list li, .contributors-title-list li, .creators-title-list li {
+    display: inline;
+}
+
+.author-title-list li:after, .contributors-title-list li:after, .creators-title-list li:after {
+    content: " | ";
+}
+
+.contributors-title-list li:last-child:after, .creators-title-list li:last-child:after {
+    content: "";
+}
+
+.resourceTable .medium .separator, .resourceTable .subject .separator, .resourceTable .rdftype .separator, .resourceTable .nwbibsubject .separator, .resourceTable .nwbibspatial .separator, .resourceTable .language .separator, .resourceTable .ddc .separator, .resourceTable .reviewStatus .separator, .resourceTable .publicationStatus .separator, .resourceTable .ddc .separator, .resourceTable .subjectName .separator, .resourceTable .language .separator, .resourceTable .reviewStatus .separator, .resourceTable .publicationStatus .separator, .resourceTable .professionalGroup .separator {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.use-bootstrap-select .btn {
+	font-size: 1.2rem;
+	background-color: lightgrey;
+}
+
+.use-bootstrap-select .dropdown-menu {
+	font-size: 1.2rem;
+}
+
+

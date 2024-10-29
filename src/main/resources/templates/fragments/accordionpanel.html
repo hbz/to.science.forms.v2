@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+	<body>
+	
+		<div layout:fragment="accordionPanel(headingNr,collapseNr,section,headerZF)" class="accordion-item">
+  			<h2 class="accordion-header bg-light" th:id="'panelsStayOpen-' + ${headingNr}">
+    			<button th:id="${section}" class="accordion-button" type="button" data-bs-toggle="collapse" 
+    					th:attr="data-bs-target='#panelsStayOpen-' + ${collapseNr}, aria-controls='#panelsStayOpen-' + ${collapseNr}" aria-expanded="true" th:text="${headerZF}">
+      						TitelangabenFalsch
+    			</button>
+  			</h2>
+  			<div th:id="'panelsStayOpen-' + ${collapseNr}" class="accordion-collapse collapse show" th:attr="aria-labelledby='panelsStayOpen-' + ${headingNr}">
+    			<div class="accordion-body" th:id="${section}">
+					
+					<div layout:fragment="accordionPanel-content">
+						<!-- Content goes here -->
+					</div>
+					
+     			</div>
+  			</div>
+ 		</div>
+	
+	</body>
+</html>

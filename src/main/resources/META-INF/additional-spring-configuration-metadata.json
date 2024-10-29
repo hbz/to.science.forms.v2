@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "url.to.context",
+    "type": "java.lang.String",
+    "description": "A description for 'url.to.context'"
+  },
+  {
+    "name": "forms.tmpFile",
+    "type": "java.lang.String",
+    "description": "A description for 'forms.tmpFile'"
+  },
+  {
+    "name": "forms.tmpFile",
+    "type": "java.lang.String",
+    "description": "A description for 'forms.tmpFile'"
+  }
+]}

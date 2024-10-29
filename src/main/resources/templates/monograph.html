@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout-forms}" >
+
+<head>
+	<title>Monograph</title>
+</head>
+<body>
+
+	<div layout:fragment="content-zettel">
+		<div class="col-md-8 offset-md-2">
+		
+			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+		
+			<form th:action="@{/monograph/{pid}(pid=${pid})}" th:object="${monograph}" method="post">
+				<a th:href="@{${@environment.getProperty('zettel.monograph.helpText')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
+				
+				<div class="accordion" id="accordion">
+	 
+					<!-- Accordion Panel 1 -->
+	      			<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingOne','collapseOne','title-section','Titelangaben')}"> 
+	
+						<div layout:fragment="accordionPanel-content">
+							<!-- Manueller/Vorläufiger Titel -->
+							<div layout:replace="~{fragments/smalltextarea :: smallTextArea('title','Manueller/Vorläufiger Titel','1')}"></div>
+							<!-- Manueller/Vorläufiger Titel END -->
+						</div>
+	
+	  				</div>
+	  				<!-- Accordion Panel 1 END -->
+	  				
+	  				<!-- Accordion Panel 2 -->
+	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingTwo','collapseTwo','monograph-section','Titel Import')}"> 
+	  				
+			      		<div layout:fragment="accordionPanel-content">		
+		      				<!-- Suche -->
+							<div class="first-child-of-multi-field">
+								<div>
+									<label for="parallelEdition">Suche</label>
+									<button type="button" class="inline-help" name="parallelEdition">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="parallelEdition" style="display: none;">
+										<button name="parallelEdition" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="search">
+									<div class="input-group">
+		  								<input type="text" width="100%" class="form-control search input-widget focus ui-autocomplete-input" tabindex="2" autocomplete="off" th:field="*{parallelEdition[0].id}"/>
+										<p class="input-field-heading"></p>
+										<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+										<select class="form-select" style="max-width:fit-content;">
+							  				<option th:each="c : ${@monographData.getLobidLookupEndpoints()}" th:value="${c.key}" th:text="${c.value}"></option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<!-- Suche END -->
+							<br/> 
+						</div>
+				
+		   			</div>
+	  				<!-- Accordion Panel 2 END -->	
+	  			
+	  			</div>	
+				
+				<div class="form-group row mt-3">
+					<div class="col-sm-offset-8 col-sm-4">
+						<input id="cancel" class="cancel btn btn-secondary" type="button" value="Cancel"/>
+						<input type="submit" value="Save" class="btn btn-primary"/>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
