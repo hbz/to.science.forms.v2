@@ -5,7 +5,7 @@
 	  layout:decorate="~{layout-forms}" >
 
 <head>
-	<title>Researchdata</title>
+	<title>Researchdata with KTBL</title>
 </head>
 <body>
 
@@ -14,12 +14,11 @@
 		
 			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 		
-			<form th:action="@{/researchdata/{pid}(pid=${pid})}" th:object="${researchdata}" method="post">
-				<a th:href="@{${@environment.getProperty('resource.frlUrlHelptext')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
+			<form th:action="@{/researchdataktbl/{pid}(pid=${pid})}" th:object="${researchdata}" method="post">
+				<a th:href="@{${@environment.getProperty('zettel.researchdata.helpText')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
 				
 				<div class="accordion" id="accordion">
 	 
-	 				<th:block th:fragment="researchdataFragment">
 					<!-- ******** Accordion Panel 1 (Title data) ******** -->
 	      			<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingOne','collapseOne','title-section','Title Details')}"> 
 		      					
@@ -533,7 +532,7 @@
 				   			<!-- Publicationyear -->
 							<div class="first-child-of-multi-field">
 		      					<div>
-		      						<label for="issued">Publication year*</label>
+		      						<label for="researchdata">Publication year*</label>
 									<button type="button" class="inline-help" name="issued">
 										<span class="fas fa-question-circle"></span>
 									</button>
@@ -743,9 +742,8 @@
 								</div>
 								<div class="select-license">
 									<select id="license" tabindex="8" class="form-select input-widget" th:field="*{license[0].id}">
-										<option value="">Please select...</option>
-										<option value="https://creativecommons.org/licenses/by/4.0">CC BY 4.0 (recommended)</option>
-										<option th:each="l : ${@researchdataData.getLicense()}" th:value="${l.key}" th:text="${l.value}"></option>
+											<option value="">Please select...</option>
+										  <option th:each="l : ${@researchdataData.getLicense()}" th:value="${l.key}" th:text="${l.value}"></option>
 									</select>
 								</div>
 								<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('license[0]')}" th:errors="*{license[0]}"></div>
@@ -965,7 +963,7 @@
 																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
 															</a>
 														</p>
-														<input type="hidden" autocomplete="off" th:field="*{subject[__${i.index}__].prefLabel}" style="display: none;"/>
+														<input autocomplete="off" th:field="*{subject[__${i.index}__].prefLabel}" style="display: none;"/>
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="display: none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">local</option>
@@ -1516,7 +1514,7 @@
 				   					
 		      			</div>
 	  				</div>
-	  				<!-- ******** Accordion Panel 8 (Acquisition) END ******** -->		
+	  				<!-- ******** Accordion Panel 8 (Acquisition) END ******** -->			
 	  				
 	  				<!-- ******** Accordion Panel 9 (Publications) ******** -->
 			      	<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingNine','collapseNine','link-section','Related resources')}"> 
@@ -1929,13 +1927,252 @@
 		      			</div>
 	  				</div>
 	  				<!-- ******** Accordion Panel 10 (Identifiers) END ******** -->
-	  				</th:block>
+	  					  				
+	  				<!-- ******** Accordion Panel 11 (KtBl) ******** -->
+			      	<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingEleven','collapseEleven','ktbl-section','Ktbl')}"> 
+		      					
+		      			<div layout:fragment="accordionPanel-content">
+		      			
+		      				<!-- Projekt Title -->
+	   						<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label for="projecttitle">Project title</label>
+	  								<button type="button" class="inline-help" name="projecttitle">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="projecttitle" style="display: none;">
+										<button name="projecttitle" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-projecttitle">
+									<select id="projecttitle" tabindex="37" class="form-select input-widget" th:field="*{info.ktbl.projectTitle}">
+										  <option value="">Please select...</option>
+										  <option th:each="p : ${@researchdataData.getProjectTitle()}" th:value="${p.key}" th:text="${p.value}"></option>
+									</select>
+								</div>
+				 			</div>
+				 			<br/>
+				 			<!-- Projekt Title END -->
+				 			
+				 			<!-- Test Design -->
+	   						<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label class="form-control-label" for="testdesign">Test design</label>
+	  								<button type="button" class="inline-help" name="testdesign">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="testdesign" style="display: none;">
+										<button name="testdesign" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-testdesign">
+									<select class="form-select input-widget" id="testdesign" tabindex="38" th:field="*{info.ktbl.testDesign}">
+										  <option value="">Please select...</option>
+										  <option th:each="p : ${@researchdataData.getTestDesign()}" th:value="${p.key}" th:text="${p.value}"></option>
+										  <!-- option th:each="p : ${@researchdataData.getTestDesign()}" th:data-key="${p.key}" th:value="${p.value}" th:text="${p.value}"></option-->									
+									</select>
+								</div>
+				 			</div>
+				 			<br/>
+				 			<!-- Test Design END -->
+		      							
+		      				<!-- Livestock Category-->
+	   						<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label for="livestock_category">Livestock category</label> <!-- class="form-control-label" -->
+	  								<button type="button" class="inline-help" name="livestock_category">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="livestock_category" style="display: none;">
+										<button name="livestock_category" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-livestock">
+									<select class="form-select input-widget" id="livestock" tabindex="29" th:field="*{info.ktbl.livestockCategory}">
+										  <option value="">Please select...</option>
+										  <option th:each="s : ${@researchdataData.getLivestockCategory()}" th:value="${s.key}" th:text="${s.value}"></option>
+									</select>
+								</div>
+				 			</div>
+				 			<br/>
+				 			<!-- Livestock Category END -->
+	  				 			
+				 			<!-- Ventilation System -->
+	   						<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label class="form-control-label" for="ventilation_system">Ventilation system</label>
+	  								<button type="button" class="inline-help" name="ventilation_system">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="ventilation_system" style="display: none;">
+										<button name="ventilation_system" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-ventilation">
+									<select class="form-select input-widget" id="ventilation_system" tabindex="30" th:field="*{info.ktbl.ventilationSystem}">
+										  <option value="">Please select...</option>
+										  <option th:each="v : ${@researchdataData.getVentilationSystem()}" th:value="${v.key}" th:text="${v.value}"></option>
+									</select>
+								</div>
+				 			</div>
+				 			<br/>
+				 			<!-- Ventilation System END -->
+				 			
+				 			<!-- Livestock Production -->
+	   						<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label class="form-control-label" for="livestock_production">Livestock production</label>
+	  								<button type="button" class="inline-help" name="livestock_production">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="livestock_production" style="display: none;">
+										<button name="livestock_production" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-treatment">
+									<select class="form-select input-widget" tabindex="31" th:field="*{info.ktbl.livestockProduction}">
+										  <option value="">Please select...</option>
+										  <option th:each="v : ${@researchdataData.getLivestockProduction()}" th:value="${v.key}" th:text="${v.value}"></option>
+									</select>
+								</div>
+				 			</div>
+				 			<br/>
+				 			<!-- Livestock Production END -->
+				   			
+				   			<!-- Housing Systems-->
+	   						<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label class="form-control-label" for="housing_systems">Housing systems</label>
+	  								<button type="button" class="inline-help" name="housing">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="housing_systems" style="display: none;">
+										<button name="housing_systems" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-housing">
+									<select class="form-select input-widget" tabindex="32" th:field="*{info.ktbl.housingSystems}">
+										  <option value="">Please select...</option>
+										  <option th:each="v : ${@researchdataData.getHousingSystems()}" th:value="${v.key}" th:text="${v.value}"></option>
+									</select>
+								</div>
+				 			</div>
+				 			<br/>
+				 			<!-- Housing Systems END -->
+	  				 			
+				 			<!-- Additional Housing Systems -->
+  							<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label for="additional-housing-systems0" class="form-control-label">Additional housing systems</label>
+	  								<button type="button" class="inline-help" name="additional-housing-systems0">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="additional-housing-systems0" style="display: none;">
+										<button name="additional-housing-systems0" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-treatmentdetail">
+									<select class="form-select" id="additional-housing-systems0" multiple tabindex="33" th:field="*{info.ktbl.additionalHousingSystems}">
+										  <option value="">Please select...</option>
+										  <option th:each="e : ${@researchdataData.getAdditionalHousingSystems()}" th:value="${e.key}" th:text="${e.value}"></option>
+									</select>
+								</div>
+	   				 		</div>
+	   				 		<br />
+				   			<!-- Additional Housing Systems END -->
+	  				 			
+				 			<!-- Emission Measurement Techniques -->
+  							<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label for="emission-measurement-techniques0" class="form-control-label">Emission measurement techniques</label>
+	  								<button type="button" class="inline-help" name="emission-measurement-techniques0">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="emission-measurement-techniques0" style="display: none;">
+										<button name="emission-measurement-techniques0" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-emissionprobe">
+									<select class="form-select" id="emission-measurement-techniques0" multiple tabindex="34" th:field="*{info.ktbl.emissionMeasurementTechniques}">
+										  <option value="">Please select...</option>
+										  <option th:each="e : ${@researchdataData.getEmissionMeasurementTechniques()}" th:value="${e.key}" th:text="${e.value}"></option>
+									</select>
+								</div>
+	   				 		</div>
+	   				 		<br />		
+				   			<!-- Emission Measurement Techniques END -->
+	  				 			
+	  				 		<!-- Emissions -->
+   							<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label for="emissions0" class="form-control-label">Emissions</label>
+	  								<button type="button" class="inline-help" name="emissions0">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="emissions0" style="display: none;">
+										<button name="emissions0" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-emissions">
+									<select class="form-select" id="emissions0" multiple tabindex="35" th:field="*{info.ktbl.emissions}">
+										  <option value="">Please select...</option>
+										  <option th:each="e : ${@researchdataData.getEmissions()}" th:value="${e.key}" th:text="${e.value}"></option>
+									</select>
+								</div>
+	   				 		</div>
+	   				 		<br />
+				   			<!-- Emissions END -->
+	  				 			
+				 			<!-- Emission Reduction Methods -->
+							<div class="first-child-of-multi-field">
+	        					<div>
+	        						<label for="emission-reduction-methods0" class="form-control-label">Emission reduction methods</label>
+	  								<button type="button" class="inline-help" name="emission-reduction-methods0">
+										<span class="fas fa-question-circle"></span>
+									</button>
+									<div class="help-text" name="emission-reduction-methods0" style="display: none;">
+										<button name="emission-reduction-methods0" type="button" class="close-help" style="float: right">
+											<span class="fas fa-times-circle"></span>
+										</button>
+									</div>
+								</div>
+								<div class="select-emissionreductionmethods">
+									<select class="form-select" id="emission-reduction-methods0" multiple tabindex="36" th:field="*{info.ktbl.emissionReductionMethods}">
+										  <option value="">Please select...</option>
+										  <option th:each="e : ${@researchdataData.getEmissionReductionMethods()}" th:value="${e.key}" th:text="${e.value}"></option>
+									</select>
+								</div>
+	   				 		</div>
+				   			<br/>
+				   			<!-- Emission Reduction Methods END -->
+				 						
+		      			</div>
+	  				</div>
+	  				<!-- ******** Accordion Panel 11 (Ktbl) END ******** -->
 	  				
 				</div>
 				
 				<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
 	  				<br/>
-	  				<h4 style="color:black"><strong>This form has still errors!</strong></h4>
+	  				<h4 tyle="color:rgb(33, 37, 41); padding: .5rem .5rem"><strong>This form has still errors!</strong></h4>
 	  				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	  				<table class="table" >
 				        <tbody>			            

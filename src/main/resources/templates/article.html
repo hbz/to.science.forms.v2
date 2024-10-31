@@ -15,7 +15,7 @@
 			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 		
 			<form th:action="@{/article/{pid}(pid=${pid})}" th:object="${article}" method="post">
-				<a th:href="@{${@environment.getProperty('forms.article.helpText')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
+				<a th:href="@{${@environment.getProperty('resource.frlUrlHelptext')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
 				
 				<div class="accordion" id="accordion">
 	  				

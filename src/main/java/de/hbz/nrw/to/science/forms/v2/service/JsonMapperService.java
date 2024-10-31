@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import de.hbz.nrw.to.science.forms.v2.model.objects.Item;
 import de.hbz.nrw.to.science.forms.v2.model.objects.JoinedFunding;
 import de.hbz.nrw.to.science.forms.v2.model.objects.PrimaryTopicOf;
-import de.hbz.nrw.to.science.forms.v2.model.objects.Subject;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Publication;
 import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.properties.ArticleProperties;
@@ -61,12 +60,13 @@ public class JsonMapperService {
 		return client.getOrcidName(orcidId);
 	}
 	
-	public void fillSimpleObjectChilds(List<? extends SimpleObject> objects) {
+	public void fillSimpleObjectChilds(List<? extends SimpleObject> objects, String language) {
 		Map<String, Function<String, String>> providers = Map.of(
 		        "orcid.org", id -> client.getOrcidName(id),
 		        "adhoc/uri", URLUtils::decode,
 		        "d-nb.info", id -> client.getLobidName(id),
-		        "lobid.org", id -> client.getLobidLabel(id)
+		        "lobid.org", id -> client.getLobidLabel(id),
+		        "aims.fao.org", id -> client.getSubjectLabel(id, language)
 		    );
 
 		    objects.forEach(object -> {
@@ -80,7 +80,7 @@ public class JsonMapperService {
 		                                    .orElse(null);
 
 		        if (key != null) {
-		            String processedId = key.equals("lobid.org") ? id : StringUtils.substringAfterLast(id, "/");
+		            String processedId = key.equals("lobid.org") || key.equals("aims.fao.org") ? id : StringUtils.substringAfterLast(id, "/");
 		            object.setPrefLabel(providers.get(key).apply(processedId));
 		        }
 		    });
@@ -213,11 +213,6 @@ public class JsonMapperService {
 		
 	public void fillPublicationStatus(List<Publication> status) {
 		status.forEach(stat -> stat.setPrefLabel(articleProp.getPublicationStatus().get(stat.getId())));
-	}
-	
-	public void getSubjectValue(List<Subject> subject) {
-		subject.forEach(subj -> subj.setPrefLabel(subj.getId()));
-		subject.removeIf(sub -> StringUtils.isBlank(sub.getId()));
 	}
 	
 }

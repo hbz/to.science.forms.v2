@@ -17,10 +17,12 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "resource")
 public class ResourceProperties {
 	
-	private String apiUser;
-	private String apiPassword;
 	private String frlUrl;
-	private String frlUrlFedora;
+	private String frlUrlHelptext;
+	private String frlApiUser;
+	private String frlApiPassword;
+	private String frlApiUrl;
+	private String frlApiUrlFedora;
 	private String orcidApiUrl;
 	private String contextUrl;
 	private String accessScheme;

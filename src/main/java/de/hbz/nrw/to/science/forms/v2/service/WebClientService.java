@@ -57,9 +57,9 @@ public class WebClientService {
 		attr.setAccessScheme(props.getAccessScheme());
 		attr.setPublishScheme(props.getPublishScheme());
 		ResponseObject response = webClient.post() 
-								 .uri(props.getFrlUrl() + "frl")
+								 .uri(props.getFrlApiUrl() + "frl")
 								 .contentType(MediaType.APPLICATION_JSON)
-								 .headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
+								 .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))
 								 .bodyValue(attr)
 								 .retrieve()
 				                 .bodyToMono(ResponseObject.class)   
@@ -88,70 +88,14 @@ public class WebClientService {
 	 */
 	public void uploadMetadataArticle(Article articleObj, String resourcePid) {
 		uploadMetadata(articleObj, resourcePid, ARTICLE);
-		/*try {
-			File file = new File(tmpFile);
-			mapper.writeValue(file, articleObj);
-			
-			MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-			bodyBuilder.part("data", new FileSystemResource(file));
-			bodyBuilder.part("type", MediaType.APPLICATION_JSON);
-			webClient.put()
-			         .uri(props.getFrlDevUrl() + resourcePid + "/uploadUpdateMetadata")
-			         .headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-			         .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
-			         .retrieve()
-			         .toBodilessEntity()
-			         .block();
-		}
-		catch (Exception e) {
-			log.error("Uploading Metadata of Article failed");
-			e.printStackTrace();
-		}*/
 	}
 	
 	public void uploadMetadataResearchdata(Researchdata researchdataObj, String resourcePid) {
 		uploadMetadata(researchdataObj, resourcePid, RESEARCHDATA);
-		/*try {
-			File file = new File(tmpFile);
-			mapper.writeValue(file, researchdataObj);
-			
-			MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-			bodyBuilder.part("data", new FileSystemResource(file));
-			bodyBuilder.part("type", MediaType.APPLICATION_JSON);
-			webClient.put()
-			         .uri(props.getFrlDevUrl() + resourcePid + "/uploadUpdateMetadata")
-			         .headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-			         .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
-			         .retrieve()
-			         .toBodilessEntity()
-			         .block();
-		}
-		catch (Exception e) {
-			log.error("Uploading Metadata of Researchdata failed");
-			e.printStackTrace();
-		}*/
 	}
 	
 	public void uploadMetadataMonograph(Monograph monographObj, String resourcePid) {
 		uploadMetadata(monographObj, resourcePid, MONOGRAPH);
-		/*try {
-			File file = new File(tmpFile);
-			mapper.writeValue(file, monographObj);
-			
-			MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-			bodyBuilder.part("data", new FileSystemResource(file));
-			bodyBuilder.part("type", MediaType.APPLICATION_JSON);
-			webClient.put()
-			         .uri(props.getFrlDevUrl() + resourcePid + "/uploadUpdateMetadata")
-			         .headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-			         .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
-			         .retrieve()
-			         .toBodilessEntity()
-			         .block();
-		}
-		catch (Exception e) {
-			log.error("Uploading Metadata of Monograph failed");
-		}*/
 	}
 	
 	public void uploadMetadata(Object metadataObj, String resourcePid, String metadataType) {
@@ -164,8 +108,8 @@ public class WebClientService {
 	        bodyBuilder.part("type", MediaType.APPLICATION_JSON);
 	        
 	        webClient.put()
-	                 .uri(props.getFrlUrl() + resourcePid + "/uploadUpdateMetadata")
-	                 .headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
+	                 .uri(props.getFrlApiUrl() + resourcePid + "/uploadUpdateMetadata")
+	                 .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))
 	                 .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
 	                 .retrieve()
 	                 .toBodilessEntity()
@@ -251,59 +195,10 @@ public class WebClientService {
 		return label != null ? label.asText() : "No Label found";
 	}
 	
-	public String getSubjectLabel(String url) {	
-		JsonNode node = webClient.get()
-								 .uri(urlTo.getAgrovocData(), uriBuilder -> uriBuilder
-										.queryParam("uri", url)
-										.queryParam("format", "application/ld+json")
-										.build() )
-								.retrieve()
-				                .bodyToMono(JsonNode.class)   
-				                .block();
-		JsonNode label = node.at("/graph/4/prefLabel/3/value");
-		return label != null ? label.asText() : "No Label found";
-	}
-
-//	public Article getArticle(String pid) {
-//		return webClient.get()
-//				 		.uri(props.getFrlDevUrlFedora() + pid + "/datastreams/toscience/content")
-//				 		.headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-//				 		.retrieve()
-//				 		.bodyToMono(Article.class)   
-//				 		.block();
-//	}
-//	
-//	public Researchdata getResearchData(String pid) {
-//		return webClient.get()
-//				 		.uri(props.getFrlDevUrlFedora() + pid + "/datastreams/toscience/content")
-//				 		.headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-//				 		.retrieve()
-//				 		.bodyToMono(Researchdata.class)   
-//				 		.block();
-//	}
-//	
-//	public Researchdata getKtbl(String pid) {
-//		return webClient.get()
-//				 		.uri(props.getFrlDevUrlFedora() + pid + "/datastreams/ktbl/content")
-//				 		.headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-//				 		.retrieve()
-//				 		.bodyToMono(Researchdata.class)   
-//				 		.block();
-//	}
-//	
-//	public Monograph getMonograph(String pid) {
-//		return webClient.get()
-//				 		.uri(props.getFrlDevUrlFedora() + pid + "/datastreams/toscience/content")
-//				 		.headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
-//				 		.retrieve()
-//				 		.bodyToMono(Monograph.class)   
-//				 		.block();
-//	}
-	
 	public <T> T getData(String pid, String datastream, Class<T> clazz) {
 	    return webClient.get()
-	                    .uri(props.getFrlUrlFedora() + pid + "/datastreams/" + datastream + "/content")
-	                    .headers(h -> h.setBasicAuth(props.getApiUser(), props.getApiPassword()))
+	                    .uri(props.getFrlApiUrlFedora() + pid + "/datastreams/" + datastream + "/content")
+	                    .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))
 	                    .retrieve()
 	                    .bodyToMono(clazz)
 	                    .block();
@@ -346,6 +241,36 @@ public class WebClientService {
 			    .retrieve()
 			    .bodyToMono(Label.class)   
 			    .block();
+	}
+	
+	/**
+	 *  AGROVOC
+	 */
+	
+	public String getSubjectLabel(String url, String langShort) {	
+		JsonNode rootNode = webClient.get()
+								 .uri(urlTo.getAgrovocData(), uriBuilder -> uriBuilder
+										.queryParam("uri", url)
+										.queryParam("format", MediaType.APPLICATION_JSON_VALUE)
+										.build() )
+								.retrieve()
+				                .bodyToMono(JsonNode.class)   
+				                .block();
+		
+		String prefLabelValue = null;
+		JsonNode graphArray = rootNode.path("graph");
+		for (JsonNode node : graphArray) {
+            if (node.path("uri").asText().equals(url)) {
+                JsonNode prefLabels = node.path("prefLabel");
+                for (JsonNode label : prefLabels) {
+                    if (label.path("lang").asText().equals(langShort)) {
+                        prefLabelValue = label.path("value").asText();
+                    }
+                }
+            }
+        }
+
+		return prefLabelValue != null ? prefLabelValue : "No Label found";
 	}
 	
 }

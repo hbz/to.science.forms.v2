@@ -42,13 +42,13 @@ public class ArticleService {
 	    json.fillRdfType(article.getRdftype());
 	    json.fillPublicationStatus(article.getPublicationStatus());
 	    json.fillReviewStatus(article.getReviewStatus());
-	    json.fillSimpleObjectChilds(article.getInstitution());
-	    json.fillSimpleObjectChilds(article.getCreator());
-	    json.fillSimpleObjectChilds(article.getContributor());
-	    json.fillSimpleObjectChilds(article.getEditor());
-	    json.fillSimpleObjectChilds(article.getOther());
-	    json.fillSimpleObjectChilds(article.getContainedIn());
-	    json.getSubjectValue(article.getSubject());
+	    json.fillSimpleObjectChilds(article.getInstitution(), null);
+	    json.fillSimpleObjectChilds(article.getCreator(), null);
+	    json.fillSimpleObjectChilds(article.getContributor(), null);
+	    json.fillSimpleObjectChilds(article.getEditor(), null);
+	    json.fillSimpleObjectChilds(article.getOther(), null);
+	    json.fillSimpleObjectChilds(article.getContainedIn(), null);
+	    json.fillSimpleObjectChilds(article.getSubject(), "de");
 	    
 	    article.setJoinedFunding(json.fillJoinedFunding(article.getFundingId(), 
 	                                                    article.getFundingProgram(), 

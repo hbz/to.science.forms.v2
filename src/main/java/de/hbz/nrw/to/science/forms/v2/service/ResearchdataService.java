@@ -51,11 +51,11 @@ public class ResearchdataService {
 		json.fillLanguagesEN(researchdata.getLanguage());
 		json.fillMedia(researchdata.getMedium());
 		json.getFundingLabels(researchdata.getFundingId());
-		json.fillSimpleObjectChilds(researchdata.getInstitution());
-		json.fillSimpleObjectChilds(researchdata.getCreator());
-		json.fillSimpleObjectChilds(researchdata.getContributor());
-		json.fillSimpleObjectChilds(researchdata.getOther());
-		json.getSubjectValue(researchdata.getSubject());
+		json.fillSimpleObjectChilds(researchdata.getInstitution(), null);
+		json.fillSimpleObjectChilds(researchdata.getCreator(), null);
+		json.fillSimpleObjectChilds(researchdata.getContributor(), null);
+		json.fillSimpleObjectChilds(researchdata.getOther(), null);
+		json.fillSimpleObjectChilds(researchdata.getSubject(), "en");
 		
 		researchdata.setJoinedFunding(json.fillJoinedFunding(researchdata.getFundingId(), 
 				researchdata.getFundingProgram(), 
