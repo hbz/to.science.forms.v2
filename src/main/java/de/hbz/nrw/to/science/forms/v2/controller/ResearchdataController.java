@@ -1,6 +1,5 @@
 package de.hbz.nrw.to.science.forms.v2.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,8 +52,8 @@ public class ResearchdataController {
 		String pid = null;
 		
 		if(!result.hasErrors()) {
-			//pid = client.createResource("researchData");
-			pid="frl:65055533";
+			pid = client.createResource("researchData");
+			//pid="frl:65055533";
 			log.info("PID_RESEARCHDATA: {}", pid);
 		}
 				
@@ -72,13 +71,13 @@ public class ResearchdataController {
 		}
         
         // Metadaten hochladen
- 		//client.uploadMetadataResearchdata(researchdata, pid);
+ 		client.uploadMetadataResearchdata(researchdata, pid);
  		
  		redirectAttributes.addFlashAttribute("message", "Researchdata was created/updated successfully");
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
- 	    return ResponseEntity.ok(researchdata);
- 		//return "redirect:/researchdata/" + pid;
+ 	    //return ResponseEntity.ok(researchdata);
+ 		return "redirect:/researchdata/" + pid;
     }
 
 }
