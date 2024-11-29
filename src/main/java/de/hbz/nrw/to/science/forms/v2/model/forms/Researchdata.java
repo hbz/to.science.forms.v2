@@ -124,7 +124,7 @@ public class Researchdata {
 	private List<SimpleObject> dataOrigin;
 	private List<String> recordingPeriod;
 	private List<SimpleObject> recordingLocation;
-	private List<SimpleObject> recordingCoordinates;
+	//private List<SimpleObject> recordingCoordinates;
 	
 	// // Publications
 	private List<String> reference;

@@ -3,7 +3,6 @@ package de.hbz.nrw.to.science.forms.v2.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.hbz.nrw.to.science.forms.v2.model.clientresponse.Label;
@@ -15,25 +14,19 @@ import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Result;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.ResultObject;
 import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.properties.URLProperties;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class MonographService {
-	
-	@Autowired
+
 	private WebClientService client;
-	
-	@Autowired
 	private JsonMapperService json;
-	
-	@Autowired
 	private URLProperties url;
-	
-	@Autowired
 	private CatalogLink catalogLink;
 	
-
     public Monograph enrichMonographFromLobid(Monograph monograph) {
         String url = monograph.getParallelEdition().get(0).getId();
         return client.getLobidAsMonograph(url);
@@ -146,19 +139,17 @@ public class MonographService {
         List<SimpleObject> list = new ArrayList<>();
         types.forEach(typ -> {
             log.info("Processing Label: {}", typ);
-            Label label = client.getLabel("frl", typ); // Holen des Labels
+            Label label = client.getLabel("frl", typ);
             SimpleObject so = new SimpleObject();
             if (label != null && label.getJsonConf() != null) {
-                // Setzen der Werte, wenn das Label vorhanden ist
                 so.setId(label.getJsonConf().getUri());
                 so.setPrefLabel(label.getLabelStr());
             } else {
-                // Fehlerbehandlung und Logging, wenn das Label nicht gefunden wird
                 log.warn("Label '{}' not found, needs to be added to labels API", typ);
                 so.setId(null);
                 so.setPrefLabel(null);
             }
-            list.add(so); // Hinzufügen zur Ergebnisliste
+            list.add(so);
         });
         return list;
     }

@@ -223,13 +223,13 @@
 		    <version>1.11.4</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap-select -->
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap-select
 		<dependency>
 		    <groupId>org.webjars</groupId>
 		    <artifactId>bootstrap-select</artifactId>
 		    <version>1.14.0-beta2</version>
 		    <scope>runtime</scope>
-		</dependency>
+		</dependency>-->
 		
 		<!-- markdown-js -->
 		<dependency>

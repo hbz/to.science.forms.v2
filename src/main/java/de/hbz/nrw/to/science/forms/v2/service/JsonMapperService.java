@@ -1,19 +1,18 @@
 package de.hbz.nrw.to.science.forms.v2.service;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import de.hbz.nrw.to.science.forms.v2.data.FormsData;
 import de.hbz.nrw.to.science.forms.v2.model.objects.Item;
 import de.hbz.nrw.to.science.forms.v2.model.objects.JoinedFunding;
 import de.hbz.nrw.to.science.forms.v2.model.objects.PrimaryTopicOf;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Publication;
 import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
-import de.hbz.nrw.to.science.forms.v2.properties.ArticleProperties;
-import de.hbz.nrw.to.science.forms.v2.properties.ResearchdataProperties;
 import de.hbz.nrw.to.science.forms.v2.util.URLUtils;
 
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.ARTICLE;
@@ -25,20 +24,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@AllArgsConstructor
 @Data
 public class JsonMapperService {
 	
-	@Autowired 
 	private ApplicationContext applicationContext;
-
-	@Autowired
 	private WebClientService client;
-	
-	@Autowired
-	private ArticleProperties articleProp;
-	
-	@Autowired
-	private ResearchdataProperties researchdataProp;
+	private FormsData formsData;
 
 	public String getResourceId() {
 		return client.createResource(ARTICLE);
@@ -87,33 +79,44 @@ public class JsonMapperService {
 	    objects.removeIf(cre -> StringUtils.isBlank(cre.getId()));
 	}
 	
+	// RdfType, ReviewStatus, Medium
+	public void fillSimpleObjects(List<SimpleObject> objects, Function<String, String> labelSupplier) {
+	    objects.forEach(obj -> obj.setPrefLabel(labelSupplier.apply(obj.getId())));
+	    objects.removeIf(obj -> StringUtils.isBlank(obj.getId()));
+	}
+	
 	public void fillRdfType(List<SimpleObject> rdfs) {
-		rdfs.forEach(rdf -> rdf.setPrefLabel(articleProp.getRdftype().get(rdf.getId())));
-		rdfs.removeIf(rd -> StringUtils.isBlank(rd.getId()));
+	    fillSimpleObjects(rdfs, id -> formsData.getArticleData().getRdftype().get(id));
 	}
-	
+
 	public void fillReviewStatus(List<SimpleObject> reviews) {
-		reviews.forEach(review -> {
-			review.setPrefLabel(articleProp.getReviewStatus().get(review.getId()));		
-		});
-		reviews.removeIf(review -> StringUtils.isBlank(review.getId()));
+	    fillSimpleObjects(reviews, id -> formsData.getArticleData().getReviewStatus().get(id));
 	}
-	
+
 	public void fillMedia(List<SimpleObject> media) {
-		media.forEach(med -> med.setPrefLabel(researchdataProp.getMedium().get(med.getId())));
-		media.removeIf(medi -> StringUtils.isBlank(medi.getId()));
-}
+	    fillSimpleObjects(media, id -> formsData.getResearchdataData().getMedium().get(id));
+	}
+
+	// Collections, RecordingLocations
+	public void processSimpleObjects(List<SimpleObject> objects, Function<String, String> idProcessor) {
+	    objects.forEach(obj -> {
+	        if (StringUtils.isBlank(obj.getId()))
+	            return;
+	        String id = StringUtils.substringAfterLast(obj.getId(), "/");
+	        obj.setPrefLabel(idProcessor.apply(id));
+	    });
+	    objects.removeIf(obj -> StringUtils.isBlank(obj.getId()));
+	}
 	
 	public void fillCollections(List<SimpleObject> collections) {
-		collections.forEach(col -> {
-				if(StringUtils.isBlank(col.getId()))
-					return;
-				String id = StringUtils.substringAfterLast(col.getId(), "/");
-				col.setPrefLabel(client.getLobidName(id));	
-		});
-		collections.removeIf(col -> StringUtils.isBlank(col.getId()));
+	    processSimpleObjects(collections, id -> client.getLobidName(id));
 	}
-	
+
+	public void fillRecordLocations(List<SimpleObject> recordLocations) {
+	    processSimpleObjects(recordLocations, id -> client.getLocationById(id));
+	}
+
+	// Funding
 	public void getFundingLabels(List<SimpleObject> funders) {
 		funders.forEach(fund -> {
 			if(StringUtils.isBlank(fund.getId()))
@@ -129,51 +132,60 @@ public class JsonMapperService {
 		funders.removeIf(fund -> StringUtils.isBlank(fund.getId()));
 	}
 	
-	public void getLabels(List<SimpleObject> objectList, Map<String, String> propertyMap, boolean isDdc) {
-	    objectList.forEach(obj -> {
-	        String subject = propertyMap.get(obj.getId());
-	        if (isDdc) {
-	            String label = StringUtils.substringBeforeLast(subject, " ");
-	            obj.setPrefLabel(label);
-	        } else {
-	            obj.setPrefLabel(subject);
+	// Language
+	public void fillLanguageLabels(List<SimpleObject> languages, Map<String, String> languageMap) {
+	    languages.forEach(lang -> {
+	        String label = languageMap.get(lang.getId());
+	        if (label != null) {
+	            lang.setPrefLabel(label);
 	        }
 	    });
-	    objectList.removeIf(obj -> StringUtils.isBlank(obj.getId()));
 	}
 	
-	public void getDdcLabels(List<SimpleObject> ddcList) {
-		getLabels(ddcList, articleProp.getDdc(), true);
-	}
+	public void fillLanguages(List<SimpleObject> languages, boolean isArticle) {
+        Map<String, String> languageMap = isArticle 
+            ? formsData.getArticleData().getLanguage() 
+            : formsData.getResearchdataData().getLanguage();
+        fillLanguageLabels(languages, languageMap);
+    }
 	
-	public void getDdcENLabels(List<SimpleObject> ddcList) {
-		getLabels(ddcList, researchdataProp.getDdc(), true);
-	}
+	// DDC, DataOrigin, License
+	public void processLabels(List<SimpleObject> objectList, Map<String, String> propertyMap, boolean isDdc) {
+        objectList.forEach(obj -> {
+            String subject = propertyMap.get(obj.getId());
+            if (subject != null) {
+                String label = isDdc ? StringUtils.substringBeforeLast(subject, " ") : subject;
+                obj.setPrefLabel(label);
+            }
+        });
+        objectList.removeIf(obj -> StringUtils.isBlank(obj.getId()));
+    }
 
-	public void getDataOriginENLabels(List<SimpleObject> dataOriginList) {
-	    getLabels(dataOriginList, researchdataProp.getDataOrigin(), false);
-	}
-	
-	public void getDataOriginLabels(List<SimpleObject> dataOriginList) {
-	    getLabels(dataOriginList, articleProp.getDataOrigin(), false);
-	}
+    public void getDdcLabels(List<SimpleObject> ddcList, boolean isArticle) {
+        Map<String, String> ddcMap = isArticle 
+            ? formsData.getArticleData().getDdc() 
+            : formsData.getResearchdataData().getDdc();
+        processLabels(ddcList, ddcMap, true);
+    }
 
-	public void getLicenseLabel(List<SimpleObject> licenseList) {
-	    getLabels(licenseList, articleProp.getLicense(), false);
-	}
-	
-	public void getLicenseLabelEN(List<SimpleObject> licenseList) {
-	    getLabels(licenseList, researchdataProp.getLicense(), false);
-	}
-	
-	public void fillLanguages(List<SimpleObject> languages) {
-		languages.forEach(lang -> lang.setPrefLabel(articleProp.getLanguage().get(lang.getId())));		
-	}
-	
-	public void fillLanguagesEN(List<SimpleObject> languages) {
-		languages.forEach(lang -> lang.setPrefLabel(researchdataProp.getLanguage().get(lang.getId())));		
-	}
+    public void getDataOriginLabels(List<SimpleObject> dataOriginList, boolean isArticle) {
+        Map<String, String> dataOriginMap = isArticle 
+            ? formsData.getArticleData().getDataOrigin() 
+            : formsData.getResearchdataData().getDataOrigin();
+        processLabels(dataOriginList, dataOriginMap, false);
+    }
 
+    public void getLicenseLabels(List<SimpleObject> licenseList, boolean isArticle) {
+        Map<String, String> licenseMap = isArticle 
+            ? formsData.getArticleData().getLicense() 
+            : formsData.getResearchdataData().getLicense();
+        processLabels(licenseList, licenseMap, false);
+    }
+    
+    // PublicationStatus
+    public void fillPublicationStatus(List<Publication> status) {
+		status.forEach(stat -> stat.setPrefLabel(formsData.getArticleData().getPublicationStatus().get(stat.getId())));
+	}
 	
 	// isPrimaryTopicOf
 	public List<PrimaryTopicOf> fillPrimaryTopicOf(String articleId) {
@@ -187,6 +199,7 @@ public class JsonMapperService {
 		
 	}
 	
+	// itemId
 	public List<Item> fillItemId(String articleId) {
 		List<Item> items = new ArrayList<>();
 		String itemId = "oai:api.localhost.de:" + articleId;
@@ -197,6 +210,7 @@ public class JsonMapperService {
 		return items;
 	}
 	
+	// joinedFunding
 	public List<JoinedFunding> fillJoinedFunding(List<SimpleObject> funders, List<String> fundProgram, List<String> projects) {
 		List<JoinedFunding> join = new ArrayList<>();
 		for(int i = 0; i < funders.size(); i++) {
@@ -209,10 +223,6 @@ public class JsonMapperService {
 			join.add(obj);
 		}
 		return join;
-	}
-		
-	public void fillPublicationStatus(List<Publication> status) {
-		status.forEach(stat -> stat.setPrefLabel(articleProp.getPublicationStatus().get(stat.getId())));
 	}
 	
 }

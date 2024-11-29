@@ -31,20 +31,20 @@
 		      				<!-- Projekt Title -->
 	   						<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label for="projecttitle">Project title</label>
-	  								<button type="button" class="inline-help" name="projecttitle">
+	        						<label for="projecttitle0">Project title</label>
+	  								<button type="button" class="inline-help" name="projecttitle0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="projecttitle" style="display: none;">
-										<button name="projecttitle" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="projecttitle0" style="display: none;">
+										<button name="projecttitle0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
 								<div class="select-projecttitle">
-									<select id="projecttitle" tabindex="37" class="form-select input-widget" th:field="*{info.ktbl.projectTitle}">
+									<select id="projecttitle0" tabindex="37" class="form-select input-widget" data-searchable="true" th:field="*{info.ktbl.projectTitle}">
 										  <option value="">Please select...</option>
-										  <option th:each="p : ${@researchdataData.getProjectTitle()}" th:value="${p.key}" th:text="${p.value}"></option>
+										  <option th:each="p : ${researchdataData.projectTitle}" th:value="${p.key}" th:text="${p.value}"></option>
 									</select>
 								</div>
 				 			</div>
@@ -54,21 +54,21 @@
 				 			<!-- Test Design -->
 	   						<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label class="form-control-label" for="testdesign">Test design</label>
-	  								<button type="button" class="inline-help" name="testdesign">
+	        						<label class="form-control-label" for="testdesign0">Test design</label>
+	  								<button type="button" class="inline-help" name="testdesign0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="testdesign" style="display: none;">
-										<button name="testdesign" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="testdesign0" style="display: none;">
+										<button name="testdesign0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
 								<div class="select-testdesign">
-									<select class="form-select input-widget" id="testdesign" tabindex="38" th:field="*{info.ktbl.testDesign}">
+									<select id="testdesign0" class="form-select input-widget" data-searchable="true" tabindex="38" th:field="*{info.ktbl.testDesign}">
 										  <option value="">Please select...</option>
-										  <option th:each="p : ${@researchdataData.getTestDesign()}" th:value="${p.key}" th:text="${p.value}"></option>
-										  <!-- option th:each="p : ${@researchdataData.getTestDesign()}" th:data-key="${p.key}" th:value="${p.value}" th:text="${p.value}"></option-->									
+										  <option th:each="p : ${researchdataData.testDesign}" th:value="${p.key}" th:text="${p.value}"></option>
+										  <!-- option th:each="p : ${researchdataData.testDesign}" th:data-key="${p.key}" th:value="${p.value}" th:text="${p.value}"></option-->									
 									</select>
 								</div>
 				 			</div>
@@ -78,20 +78,20 @@
 		      				<!-- Livestock Category-->
 	   						<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label for="livestock_category">Livestock category</label> <!-- class="form-control-label" -->
-	  								<button type="button" class="inline-help" name="livestock_category">
+	        						<label for="livestockcategory0">Livestock category</label> <!-- class="form-control-label" -->
+	  								<button type="button" class="inline-help" name="livestockcategory0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="livestock_category" style="display: none;">
-										<button name="livestock_category" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="livestockcategory0" style="display: none;">
+										<button name="livestockcategory0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
-								<div class="select-livestock">
-									<select class="form-select input-widget" id="livestock" tabindex="29" th:field="*{info.ktbl.livestockCategory}">
+								<div class="select-livestockcategory">
+									<select id="livestockcategory0" class="form-select input-widget" data-searchable="true" tabindex="29" th:field="*{info.ktbl.livestockCategory}">
 										  <option value="">Please select...</option>
-										  <option th:each="s : ${@researchdataData.getLivestockCategory()}" th:value="${s.key}" th:text="${s.value}"></option>
+										  <option th:each="s : ${researchdataData.livestockCategory}" th:value="${s.key}" th:text="${s.value}"></option>
 									</select>
 								</div>
 				 			</div>
@@ -101,20 +101,20 @@
 				 			<!-- Ventilation System -->
 	   						<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label class="form-control-label" for="ventilation_system">Ventilation system</label>
-	  								<button type="button" class="inline-help" name="ventilation_system">
+	        						<label class="form-control-label" for="ventilationsystem0">Ventilation system</label>
+	  								<button type="button" class="inline-help" name="ventilationsystem0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="ventilation_system" style="display: none;">
-										<button name="ventilation_system" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="ventilationsystem0" style="display: none;">
+										<button name="ventilationsystem0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
-								<div class="select-ventilation">
-									<select class="form-select input-widget" id="ventilation_system" tabindex="30" th:field="*{info.ktbl.ventilationSystem}">
+								<div class="select-ventilationsystem">
+									<select id="ventilationsystem0" class="form-select input-widget" data-searchable="true" tabindex="30" th:field="*{info.ktbl.ventilationSystem}">
 										  <option value="">Please select...</option>
-										  <option th:each="v : ${@researchdataData.getVentilationSystem()}" th:value="${v.key}" th:text="${v.value}"></option>
+										  <option th:each="v : ${researchdataData.ventilationSystem}" th:value="${v.key}" th:text="${v.value}"></option>
 									</select>
 								</div>
 				 			</div>
@@ -124,20 +124,20 @@
 				 			<!-- Livestock Production -->
 	   						<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label class="form-control-label" for="livestock_production">Livestock production</label>
-	  								<button type="button" class="inline-help" name="livestock_production">
+	        						<label class="form-control-label" for="livestockproduction0">Livestock production</label>
+	  								<button type="button" class="inline-help" name="livestockproduction0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="livestock_production" style="display: none;">
-										<button name="livestock_production" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="livestockproduction0" style="display: none;">
+										<button name="livestockproduction0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
-								<div class="select-treatment">
-									<select class="form-select input-widget" tabindex="31" th:field="*{info.ktbl.livestockProduction}">
+								<div class="select-livestockproduction">
+									<select id="livestockproduction0" class="form-select input-widget" data-searchable="true" tabindex="31" th:field="*{info.ktbl.livestockProduction}">
 										  <option value="">Please select...</option>
-										  <option th:each="v : ${@researchdataData.getLivestockProduction()}" th:value="${v.key}" th:text="${v.value}"></option>
+										  <option th:each="v : ${researchdataData.livestockProduction}" th:value="${v.key}" th:text="${v.value}"></option>
 									</select>
 								</div>
 				 			</div>
@@ -147,20 +147,20 @@
 				   			<!-- Housing Systems-->
 	   						<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label class="form-control-label" for="housing_systems">Housing systems</label>
-	  								<button type="button" class="inline-help" name="housing">
+	        						<label class="form-control-label" for="housingsystems0">Housing systems</label>
+	  								<button type="button" class="inline-help" name="housingsystems0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="housing_systems" style="display: none;">
-										<button name="housing_systems" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="housingsystems0" style="display: none;">
+										<button name="housingsystems0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
-								<div class="select-housing">
-									<select class="form-select input-widget" tabindex="32" th:field="*{info.ktbl.housingSystems}">
+								<div class="select-housingsystems">
+									<select id="housingsystems0" class="form-select input-widget" data-searchable="true" tabindex="32" th:field="*{info.ktbl.housingSystems}">
 										  <option value="">Please select...</option>
-										  <option th:each="v : ${@researchdataData.getHousingSystems()}" th:value="${v.key}" th:text="${v.value}"></option>
+										  <option th:each="v : ${researchdataData.housingSystems}" th:value="${v.key}" th:text="${v.value}"></option>
 									</select>
 								</div>
 				 			</div>
@@ -170,20 +170,20 @@
 				 			<!-- Additional Housing Systems -->
   							<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label for="additional-housing-systems0" class="form-control-label">Additional housing systems</label>
-	  								<button type="button" class="inline-help" name="additional-housing-systems0">
+	        						<label for="additionalhousingsystems0" class="form-control-label">Additional housing systems</label>
+	  								<button type="button" class="inline-help" name="additionalhousingsystems0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="additional-housing-systems0" style="display: none;">
-										<button name="additional-housing-systems0" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="additionalhousingsystems0" style="display: none;">
+										<button name="additionalhousingsystems0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
-								<div class="select-treatmentdetail">
-									<select class="form-select" id="additional-housing-systems0" multiple tabindex="33" th:field="*{info.ktbl.additionalHousingSystems}">
+								<div class="select-additionalhousingsystems">
+									<select id="additionalhousingsystems0" class="form-select" multiple data-searchable="true" tabindex="33" th:field="*{info.ktbl.additionalHousingSystems}">
 										  <option value="">Please select...</option>
-										  <option th:each="e : ${@researchdataData.getAdditionalHousingSystems()}" th:value="${e.key}" th:text="${e.value}"></option>
+										  <option th:each="e : ${researchdataData.additionalHousingSystems}" th:value="${e.key}" th:text="${e.value}"></option>
 									</select>
 								</div>
 	   				 		</div>
@@ -193,20 +193,20 @@
 				 			<!-- Emission Measurement Techniques -->
   							<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label for="emission-measurement-techniques0" class="form-control-label">Emission measurement techniques</label>
-	  								<button type="button" class="inline-help" name="emission-measurement-techniques0">
+	        						<label for="emissionmeasurementtechniques0" class="form-control-label">Emission measurement techniques</label>
+	  								<button type="button" class="inline-help" name="emissionmeasurementtechniques0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="emission-measurement-techniques0" style="display: none;">
-										<button name="emission-measurement-techniques0" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="emissionmeasurementtechniques0" style="display: none;">
+										<button name="emissionmeasurementtechniques0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
-								<div class="select-emissionprobe">
-									<select class="form-select" id="emission-measurement-techniques0" multiple tabindex="34" th:field="*{info.ktbl.emissionMeasurementTechniques}">
+								<div class="select-emissionmeasurementtechniques">
+									<select id="emissionmeasurementtechniques0" class="form-select" multiple data-searchable="true" tabindex="34" th:field="*{info.ktbl.emissionMeasurementTechniques}">
 										  <option value="">Please select...</option>
-										  <option th:each="e : ${@researchdataData.getEmissionMeasurementTechniques()}" th:value="${e.key}" th:text="${e.value}"></option>
+										  <option th:each="e : ${researchdataData.emissionMeasurementTechniques}" th:value="${e.key}" th:text="${e.value}"></option>
 									</select>
 								</div>
 	   				 		</div>
@@ -227,9 +227,9 @@
 									</div>
 								</div>
 								<div class="select-emissions">
-									<select class="form-select" id="emissions0" multiple tabindex="35" th:field="*{info.ktbl.emissions}">
+									<select id="emissions0" class="form-select" multiple data-searchable="true" tabindex="35" th:field="*{info.ktbl.emissions}">
 										  <option value="">Please select...</option>
-										  <option th:each="e : ${@researchdataData.getEmissions()}" th:value="${e.key}" th:text="${e.value}"></option>
+										  <option th:each="e : ${researchdataData.emissions}" th:value="${e.key}" th:text="${e.value}"></option>
 									</select>
 								</div>
 	   				 		</div>
@@ -239,20 +239,20 @@
 				 			<!-- Emission Reduction Methods -->
 							<div class="first-child-of-multi-field">
 	        					<div>
-	        						<label for="emission-reduction-methods0" class="form-control-label">Emission reduction methods</label>
-	  								<button type="button" class="inline-help" name="emission-reduction-methods0">
+	        						<label for="emissionreductionmethods0" class="form-control-label">Emission reduction methods</label>
+	  								<button type="button" class="inline-help" name="emissionreductionmethods0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="emission-reduction-methods0" style="display: none;">
-										<button name="emission-reduction-methods0" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="emissionreductionmethods0" style="display: none;">
+										<button name="emissionreductionmethods0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
 								<div class="select-emissionreductionmethods">
-									<select class="form-select" id="emission-reduction-methods0" multiple tabindex="36" th:field="*{info.ktbl.emissionReductionMethods}">
+									<select id="emissionreductionmethods0" class="form-select" multiple data-searchable="true"  tabindex="36" th:field="*{info.ktbl.emissionReductionMethods}">
 										  <option value="">Please select...</option>
-										  <option th:each="e : ${@researchdataData.getEmissionReductionMethods()}" th:value="${e.key}" th:text="${e.value}"></option>
+										  <option th:each="e : ${researchdataData.emissionReductionMethods}" th:value="${e.key}" th:text="${e.value}"></option>
 									</select>
 								</div>
 	   				 		</div>

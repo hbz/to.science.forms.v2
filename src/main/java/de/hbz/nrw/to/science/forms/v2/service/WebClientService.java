@@ -1,6 +1,9 @@
 package de.hbz.nrw.to.science.forms.v2.service;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -99,13 +102,13 @@ public class WebClientService {
 	}
 	
 	public void uploadMetadata(Object metadataObj, String resourcePid, String metadataType) {
-	    try {
-	        File file = new File(props.getTmpFile());
-	        mapper.writeValue(file, metadataObj);
+		Path tmpFile = null;
+		try {
+	    	tmpFile = Files.createTempFile("forms", ".json");
+	        mapper.writeValue(tmpFile.toFile(), metadataObj);
 
 	        MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-	        bodyBuilder.part("data", new FileSystemResource(file));
-	        bodyBuilder.part("type", MediaType.APPLICATION_JSON);
+	        bodyBuilder.part("data", new FileSystemResource(tmpFile)).contentType(MediaType.APPLICATION_JSON);
 	        
 	        webClient.put()
 	                 .uri(props.getFrlApiUrl() + resourcePid + "/uploadUpdateMetadata")
@@ -114,9 +117,20 @@ public class WebClientService {
 	                 .retrieve()
 	                 .toBodilessEntity()
 	                 .block();
-	    } catch (Exception e) {
-	        log.error("Uploading Metadata of " + metadataType + " failed", e);
-	    }
+	        
+			} catch (IOException e) {
+	            log.error("Temporary file handling failed for metadata type: {}", metadataType, e);
+	        } catch (Exception e) {
+	            log.error("Uploading metadata of type {} for resource {} failed", metadataType, resourcePid, e);
+	        } finally {
+	            if (tmpFile != null) {
+	                try {
+	                    Files.deleteIfExists(tmpFile);
+	                } catch (IOException e) {
+	                    log.warn("Failed to delete temporary file: {}", tmpFile, e);
+	                }
+	            }
+	        }
 	}
 
 	
@@ -273,4 +287,20 @@ public class WebClientService {
 		return prefLabelValue != null ? prefLabelValue : "No Label found";
 	}
 	
+	/**
+	 *  GEONAMES
+	 */
+	
+	public String getLocationById(String id) {
+		JsonNode node = webClient
+							.get()
+							.uri(urlTo.getGeoNames(), uriBuilder -> uriBuilder
+									.queryParam("id", id)
+								 	.build())
+							.retrieve()
+							.bodyToMono(JsonNode.class)
+				            .block();
+		JsonNode name = node.at("/asciiName");
+		return name != null ? name.asText() : "Name does not exist";
+	}
 }

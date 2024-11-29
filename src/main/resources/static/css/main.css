@@ -82,15 +82,7 @@ ol {
 ul {
 	list-style-type: none;
 }
-/*
-select:not(.sub-multi-fields select){
-	max-width:300px;	
-}
 
-.sub-multi-fields select {
-	max-width:350px;
-}
-*/
 #ktbl-section select, #medium, #license, #language, #dataOrigin, #ddc {
 	max-width:none;	
 }
@@ -105,8 +97,8 @@ select:not(.sub-multi-fields select){
 
 .search {
     max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    /*overflow-y: auto;
+    overflow-x: hidden;*/
 }
 
 /* Success modal styles */

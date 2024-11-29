@@ -27,5 +27,6 @@ public class URLProperties {
 	private String vagrant;
 	private String findLabels;
 	private String geoSearch;
+	private String geoNames;
 	
 }

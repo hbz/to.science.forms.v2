@@ -192,12 +192,18 @@ function fixIds(elem, cntr) {
 }
 
 function enableMultiselects() {
-    const multiselectIds = ['role-creator', 'role-contributor', 'role-editor', 'role-other', 'additional-housing-systems', 'emission-measurement-techniques', 'emissions', 'emission-reduction-methods'];
+    const multiselectIds = [
+		'role-creator', 'role-contributor', 'role-editor', 'role-other', 
+		'additionalhousingsystems', 'emissionmeasurementtechniques', 
+		'emissions', 'emissionreductionmethods', 'projecttitle', 'testdesign',
+		'livestockcategory', 'ventilationsystem', 'livestockproduction',
+		'housingsystems', 'ddc', 'collectionOne', 'dataOrigin', 'language', 
+		'rdftype', 'publicationStatus', 'reviewStatus', 'medium', 'license'
+	];
     
     multiselectIds.forEach(ids => {
         let index = 0;
  
-        // Überprüfen, ob das erste Element existiert
         let element = document.getElementById(`${ids}0`);
         if (element) {
             new UseBootstrapSelect(element);
@@ -205,12 +211,16 @@ function enableMultiselects() {
             return;
         }
 
-        // Schleife durch weitere Indizes bis kein Element mehr gefunden wird
         while ((element = document.getElementById(`${ids}${index + 1}`))) {
             index++;
             new UseBootstrapSelect(element);
         }
     });
+}
+
+function resetGeoMap() {
+	$('#recordingLocation').siblings('#geoSearchDiv').find('#mapid').remove();
+	$('#recordingLocation').siblings('#geoSearchDiv').find('#geoSearchQuery').val("");
 }
 
 function addActionsToRemoveAndAddButtons() {
@@ -231,39 +241,43 @@ function addActionsToRemoveAndAddButtons() {
 			newField.insertAfter($currentEntry).find('.search.input-widget').css('display','inline');
 			newField.insertAfter($currentEntry).find('.search select').css('display','inline');
 			newField.insertAfter($currentEntry).find('.roles-container').css('display','none');
-
-			newField.insertAfter($currentEntry).find('.use-bootstrap-select-wrapper').remove();
-			$(newField).find(".input-field-heading").html("");
-			
-			if (newField.insertAfter($currentEntry).find('.role-field select').attr('id') == 'role-creator0') {
-				newField.insertAfter($currentEntry).find('.role-field select').attr('id','role-creator' + i);
-				new UseBootstrapSelect(document.getElementById('role-creator' + i));
-			}
-			
-			if (newField.insertAfter($currentEntry).find('.role-field select').attr('id') == 'role-contributor0') {
-				newField.insertAfter($currentEntry).find('.role-field select').attr('id','role-contributor' + i);
-				new UseBootstrapSelect(document.getElementById('role-contributor' + i));
-			}
-			
-			if (newField.insertAfter($currentEntry).find('.role-field select').attr('id') == 'role-editor0') {
-				newField.insertAfter($currentEntry).find('.role-field select').attr('id','role-editor' + i);
-				new UseBootstrapSelect(document.getElementById('role-editor' + i));
-			}
-			
-			if (newField.insertAfter($currentEntry).find('.role-field select').attr('id') == 'role-other0') {
-				newField.insertAfter($currentEntry).find('.role-field select').attr('id','role-other' + i);
-				new UseBootstrapSelect(document.getElementById('role-other' + i));
-			}
-			
 			newField.insertAfter($currentEntry).find('.custom-combobox').css('display','inline');
 			newField.insertAfter($currentEntry).find('.help-text').css('display','none');
 			newField.insertAfter($currentEntry).find('.inline-help').css('display','none');
-			resetIds();
 			
+			newField.insertAfter($currentEntry).find('.use-bootstrap-select-wrapper').remove();
+			$(newField).find(".input-field-heading").html("");
 			$(newField).find('.sub-multi-fields li:not(:first-child)').remove();
+
+			const idMappings = [
+			    { selector: '.role-field select', idPrefix: 'role-creator' },
+			    { selector: '.role-field select', idPrefix: 'role-contributor' },
+			    { selector: '.role-field select', idPrefix: 'role-editor' },
+			    { selector: '.role-field select', idPrefix: 'role-other' },
+			    { selector: '.select-ddc select', idPrefix: 'ddc' },
+			    { selector: '.leibniz-open-search select', idPrefix: 'collectionOne' },
+			    { selector: '.select-dataOrigin select', idPrefix: 'dataOrigin' },
+			    { selector: '.select-rdftype select', idPrefix: 'rdftype' },
+			    { selector: '.select-medium select', idPrefix: 'medium' },
+			];
+
+			idMappings.forEach(mapping => {
+			    const element = newField.insertAfter($currentEntry).find(mapping.selector);
+			    const currentId = element.attr('id');
+			
+			    if (currentId === `${mapping.idPrefix}0`) {
+			        const newId = `${mapping.idPrefix}${i}`;
+			        element.attr('id', newId);
+			        new UseBootstrapSelect(document.getElementById(newId));
+			    }
+			});
+
+			resetIds();
+			resetGeoMap();
 			enableAutocompletionEndpoints();
 			enableSelect2();
 			emitResize();
+			
 			i++;
 		});
 		$('.multi-field .remove-field', $wrapper).click(function() {
@@ -271,6 +285,7 @@ function addActionsToRemoveAndAddButtons() {
 				$(this).parents('.multi-field').remove();
 				$(this).parents('.multi-field .roles-container').css('display','none');
 				resetIds();
+				resetGeoMap();
 				emitResize();
 			}
 			else{
@@ -492,7 +507,6 @@ function addGeonamesLookup(){
 	$('.input-widget.geonames-lookup').css('display','none');
 	var findButton=$('#geofind-button');
 	$('#geoSearchQuery').bind('keypress keydown keyup', function(e){
-		console.log('Key: ' + e.keyCode);
 	      if(e.keyCode == 13) { e.preventDefault(); findButton.click();}
 	});
 	findButton.on("click",function(){
@@ -504,12 +518,9 @@ function addGeonamesLookup(){
 			crossDomain : true,
 			success : function(data, textStatus, jqXHR) {
 				displayMap(data.geonames);
-				console.log(data);
-				console.log('Success');
 			},
 			error : function(data, textStatus, jqXHR) {
 				console.log(data);
-				console.log('Failed');
 			}
 		}).done(function (){
 			
@@ -531,9 +542,9 @@ function displayMap(geonamesArr){
 			mymap=initMap(lat,lng);
 		}
 		L.marker([lat, lng]).addTo(mymap).on('click',function(e){
-			$('input.geonames-lookup.focus').val("http://www.geonames.org/"+value.geonameId);
-			$('input.geonames-lookup.focus').siblings(".input-field-heading").html(
-					"<b>" + value.name + "  </b><a href=\"http://www.geonames.org/"+value.geonameId+"\" target=\"_blank\"><span class=\"octicon octicon-link-external\"></span></a>");
+			$('input.geonames-lookup.focus:last').val("http://www.geonames.org/"+value.geonameId);
+			$('input.geonames-lookup.focus:last').siblings(".input-field-heading").html(
+					"<b>" + value.name + "  </b><a href=\"http://www.geonames.org/"+value.geonameId+"\" target=\"_blank\"><span class=\"fa fa-external-link-alt\" style=\"color:#375b9a\"></span></a>");
 		}).on('mouseover',function(e){
 			this.openPopup();
 		}).on('mouseout', function (e) {
@@ -552,14 +563,14 @@ function displayMap(geonamesArr){
 function initMap(lat,lng){
 	L.map('mapid').remove();
 	var mymap = L.map('mapid').setView([lat, lng], 13);
-	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 	    maxZoom: 18
 	}).addTo(mymap);
 	return mymap;
 }
 
-function addGeonamesReverseLookup(){	
+/*function addGeonamesReverseLookup(){	
 	$('#recordingCoordinates').after('<div id="geoReverseSearchDiv"><div class="input-group"><input class="form-control" id="geoReverseSearchQuery"></input><button class="btn btn-primary" type="button" id="georevfind-button">Open Map</button></div></div>');
 	$('.input-widget.geonames-reverse-lookup').css('display','none');
 	var findButton=$('#georevfind-button');
@@ -590,7 +601,7 @@ function displayReverseMap(lat,lng){
 			var link ="http://www.openstreetmap.org/?mlat="+position.lat+"&mlon="+position.lng;
 			$('input.geonames-reverse-lookup.focus').val(link);
 			$('input.geonames-reverse-lookup.focus').siblings(".input-field-heading").html(
-					"<b>" + position.lat+","+position.lng+ "  </b><a href=\""+link+"\" target=\"_blank\"><span class=\"octicon octicon-link-external\"></span></a>");
+					"<b>" + position.lat+","+position.lng+ "  </b><a href=\""+link+"\" target=\"_blank\"><span class=\"fa fa-external-link-alt\" style=\"color:#375b9a\"></span></a>");
 		});
 	marker.on('dragend', function(event){
             var marker = event.target;
@@ -616,7 +627,7 @@ function initRevMap(lat,lng){
 	    maxZoom: 18
 	}).addTo(mymap);
 	return mymap;
-}
+}*/
 
 function addActionToCancelButton(){
 	if (top != self){

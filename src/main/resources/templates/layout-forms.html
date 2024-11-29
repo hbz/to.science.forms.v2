@@ -16,7 +16,6 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-datepicker/css/bootstrap-datepicker.min.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-select/css/bootstrap-select.min.css}">
     
     <!-- JQuery CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" />
@@ -27,7 +26,6 @@
     
     <!-- Custom Styles CSS -->
     <link rel="stylesheet" href="../static/css/main.css" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" href="../static/css/leaflet.css" th:href="@{/css/leaflet.css}" />
     <link rel="stylesheet" href="../static/css/leaflet.css" th:href="@{/css/leaflet.css}" />
     
     <!-- Popover/Tooltip CSS -->
@@ -95,29 +93,34 @@
 	<script type="text/javascript" th:src="@{/js/jquery.webui-popover.js}"></script>
 	<script type="text/javascript" th:src="@{/js/use-bootstrap-select.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/main.js}"></script>
-	<script type="text/javascript">	
-		if(itIsIE11()){
-			$("body").attr("style","position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;");
-		}
-		enablePopover();
-		enableAutocompletionEndpoints();
-		addActionsToRemoveAndAddButtons();
-		addActionsToRemoveAndAddButtonsSubDropdown();
-		window.addEventListener("message", handleMessage, false);
-		enableDatepicker();
-		initializeConnectionToParent();
-		addGeonamesLookup();
-		addGeonamesReverseLookup();	
-		enableMultiselects();
-		addActionToCancelButton();
-		$(document).on("keypress", ":input:not(textarea)", function(event) {
-		    return event.keyCode != 13;
+	<!-- script type="text/javascript" th:src="@{/js/ktblEnablingOptions.js}"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+			enableKtblOptions();	
 		});
-			
+	/script -->
+	<script type="text/javascript">
+		$(function() {
+			if(itIsIE11()){
+				$("body").attr("style","position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;");
+			}
+			enablePopover();
+			enableAutocompletionEndpoints();
+			addActionsToRemoveAndAddButtons();
+			window.addEventListener("message", handleMessage, false);
+			enableDatepicker();
+			initializeConnectionToParent();
+			addGeonamesLookup();
+			//addGeonamesReverseLookup();
+			enableMultiselects();
+			addActionToCancelButton();
+			$(document).on("keypress", ":input:not(textarea)", function(event) {
+			    return event.keyCode != 13;
+			});
+		});
 		function itIsIE11(){
 			return !!window.MSInputMethodContext && !!document.documentMode;
 		}
-
 	</script>
   </body>
 </html>

@@ -30,20 +30,20 @@
 		      						<li class="multi-field">
 		      							<div class="first-child-of-multi-field">
 				        					<div>
-				        						<label for="select-input">Publikationstyp*</label>
-				  								<button type="button" class="inline-help" name="rdfType">
+				        						<label for="rdftype0">Publikationstyp*</label>
+				  								<button type="button" class="inline-help" name="rdftype0">
 													<span class="fas fa-question-circle"></span>
 												</button>
-												<!-- div class="help-text" name="rdfType" style="display: none;">
-													<button name="rdfType" type="button" class="close-help" style="float: right">
+												<!-- div class="help-text" name="rdftype0" style="display: none;">
+													<button name="rdftype0" type="button" class="close-help" style="float: right">
 														<span class="fas fa-times-circle"></span>
 													</button>
 												</div-->
 											</div>
-											<div class="select-pg">
-												<select id="rdfType" tabindex="1" class="form-select input-widget custom-siz" th:field="*{rdftype[0].id}">
+											<div class="select-rdftype">
+												<select id="rdftype0" tabindex="1" class="form-select input-widget" th:field="*{rdftype[0].id}">
 													  <option value="">Bitte wählen...</option>
-													  <option th:each="type : ${@articleData.getRdftype()}" th:value="${type.key}" th:text="${type.value}"></option>
+													  <option th:each="type : ${articleData.rdftype}" th:value="${type.key}" th:text="${type.value}"></option>
 												</select>
 											</div>
 											<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('rdftype[0]')}" th:errors="*{rdftype[0]}"></div>
@@ -66,20 +66,20 @@
 					 		<!-- Publikationsstatus -->
 		      				<div class="first-child-of-multi-field">
 		       					<div>
-		       						<label for="select-input">Publikationsstatus*</label>
-		 								<button type="button" class="inline-help" name="publicationStatus">
+		       						<label for="publicationStatus0">Publikationsstatus*</label>
+		 								<button type="button" class="inline-help" name="publicationStatus0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="publicationStatus" style="display: none;">
-										<button name="publicationStatus" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="publicationStatus0" style="display: none;">
+										<button name="publicationStatus0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
 								<div class="select-pg">
-									<select id="select-input" tabindex="2" class="form-select input-widget custom-siz" th:field="*{publicationStatus[0].id}">
+									<select id="publicationStatus0" tabindex="2" class="form-select input-widget" th:field="*{publicationStatus[0].id}">
 										  <option value="">Bitte wählen...</option>
-										  <option th:each="state : ${@articleData.getPublicationStatus()}" th:value="${state.key}" th:text="${state.value}"></option>
+										  <option th:each="state : ${articleData.publicationStatus}" th:value="${state.key}" th:text="${state.value}"></option>
 									</select>
 								</div>
 								<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('publicationStatus[0]')}" th:errors="*{publicationStatus[0]}"></div>
@@ -90,20 +90,20 @@
 					 		<!-- Begutachtungsstatus -->
 		      				<div class="first-child-of-multi-field">
 		       					<div>
-		       						<label for="select-input">Begutachtungsstatus</label>
-		 								<button type="button" class="inline-help" name="reviewStatus">
+		       						<label for="reviewStatus0">Begutachtungsstatus</label>
+		 								<button type="button" class="inline-help" name="reviewStatus0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="reviewStatus" style="display: none;">
-										<button name="reviewStatus" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="reviewStatus0" style="display: none;">
+										<button name="reviewStatus0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
 								<div class="select-pg">
-									<select id="select-input" tabindex="3" class="form-select input-widget custom-siz" th:field="*{reviewStatus[0].id}">
-										  <option value="">Bitte wählen Sie...</option>
-										  <option th:each="review : ${@articleData.getReviewStatus()}" th:value="${review.key}" th:text="${review.value}"></option>
+									<select id="reviewStatus0" tabindex="3" class="form-select input-widget" th:field="*{reviewStatus[0].id}">
+										  <option value="">Bitte wählen...</option>
+										  <option th:each="review : ${articleData.reviewStatus}" th:value="${review.key}" th:text="${review.value}"></option>
 									</select>
 								</div>
 					 		</div>
@@ -202,7 +202,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="display:none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-												  			<option th:each="art : ${@articleData.getPersonLookupEndpoints()}" th:value="${art.key}" th:text="${art.value}"></option>
+												  			<option th:each="art : ${articleData.personLookupEndpoints}" th:value="${art.key}" th:text="${art.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -222,9 +222,9 @@
 															</div>
 														</div>
 														<div>
-															<select th:id="'role-creator' + ${i.index}" multiple class="form-select" th:field="*{creator[__${i.index}__].role}">
+															<select th:id="'role-creator' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{creator[__${i.index}__].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -271,7 +271,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-												  			<option th:each="art : ${@articleData.getPersonLookupEndpoints()}" th:value="${art.key}" th:text="${art.value}"></option>
+												  			<option th:each="art : ${articleData.personLookupEndpoints}" th:value="${art.key}" th:text="${art.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -290,9 +290,9 @@
 															</div>
 														</div>
 														<div>
-															<select id="role-creator0" multiple class="form-select" th:field="*{creator[0].role}">
+															<select id="role-creator0" data-searchable="true" multiple class="form-select" th:field="*{creator[0].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -300,9 +300,7 @@
 												<!-- MULTISELECT AREA END -->
 												
 											</div>
-											
-											
-												
+	
 											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
 			      	
 			      							<div class="buttonBox">
@@ -355,7 +353,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-														  	<option th:each="con : ${@articleData.getPersonLookupEndpoints()}" th:value="${con.key}" th:text="${con.value}"></option>
+														  	<option th:each="con : ${articleData.personLookupEndpoints}" th:value="${con.key}" th:text="${con.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -375,9 +373,9 @@
 															</div>
 														</div>
 														<div>
-															<select th:id="'role-contributor' + ${i.index}" multiple class="form-select" th:field="*{contributor[__${i.index}__].role}">
+															<select th:id="'role-contributor' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{contributor[__${i.index}__].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -421,7 +419,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-														  	<option th:each="con : ${@articleData.getPersonLookupEndpoints()}" th:value="${con.key}" th:text="${con.value}"></option>
+														  	<option th:each="con : ${articleData.personLookupEndpoints}" th:value="${con.key}" th:text="${con.value}"></option>
 														</select>
 													</div>
 												</div>	
@@ -441,9 +439,9 @@
 															</div>
 														</div>
 														<div>
-															<select id="role-contributor0" multiple class="form-select" th:field="*{contributor[0].role}">
+															<select id="role-contributor0" data-searchable="true" multiple class="form-select" th:field="*{contributor[0].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -502,7 +500,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-														  	<option th:each="edit : ${@articleData.getPersonLookupEndpoints()}" th:value="${edit.key}" th:text="${edit.value}">Lokal</option>
+														  	<option th:each="edit : ${articleData.personLookupEndpoints}" th:value="${edit.key}" th:text="${edit.value}">Lokal</option>
 														</select>
 													</div>
 												</div>
@@ -521,9 +519,9 @@
 															</div>
 														</div>
 														<div>
-															<select th:id="'role-editor' + ${i.index}" multiple class="form-select" th:field="*{editor[__${i.index}__].role}">
+															<select th:id="'role-editor' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{editor[__${i.index}__].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -568,7 +566,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-														  	<option th:each="edit : ${@articleData.getPersonLookupEndpoints()}" th:value="${edit.key}" th:text="${edit.value}">Lokal</option>
+														  	<option th:each="edit : ${articleData.personLookupEndpoints}" th:value="${edit.key}" th:text="${edit.value}">Lokal</option>
 														</select>
 													</div>
 												</div>
@@ -588,9 +586,9 @@
 															</div>
 														</div>
 														<div>
-															<select id="role-editor0" multiple class="form-select" th:field="*{editor[0].role}">
+															<select id="role-editor0" class="form-select" data-searchable="true" multiple th:field="*{editor[0].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -648,7 +646,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-														  	<option th:each="oth : ${@articleData.getPersonLookupEndpoints()}" th:value="${oth.key}" th:text="${oth.value}">Lokal</option>
+														  	<option th:each="oth : ${articleData.personLookupEndpoints}" th:value="${oth.key}" th:text="${oth.value}">Lokal</option>
 														</select>
 													</div>
 												</div>
@@ -668,9 +666,9 @@
 															</div>
 														</div>
 														<div>
-															<select th:id="'role-other' + ${i.index}" multiple class="form-select" th:field="*{other[__${i.index}__].role}">
+															<select th:id="'role-other' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{other[__${i.index}__].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -714,7 +712,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-														  	<option th:each="oth : ${@articleData.getPersonLookupEndpoints()}" th:value="${oth.key}" th:text="${oth.value}">Lokal</option>
+														  	<option th:each="oth : ${articleData.personLookupEndpoints}" th:value="${oth.key}" th:text="${oth.value}">Lokal</option>
 														</select>
 													</div>
 												</div>
@@ -734,9 +732,9 @@
 															</div>
 														</div>
 														<div>
-															<select id="role-other0" multiple class="form-select" th:field="*{other[0].role}">
+															<select id="role-other0" class="form-select" data-searchable="true" multiple th:field="*{other[0].role}">
 																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${@articleData.getRole()}" th:value="${rol.key}" th:text="${rol.value}"></option>
+																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
 															</select>
 														</div>
 													</div>	
@@ -801,7 +799,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="display: none;max-width:fit-content;">
 															<option value="">Bitte wählen...</option>
-															<option th:each="title : ${@articleData.getTitleLookupEndpoints()}" th:value="${title.key}" th:text="${title.value}"></option>
+															<option th:each="title : ${articleData.titleLookupEndpoints}" th:value="${title.key}" th:text="${title.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -842,7 +840,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-															<option th:each="title : ${@articleData.getTitleLookupEndpoints()}" th:value="${title.key}" th:text="${title.value}"></option>
+															<option th:each="title : ${articleData.titleLookupEndpoints}" th:value="${title.key}" th:text="${title.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -983,7 +981,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="display: none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-												  			<option th:each="inst : ${@articleData.getInstitutionLookupEndpoints()}" th:value="${inst.key}" th:text="${inst.value}"></option>
+												  			<option th:each="inst : ${articleData.institutionLookupEndpoints}" th:value="${inst.key}" th:text="${inst.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -1026,7 +1024,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-												  			<option th:each="inst : ${@articleData.getInstitutionLookupEndpoints()}" th:value="${inst.key}" th:text="${inst.value}"></option>
+												  			<option th:each="inst : ${articleData.institutionLookupEndpoints}" th:value="${inst.key}" th:text="${inst.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -1083,7 +1081,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="display: none;max-width:fit-content;">
 															  <option value="/forms/localAutocomplete">Lokal</option>
-															  <option th:each="col : ${@articleData.getCollectionTwoEndpoints()}" th:value="${col.key}" th:text="${col.value}"></option>
+															  <option th:each="col : ${articleData.collectionTwoEndpoints}" th:value="${col.key}" th:text="${col.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -1126,7 +1124,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="max-width:fit-content;">
 															  <option value="/forms/localAutocomplete">Lokal</option>
-															  <option th:each="col : ${@articleData.getCollectionTwoEndpoints()}" th:value="${col.key}" th:text="${col.value}"></option>
+															  <option th:each="col : ${articleData.collectionTwoEndpoints}" th:value="${col.key}" th:text="${col.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -1160,20 +1158,20 @@
 			      						<li class="multi-field">
 			      							<div class="first-child-of-multi-field">
 					        					<div>
-					        						<label for="collectionOne">LeibnizOpen</label>
-					  								<button type="button" class="inline-help" name="collectionOne">
+					        						<label for="collectionOne0">LeibnizOpen</label>
+					  								<button type="button" class="inline-help" name="collectionOne0">
 														<span class="fas fa-question-circle"></span>
 													</button>
-													<div class="help-text" name="collectionOne" style="display: none;">
-														<button name="collectionOne" type="button" class="close-help" style="float: right">
+													<div class="help-text" name="collectionOne0" style="display: none;">
+														<button name="collectionOne0" type="button" class="close-help" style="float: right">
 															<span class="fas fa-times-circle"></span>
 														</button>
 													</div>
 												</div>
 												<div class="leibniz-open-search">
-													<select id="collectionOne" tabindex="16" class="form-select input-widget custom-siz" th:field="*{collectionOne[__${i.index}__].id}">
+													<select id="collectionOne0" tabindex="16" class="form-select input-widget" data-searchable="true" th:field="*{collectionOne[__${i.index}__].id}">
 														  <option value="">Bitte wählen...</option>
-														  <option th:each="coll : ${@articleData.getCollectionOne()}" th:value="${coll.key}" th:text="${coll.value}"></option>
+														  <option th:each="coll : ${articleData.collectionOne}" th:value="${coll.key}" th:text="${coll.value}"></option>
 													</select>
 												</div>
 					   				 		</div>
@@ -1196,20 +1194,20 @@
 			      						<li class="multi-field">
 			      							<div class="first-child-of-multi-field">
 					        					<div>
-					        						<label for="select-input">LeibnizOpen</label>
-					  								<button type="button" class="inline-help" name="collectionOne">
+					        						<label for="collectionOne0">LeibnizOpen</label>
+					  								<button type="button" class="inline-help" name="collectionOne0">
 														<span class="fas fa-question-circle"></span>
 													</button>
-													<div class="help-text" name="collectionOne" style="display: none;">
-														<button name="collectionOne" type="button" class="close-help" style="float: right">
+													<div class="help-text" name="collectionOne0" style="display: none;">
+														<button name="collectionOne0" type="button" class="close-help" style="float: right">
 															<span class="fas fa-times-circle"></span>
 														</button>
 													</div>
 												</div>
 												<div class="leibniz-open-search">
-													<select id="select-input" tabindex="16" class="form-select input-widget" th:field="*{collectionOne[0].id}">
+													<select id="collectionOne0" tabindex="16" class="form-select input-widget" data-searchable="true" th:field="*{collectionOne[0].id}">
 														  <option value="">Bitte wählen...</option>
-														  <option th:each="coll : ${@articleData.getCollectionOne()}" th:value="${coll.key}" th:text="${coll.value}"></option>
+														  <option th:each="coll : ${articleData.collectionOne}" th:value="${coll.key}" th:text="${coll.value}"></option>
 													</select>
 												</div>
 					   				 		</div>
@@ -1262,12 +1260,6 @@
 								        </span>
 								    </div>
 								</div>
-								<!-- div class="datepicker-year">
-									<select name="yearOfCopyright" id="select-input" tabindex="16" class="form-select input-widget" th:field="*{copyrightYear[0]}">
-										<option value="">Bitte wählen...</option>
-										<option th:each="year : ${@articleData.getCopyrightYear()}" th:value="${year.key}" th:text="${year.value}"></option>
-									</select>
-								</div -->
 					 		</div>
 					 		<br />
 					 		<!-- Copyright Jahr END -->
@@ -1368,19 +1360,19 @@
 		      				<div class="first-child-of-multi-field">
 		       					<div>
 		       						<label for="select-input">Sprache der Publikation *</label>
-		 								<button type="button" class="inline-help" name="language">
+		 								<button type="button" class="inline-help" name="language0">
 										<span class="fas fa-question-circle"></span>
 									</button>
-									<div class="help-text" name="language" style="display: none;">
-										<button name="language" type="button" class="close-help" style="float: right">
+									<div class="help-text" name="language0" style="display: none;">
+										<button name="language0" type="button" class="close-help" style="float: right">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
 								</div>
 								<div class="select-language">
-									<select id="select-input" tabindex="21" class="form-select input-widget custom-siz" th:field="*{language[0].id}">
+									<select id="language0" tabindex="21" class="form-select input-widget" data-searchable="true" th:field="*{language[0].id}">
 										  <option value="">Bitte wählen...</option>
-										  <option th:each="lang : ${@articleData.getLanguage()}" th:value="${lang.key}" th:text="${lang.value}"></option>
+										  <option th:each="lang : ${articleData.language}" th:value="${lang.key}" th:text="${lang.value}"></option>
 									</select>
 								</div>
 								<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('language[0]')}" th:errors="*{language[0]}"></div>
@@ -1397,20 +1389,20 @@
 			      						<li class="multi-field">
 			      							<div class="first-child-of-multi-field">
 					        					<div>
-					        						<label for="select-input">Fächerklassifikation (DDC)*</label>
-					  								<button type="button" class="inline-help" name="ddc">
+					        						<label for="ddc0">Fächerklassifikation (DDC)*</label>
+					  								<button type="button" class="inline-help" name="ddc0">
 														<span class="fas fa-question-circle"></span>
 													</button>
-													<div class="help-text" name="ddc" style="display: none;">
-														<button name="ddc" type="button" class="close-help" style="float: right">
+													<div class="help-text" name="ddc0" style="display: none;">
+														<button name="ddc0" type="button" class="close-help" style="float: right">
 															<span class="fas fa-times-circle"></span>
 														</button>
 													</div>
 												</div>
 												<div class="select-ddc">
-													<select id="select-input" tabindex="12" class="form-select" th:field="*{ddc[__${i.index}__].id}">
+													<select id="ddc0" tabindex="12" class="form-select" data-searchable="true" th:field="*{ddc[__${i.index}__].id}">
 														  <option value="">Bitte wählen...</option>
-														  <option th:each="d : ${@articleData.getSortedDdc()}" th:value="${d.key}" th:text="${d.value}"></option>
+														  <option th:each="d : ${articleData.ddc}" th:value="${d.key}" th:text="${d.value}"></option>
 													</select>
 												</div>
 												<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('ddc[0]')}" th:errors="*{ddc[0]}"></div>
@@ -1434,20 +1426,20 @@
 			      						<li class="multi-field">
 			      							<div class="first-child-of-multi-field">
 					        					<div>
-					        						<label for="select-input">Fächerklassifikation (DDC)*</label>
-					  								<button type="button" class="inline-help" name="ddc">
+					        						<label for="ddc0">Fächerklassifikation (DDC)*</label>
+					  								<button type="button" class="inline-help" name="ddc0">
 														<span class="fas fa-question-circle"></span>
 													</button>
-													<div class="help-text" name="ddc" style="display: none;">
-														<button name="ddc" type="button" class="close-help" style="float: right">
+													<div class="help-text" name="ddc0" style="display: none;">
+														<button name="ddc0" type="button" class="close-help" style="float: right">
 															<span class="fas fa-times-circle"></span>
 														</button>
 													</div>
 												</div>
 												<div class="select-ddc">
-													<select id="select-input" tabindex="12" class="form-select custom-siz" th:field="*{ddc[0].id}">
+													<select id="ddc0" tabindex="12" class="form-select" data-searchable="true" th:field="*{ddc[0].id}">
 														  <option value="">Bitte wählen...</option>
-														  <option th:each="d : ${@articleData.getSortedDdc()}" th:value="${d.key}" th:text="${d.value}"></option>
+														  <option th:each="d : ${articleData.ddc}" th:value="${d.key}" th:text="${d.value}"></option>
 													</select>
 												</div>
 												<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('ddc[0]')}" th:errors="*{ddc[0]}"></div>
@@ -1503,7 +1495,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="display: none;max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-															<option th:each="sub : ${@articleData.getSubjectLookupEndpoints()}" th:value="${sub.key}" th:text="${sub.value}"></option>
+															<option th:each="sub : ${articleData.subjectLookupEndpoints}" th:value="${sub.key}" th:text="${sub.value}"></option>
 														</select>
 													</div>
 					   				 			</div>
@@ -1545,7 +1537,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select endpointselect" style="max-width:fit-content;">
 															<option value="/forms/localAutocomplete">Lokal</option>
-															<option th:each="sub : ${@articleData.getSubjectLookupEndpoints()}" th:value="${sub.key}" th:text="${sub.value}"></option>
+															<option th:each="sub : ${articleData.subjectLookupEndpoints}" th:value="${sub.key}" th:text="${sub.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -1925,7 +1917,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="display: none;max-width: fit-content;">
 															  <option value="/forms/localAutocomplete">Lokal</option>
-															  <option th:each="fund : ${@articleData.getFundingLookupEndpoints()}" th:value="${fund.key}" th:text="${fund.value}"></option>
+															  <option th:each="fund : ${articleData.fundingLookupEndpoints}" th:value="${fund.key}" th:text="${fund.value}"></option>
 														</select>
 													</div>
 												</div>
@@ -2011,7 +2003,7 @@
 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 														<select class="form-select" style="max-width:fit-content;">
 															  <option value="/forms/localAutocomplete">Lokal</option>
-															  <option th:each="fund : ${@articleData.getFundingLookupEndpoints()}" th:value="${fund.key}" th:text="${fund.value}"></option>
+															  <option th:each="fund : ${articleData.fundingLookupEndpoints}" th:value="${fund.key}" th:text="${fund.value}"></option>
 														</select>
 													</div>
 												</div>

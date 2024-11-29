@@ -6,21 +6,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.hbz.nrw.to.science.forms.v2.model.forms.Researchdata;
 import de.hbz.nrw.to.science.forms.v2.model.parent.CreatorObject;
 import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.properties.URLProperties;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class ResearchdataService {
 	
-	@Autowired
 	private JsonMapperService json;
-	
-	@Autowired
 	private URLProperties url;
 
 	public void populateResearchdataFields(Researchdata researchdata, String pid) {
@@ -33,8 +31,8 @@ public class ResearchdataService {
 			researchdata.setIsPrimaryTopicOf(json.fillPrimaryTopicOf(pid));
 		}
 		
-		researchdata.getRecordingCoordinates().removeIf(coordinate -> coordinate.getId().isBlank());	
-		researchdata.getRecordingLocation().removeIf(location -> location.getId().isBlank());
+		//researchdata.getRecordingCoordinates().removeIf(coordinate -> coordinate.getId().isBlank());
+		json.fillRecordLocations(researchdata.getRecordingLocation());
 		
 		SimpleObject obj = new SimpleObject();
 		obj.setId(url.getMember() + RESEARCHDATA);
@@ -45,10 +43,10 @@ public class ResearchdataService {
 		if(!StringUtils.isBlank(concat))
 			researchdata.setContributerOrder(List.of(concat));
 		
-		json.getDdcENLabels(researchdata.getDdc());
-		json.getDataOriginENLabels(researchdata.getDataOrigin());
-		json.getLicenseLabelEN(researchdata.getLicense());
-		json.fillLanguagesEN(researchdata.getLanguage());
+		json.getDdcLabels(researchdata.getDdc(), false);
+		json.getDataOriginLabels(researchdata.getDataOrigin(), false);
+		json.getLicenseLabels(researchdata.getLicense(), false);
+		json.fillLanguages(researchdata.getLanguage(), false);
 		json.fillMedia(researchdata.getMedium());
 		json.getFundingLabels(researchdata.getFundingId());
 		json.fillSimpleObjectChilds(researchdata.getInstitution(), null);

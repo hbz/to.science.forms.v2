@@ -9,24 +9,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import de.hbz.nrw.to.science.forms.v2.data.FormsData;
 import de.hbz.nrw.to.science.forms.v2.model.forms.Monograph;
 import de.hbz.nrw.to.science.forms.v2.service.MonographService;
 import de.hbz.nrw.to.science.forms.v2.service.WebClientService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.*;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 @RequestMapping("/monograph")
 public class MonographController {
 
     private final WebClientService client;
     private final MonographService monographService;
-
-    public MonographController(WebClientService client, MonographService monographService) {
-        this.client = client;
-        this.monographService = monographService;
+    private final FormsData formsData;
+    
+    @ModelAttribute
+    public void addCommonAttributes(Model model) {
+    	model.addAttribute("monographData", formsData.getMonographData());
     }
 
     @GetMapping
@@ -47,7 +51,7 @@ public class MonographController {
 	public Object postMonograph(@ModelAttribute Monograph monograph, RedirectAttributes redirectAttributes) {		
 		
 		String pid = client.createResource(MONOGRAPH);
-		//String pid="frl:65050050";
+		//String pid="frl:65050050"; zum Testen
 		log.info("PID_MONOGRAPH: {}", pid);
 		
 		return postMonographWithPid(monograph, pid, redirectAttributes);
@@ -69,9 +73,9 @@ public class MonographController {
 	    redirectAttributes.addFlashAttribute("message", "Monograph was created/updated successfully");
 	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
-	    return "redirect:/monograph/" + pid;
-	    //return ResponseEntity.ok(monograph);
-		
+	    //return ResponseEntity.ok(monograph); zum Testen
+	    return "redirect:/resource/" + pid;
+	    
 	}
 
 }

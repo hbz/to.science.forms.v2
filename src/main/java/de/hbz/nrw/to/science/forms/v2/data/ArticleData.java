@@ -1,19 +1,12 @@
-package de.hbz.nrw.to.science.forms.v2.properties;
+package de.hbz.nrw.to.science.forms.v2.data;
 
 import java.util.Map;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
-import de.hbz.nrw.to.science.forms.v2.util.MapUtils;
 import lombok.Data;
 
-@Component("articleData")
-@PropertySource("classpath:article.properties")
-@ConfigurationProperties("article")
+@Component
 @Data
-public class ArticleProperties {
+public class ArticleData {
 	
 	private Map<String, String> professionalGroup;
 	private Map<String, String> ddc;
@@ -33,10 +26,7 @@ public class ArticleProperties {
 	private Map<String, String> institutionLookupEndpoints;
 	private Map<String, String> collectionTwoEndpoints;
 	private Map<String, String> titleLookupEndpoints;
-	
-	public Map<String, String> getSortedDdc() {
-		return MapUtils.getSortedMapByValues(this.ddc);
-	}
+
 }
 	
 

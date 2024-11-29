@@ -54,7 +54,7 @@
 										<p class="input-field-heading"></p>
 										<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
 										<select class="form-select" style="max-width:fit-content;">
-							  				<option th:each="c : ${@monographData.getLobidLookupEndpoints()}" th:value="${c.key}" th:text="${c.value}"></option>
+							  				<option th:each="c : ${monographData.lobidLookupEndpoints}" th:value="${c.key}" th:text="${c.value}"></option>
 										</select>
 									</div>
 								</div>

@@ -46,7 +46,7 @@ public class AutoCompletionController {
 	 * @param q the query will be redirected to geonames
 	 * @return the response from api.geonames.org
 	 */
-	@GetMapping("/researchdata/geoSearch")
+	@GetMapping("/geoSearch")
 	@ResponseBody 
 	public ResponseEntity<JsonNode> geoSearch(@RequestParam(required = false) String q) {
 		JsonNode response = webClient.build()
@@ -57,15 +57,8 @@ public class AutoCompletionController {
 				 	.build())
 			.retrieve()
 			.bodyToMono(JsonNode.class)
-			.timeout(Duration.ofMillis(5000))
-			.onErrorResume(throwable -> {
-                // Fallback-Answer
-                ObjectNode fallbackResponse = mapper.createObjectNode();
-                fallbackResponse.put("status", "pending");
-                fallbackResponse.put("message", "The request is taking longer than expected. Please wait a moment.");
-                return Mono.just(fallbackResponse);
-            })
             .block();
+		log.info(response.asText());
 		return ResponseEntity.ok(response);
 	}
 

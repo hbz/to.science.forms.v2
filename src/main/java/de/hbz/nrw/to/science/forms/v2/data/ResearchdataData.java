@@ -1,19 +1,12 @@
-package de.hbz.nrw.to.science.forms.v2.properties;
+package de.hbz.nrw.to.science.forms.v2.data;
 
 import java.util.Map;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
-import de.hbz.nrw.to.science.forms.v2.util.MapUtils;
 import lombok.Data;
 
-@Component("researchdataData")
-@PropertySource("classpath:researchdata.properties")
-@ConfigurationProperties("researchdata")
+@Component
 @Data
-public class ResearchdataProperties {
+public class ResearchdataData {
 	
 	private Map<String, String> ddc;
 	private Map<String, String> dataOrigin;
@@ -35,10 +28,6 @@ public class ResearchdataProperties {
 	private Map<String, String> emissionReductionMethods;
 	private Map<String, String> projectTitle;
 	private Map<String, String> testDesign;
-	
-	public Map<String, String> getSortedDdc() {
-		return MapUtils.getSortedMapByValues(this.ddc);
-	}
 
 }
 	
