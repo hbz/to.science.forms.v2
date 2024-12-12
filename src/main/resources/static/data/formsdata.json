@@ -484,9 +484,9 @@
 		"/forms/crossrefAutocomplete": "CrossRef Funder Registry"
 	},
 	"projectTitle": {
-		"emidat": "emidat",
-		"emimin": "emimin",
-		"emimod": "emimod"
+		"emimin": "EmiMin",
+		"emidat": "EmiDat",
+		"emimod": "EmiMod"
 	},
 	"testDesign": {
 		"case_control": "case control",
@@ -557,12 +557,12 @@
 	},
 	"emissions": {
 		"nh3": "NH\u2083 (ammonia)",
-		"bioaerosol": "Bioaerosols",
+		"bioaerosols": "bioaerosols",
 		"co2": "CO\u2082 (carbon dioxide)",
 		"ch4": "CH\u2084 (methane)",
 		"n2o": "N\u2082O (nitrous oxide)",
-		"odour": "ODOUR",
-		"particles": "Particles (dust)",
+		"odour": "odour",
+		"particles": "particles (dust)",
 		"others": "others"
 	},
 	"emissionReductionMethods": {

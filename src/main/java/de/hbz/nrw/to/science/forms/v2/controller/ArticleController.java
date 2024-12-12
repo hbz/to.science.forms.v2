@@ -61,7 +61,7 @@ public class ArticleController {
 		
 		if(!result.hasErrors()) {
 			pid = client.createResource(ARTICLE);
-			//pid="frl:65050050"; zum Testen
+			//pid="frl:65050050"; // to test
 			log.info("PID_ARTICLE: {}", pid);
 		}	
 		
@@ -84,7 +84,7 @@ public class ArticleController {
  		redirectAttributes.addFlashAttribute("message", "Article was created/updated successfully");
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
- 	    //return ResponseEntity.ok(article); zum Testen
+ 	    //return ResponseEntity.ok(article); // to test
  		return "redirect:" +  links.getFrlUrl() + "resource/" + pid;
     }
 

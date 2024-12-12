@@ -1,132 +1,138 @@
-//function enableKtblOptions() {
-//    // Funktion, die beim Ändern des ersten Selects ausgeführt wird
-//    $('#livestockcategory0').change(function() {
-//        var selectedCategory = $(this).val(); // Wert des ersten Selects
-//		console.log("selectedCategory: " + selectedCategory);
-//        // Alle Optionen im zweiten Select reaktivieren (falls sie zuvor deaktiviert wurden)
-//        $('#livestockproduction0 option').prop('disabled', false);
-//
-//        // Abhängig von der Auswahl im ersten Select deaktivieren wir die entsprechenden Optionen im zweiten Select
-//        if (selectedCategory === 'cattle') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#livestockproduction0 option[value="diary_cattle_farming"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="young_cattle_farming"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="calf_raising"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="calf_fattening"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="cattle_fattening"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="suckler_cow_farming"]').prop('disabled', true);
-//            
-//            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="liquid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="solid_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="pastures"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedCategory === 'pig') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#livestockproduction0 option[value="piglet_production"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="piglet_raising"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="pig_fattening"]').prop('disabled', true);
-//            
-//            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="liquid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="solid_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="pastures"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedCategory === 'chicken') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#livestockproduction0 option[value="broiler_fattening"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="laying_hen_farming"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="young_hen_farming"]').prop('disabled', true);
-//            
-//            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="manure_belt"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="veranda"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedCategory === 'turkey') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#livestockproduction0 option[value="turkey_fattening"]').prop('disabled', true);
-//            $('#livestockproduction0 option[value="turkey_breeding"]').prop('disabled', true);
-//            
-//            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedCategory === 'duck') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#livestockproduction0 option[value="duck_fattening"]').prop('disabled', true);
-//            
-//            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
-//            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
-//        }
-//		// Muss upgedated werden
-//        //new UseBootstrapSelect(document.getElementById(`livestockproduction0`));
-//    });
-//
-//    // Initiales Auslösen der Funktion, um das zweite Select anfangs zu füllen
-//    $('#livestockcategory0').trigger('change');
-//    
-//    $('#livestockproduction0').change(function() {
-//        var selectedProduction = $(this).val(); // Wert des ersten Selects
-//
-//        // Alle Optionen im zweiten Select reaktivieren (falls sie zuvor deaktiviert wurden)
-//        //$('#housingsystems0 option').prop('disabled', true);
-//
-//        // Abhängig von der Auswahl im ersten Select deaktivieren wir die entsprechenden Optionen im zweiten Select
-//        if (selectedProduction === 'diary_cattle_farming' || selectedProduction === 'young_cattle_farming' || selectedProduction === 'cattle_fattening') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="cubicle_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="loose_h_1_type_floor"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="loose_h_2_type_floor"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'calf_raising') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="calf_boxes_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="igloo_or_hut_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="loose_h_1_type_floor"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="loose_h_2_type_floor"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'calf_fattening' || selectedProduction === 'suckler_cow_farming') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="loose_h_1_type_floor"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="loose_h_2_type_floor"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'pig_fattening' || selectedProduction === 'piglet_raising') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="1_area_pen"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="mult_area_pen"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'piglet_production') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="farrow_area_1_area_pen"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="farrow_area_mult_area_pen"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="wait_mate_area_mult_area_pen"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'laying_hen_farming') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="floor_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="floor_h_with_aviaries"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="mobile_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'young_hen_farming') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="floor_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="floor_h_with_aviaries"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        } else if (selectedProduction === 'hens_fattening' || selectedProduction === 'turkey_fattening' || selectedProduction === 'turkey_raising' || selectedProduction === 'duck_fattening') {
-//            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
-//            $('#housingsystems0 option[value="floor_h"]').prop('disabled', true);
-//            $('#housingsystems0 option[value="others"]').prop('disabled', true);
-//        }
-//    });
-//};
+function updateKtblOptions() {
+    // Funktion, die beim Ändern des ersten Selects ausgeführt wird
+    $('#livestockcategory0').change(function() {
+        var selectedCategory = $(this).val(); // Wert des ersten Selects
+		console.log("selectedCategory: " + selectedCategory);
+		
+		//const example = new UseBootstrapSelect(document.getElementById('#livestockproduction0'));
+		//if(example.getValue()!=null) {
+			//example.setValue("");
+			//clearValue(){this.setSelected(this.getSelected().map(t=>t.value),!1)}
+		//}
+		$('#livestockproduction0 option:selected').remove();
+        // Alle Optionen im zweiten Select reaktivieren (falls sie zuvor deaktiviert wurden)
+        $('#livestockproduction0 option').prop('disabled', false);
+
+        // Abhängig von der Auswahl im ersten Select deaktivieren wir die entsprechenden Optionen im zweiten Select
+        if (selectedCategory === 'cattle') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#livestockproduction0 option[value="diary_cattle_farming"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="young_cattle_farming"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="calf_raising"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="calf_fattening"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="cattle_fattening"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="suckler_cow_farming"]').prop('disabled', true);
+            
+            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="liquid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="solid_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="pastures"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedCategory === 'pig') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#livestockproduction0 option[value="piglet_production"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="piglet_raising"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="pig_fattening"]').prop('disabled', true);
+            
+            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="liquid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="solid_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="pastures"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedCategory === 'chicken') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#livestockproduction0 option[value="broiler_fattening"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="laying_hen_farming"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="young_hen_farming"]').prop('disabled', true);
+            
+            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="manure_belt"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="veranda"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedCategory === 'turkey') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#livestockproduction0 option[value="turkey_fattening"]').prop('disabled', true);
+            $('#livestockproduction0 option[value="turkey_breeding"]').prop('disabled', true);
+            
+            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedCategory === 'duck') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#livestockproduction0 option[value="duck_fattening"]').prop('disabled', true);
+            
+            $('#additionalhousingsystems0 option[value="solid_manure"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="perforated_floor"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="yard"]').prop('disabled', true);
+            $('#additionalhousingsystems0 option[value="others"]').prop('disabled', true);
+        }
+
+    });
+
+    // Initiales Auslösen der Funktion, um das zweite Select anfangs zu füllen
+    $('#livestockproduction0').trigger('change');
+    
+    $('#livestockproduction0').change(function() {
+        var selectedProduction = $(this).val(); // Wert des ersten Selects
+
+        // Alle Optionen im zweiten Select reaktivieren (falls sie zuvor deaktiviert wurden)
+        //$('#housingsystems0 option').prop('disabled', true);
+
+        // Abhängig von der Auswahl im ersten Select deaktivieren wir die entsprechenden Optionen im zweiten Select
+        if (selectedProduction === 'diary_cattle_farming' || selectedProduction === 'young_cattle_farming' || selectedProduction === 'cattle_fattening') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="cubicle_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="loose_h_1_type_floor"]').prop('disabled', true);
+            $('#housingsystems0 option[value="loose_h_2_type_floor"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'calf_raising') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="calf_boxes_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="igloo_or_hut_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="loose_h_1_type_floor"]').prop('disabled', true);
+            $('#housingsystems0 option[value="loose_h_2_type_floor"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'calf_fattening' || selectedProduction === 'suckler_cow_farming') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="loose_h_1_type_floor"]').prop('disabled', true);
+            $('#housingsystems0 option[value="loose_h_2_type_floor"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'pig_fattening' || selectedProduction === 'piglet_raising') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="1_area_pen"]').prop('disabled', true);
+            $('#housingsystems0 option[value="mult_area_pen"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'piglet_production') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="farrow_area_1_area_pen"]').prop('disabled', true);
+            $('#housingsystems0 option[value="farrow_area_mult_area_pen"]').prop('disabled', true);
+            $('#housingsystems0 option[value="wait_mate_area_mult_area_pen"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'laying_hen_farming') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="floor_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="floor_h_with_aviaries"]').prop('disabled', true);
+            $('#housingsystems0 option[value="mobile_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'young_hen_farming') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="floor_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="floor_h_with_aviaries"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        } else if (selectedProduction === 'hens_fattening' || selectedProduction === 'turkey_fattening' || selectedProduction === 'turkey_raising' || selectedProduction === 'duck_fattening') {
+            // Deaktivieren von Optionen, die nicht angezeigt werden sollen
+            $('#housingsystems0 option[value="floor_h"]').prop('disabled', true);
+            $('#housingsystems0 option[value="others"]').prop('disabled', true);
+        }
+    });
+};
 
 
 //var ready = (callback) => {

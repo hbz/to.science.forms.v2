@@ -1,19 +1,19 @@
-function enablePopover() {
-	$('button[name="rdfType"]').webuiPopover({
+function enableHelptext() {
+	$('button[name="rdftype0"]').webuiPopover({
 	    title:'Publikationstyp',
 	    content:'Form der Veröffentlichung<br />Statische Vorschlagsliste | Pflichtfeld | Mehrfachnennung möglich',
 	    trigger: 'hover',
 	    width:'400px'
 	});
 	
-	$('button[name="publicationStatus"]').webuiPopover({
+	$('button[name="publicationStatus0"]').webuiPopover({
 	    title:'Publikationsstatus',
 	    content:'Version der Veröffentlichung<br />Informationen zu Preprint- und Postprint-Versionen finden Sie <a href="https://www.publisso.de/open-access-beraten/faqs/preprint-und-postprint-version/">hier</a>.<br />Statische Vorschlagsliste | Pflichtfeld',
 	    trigger: 'hover',
 	    width:'400px'
 	});
 	
-	$('button[name="reviewStatus"]').webuiPopover({
+	$('button[name="reviewStatus0"]').webuiPopover({
 	    title:'Begutachtungsstatus',
 	    content:'Prüfstatus der Veröffentlichung<br />Informationen zum Peer Review finden Sie <a href="">hier</a>.<br />Statische Vorschlagsliste',
 	    trigger: 'hover',
@@ -91,7 +91,7 @@ function enablePopover() {
 	    width:'400px'
 	});
 	
-	$('button[name="publicationYear"]').webuiPopover({
+	$('button[name="issued"]').webuiPopover({
 	    title:'Online veröffentlicht',
 	    content:'Frühestes Veröffentlichungsdatum im Internet<br />Pflichtfeld',
 	    trigger: 'hover',
@@ -112,8 +112,8 @@ function enablePopover() {
 	    width:'400px'
 	});
 	
-	$('button[name="collectionOne"]').webuiPopover({
-	    title:'LeibnizOpem',
+	$('button[name="collectionOne0"]').webuiPopover({
+	    title:'LeibnizOpen',
 	    content:'Freigabe der Veröffentlichung für die Lieferung nach <a href="http://www.leibnizopen.de/home">LeibnizOpen</a>, dem zentralen Open-Access-Portal der Leibniz-Gemeinschaft. Diese Option darf nur für Veröffentlichungen gewählt werden, an deren Forschungsgrundlagen, Erstellung etc. mindestens eine Person aus einem Leibniz-Institut beteiligt war<br />Statische Vorschlagsliste mit Multiselect-Widget | Mehrfachnennung möglich',
 	    trigger: 'hover',
 	    width:'400px'
@@ -128,14 +128,21 @@ function enablePopover() {
 	
 	$('button[name="yearOfCopyright"]').webuiPopover({
 	    title:'CopyrightJahr',
-	    content:'Das Copyrightjahr muss nur angegeben werden, wenn es in der Veröffentlichung genannt wird (mit © oder "Copyright" gekennzeichnet)<br />Statische Auswahlliste | Wahl des Jahres mit Kalender-Jahres-Widget',
+	    content:'Das Copyrightjahr muss nur angegeben werden, wenn es in der Veröffentlichung genannt wird (mit © oder "Copyright" gekennzeichnet)<br />Wahl des Jahres mit Kalender-Jahres-Widget',
 	    trigger: 'hover',
 	    width:'400px'
 	});
 	
 	$('button[name="license"]').webuiPopover({
 	    title:'Lizenz',
-	    content:'<b>Forschungsdaten:</b> Angabe der Lizenz unter der die Daten veröffentlicht werden sollen. Es wird empfohlen, die ODC BY-Lizenz zu verwenden. Es sind aber auch andere Open-Content-Lizenzen möglich.Nachfolgend finden Sie links zu den Texten der möglichen Lizenzen:<ul><li><a href="http://opendatacommons.org/licenses/by/1-0/">ODC BY</a></li><li><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li><li><a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a></li>	<li><a href="http://opendatacommons.org/licenses/odbl/1.0/">ODbL</a></li><li><a href="http://opendatacommons.org/licenses/pddl/1.0/">PDDL 1.0</a></li>	<li><a href="https://www.gnu.org/licenses/gpl-3.0.de.html">GNU GPL 3.0</a></li></ul>Statische Vorschlagsliste | Pflichtfeld<br /><b>Andere Publikationen:</b> Link zu der vom Urheber/Verlag vergebenen Veröffentlichungslizenz. Es kann sich dabei sowohl um einen Link zu einer Open-Access-Lizenz handeln (z.B. Creative-Commons-Lizenz), als auch um einen Link zur Policy des Verlages, in welcher das Zweitveröffentlichungsrecht für fachspezifische Repositorien eingeräumt wird. In dieses Feld muss stets ein vollständiger Link eingetragen werden, beginnend mit http:// oder https://<br />Beispiel: <a href="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/licenses/by/4.0/</a><br />Freitextfeld (Linkfeld)',
+	    content:'Link zu der vom Urheber/Verlag vergebenen Veröffentlichungslizenz. Es kann sich dabei sowohl um einen Link zu einer Open-Access-Lizenz handeln (z.B. Creative-Commons-Lizenz), als auch um einen Link zur Policy des Verlages, in welcher das Zweitveröffentlichungsrecht für fachspezifische Repositorien eingeräumt wird. In dieses Feld muss stets ein vollständiger Link eingetragen werden, beginnend mit http:// oder https://<br />Beispiel: <a href="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/licenses/by/4.0/</a><br />Freitextfeld (Linkfeld)',
+	    trigger: 'hover',
+	    width:'400px'
+	});
+	
+	$('button[name="license0"]').webuiPopover({
+	    title:'Lizenz',
+	    content:'Angabe der Lizenz unter der die Daten veröffentlicht werden sollen. Es wird empfohlen, die ODC BY-Lizenz zu verwenden. Es sind aber auch andere Open-Content-Lizenzen möglich.Nachfolgend finden Sie links zu den Texten der möglichen Lizenzen:<ul><li><a href="http://opendatacommons.org/licenses/by/1-0/">ODC BY</a></li><li><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li><li><a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a></li>	<li><a href="http://opendatacommons.org/licenses/odbl/1.0/">ODbL</a></li><li><a href="http://opendatacommons.org/licenses/pddl/1.0/">PDDL 1.0</a></li>	<li><a href="https://www.gnu.org/licenses/gpl-3.0.de.html">GNU GPL 3.0</a></li></ul>Statische Vorschlagsliste | Pflichtfeld<br /><b>Andere Publikationen:</b> Link zu der vom Urheber/Verlag vergebenen Veröffentlichungslizenz. Es kann sich dabei sowohl um einen Link zu einer Open-Access-Lizenz handeln (z.B. Creative-Commons-Lizenz), als auch um einen Link zur Policy des Verlages, in welcher das Zweitveröffentlichungsrecht für fachspezifische Repositorien eingeräumt wird. In dieses Feld muss stets ein vollständiger Link eingetragen werden, beginnend mit http:// oder https://<br />Beispiel: <a href="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/licenses/by/4.0/</a><br />Freitextfeld (Linkfeld)',
 	    trigger: 'hover',
 	    width:'400px'
 	});
@@ -168,7 +175,7 @@ function enablePopover() {
 	    width:'400px'
 	});
 	
-	$('button[name="language').webuiPopover({
+	$('button[name="language0').webuiPopover({
 	    title:'Sprache der Publikation',
 	    content:'Angabe der Sprache, welche bei der Publikation verwendet wurde<br />Statische Auswahlliste | Pflichtfeld | Mehrfachnennung möglich',
 	    trigger: 'hover',
@@ -182,7 +189,7 @@ function enablePopover() {
 	    width:'400px'
 	});
 	
-	$('button[name="ddc').webuiPopover({
+	$('button[name="ddc0').webuiPopover({
 	    title:'Fächerklassifikation (DDC)',
 	    content:'Eine Auswahl der <a href="https://www.dnb.de/DE/Professionell/DDC-Deutsch/ddc-deutsch_node.html">Dewey-Dezimalklassifikation</a> zur inhaltlichen Beschreibung der Veröffentlichung<br />Statische Auswahlliste mit Multiselect-Widget | Pflichtfeld | Mehrfachnennung möglich',
 	    trigger: 'hover',
@@ -247,6 +254,13 @@ function enablePopover() {
 	});
 	
 	$('button[name="dataOrigin').webuiPopover({
+	    title:'Erhebungsform',
+	    content:'Angabe wie die Daten gewonnen wurden.<br />Statische Vorschlagsliste | Mehrfachnennung möglich',
+	    trigger: 'hover',
+	    width:'400px'
+	});
+	
+	$('button[name="dataOrigin0').webuiPopover({
 	    title:'Erhebungsform',
 	    content:'Angabe wie die Daten gewonnen wurden.<br />Statische Vorschlagsliste | Mehrfachnennung möglich',
 	    trigger: 'hover',

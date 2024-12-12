@@ -179,6 +179,11 @@ public class JsonMapperService {
         Map<String, String> licenseMap = isArticle 
             ? formsData.getArticleData().getLicense() 
             : formsData.getResearchdataData().getLicense();
+        // remove all after first "(", i.e. (recommended)
+        licenseMap.replaceAll((key, value) -> {
+            int index = value.indexOf("(");
+            return index != -1 ? value.substring(0, index).trim() : value;
+        });
         processLabels(licenseList, licenseMap, false);
     }
     

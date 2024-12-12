@@ -61,7 +61,7 @@ public class ResearchdataktblController {
 		
 		if(!result.hasErrors()) {
 			pid = client.createResource("researchData");
-			//pid="frl:65050050"; zum Testen
+			//pid="frl:65050050"; // to test
 			log.info("PID_RESEARCHDATA_KTBL: {}", pid);
 		}
 				
@@ -84,8 +84,8 @@ public class ResearchdataktblController {
  		redirectAttributes.addFlashAttribute("message", "Researchdata with KTBL was created/updated successfully");
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
- 	    //return ResponseEntity.ok(researchdata); zum Testen
- 	   return "redirect:" +  props.getFrlUrl() + "resource/" + pid;
+ 	    //return ResponseEntity.ok(researchdata); // to test
+ 	    return "redirect:" +  props.getFrlUrl() + "resource/" + pid;
     }
 
 }

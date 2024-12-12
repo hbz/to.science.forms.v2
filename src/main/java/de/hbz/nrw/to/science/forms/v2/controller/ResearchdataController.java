@@ -59,7 +59,7 @@ public class ResearchdataController {
 		
 		if(!result.hasErrors()) {
 			pid = client.createResource("researchData");
-			//pid="frl:65055533"; //zum Testen
+			//pid="frl:65055533"; // to test
 			log.info("PID_RESEARCHDATA: {}", pid);
 		}
 				
@@ -82,7 +82,7 @@ public class ResearchdataController {
  		redirectAttributes.addFlashAttribute("message", "Researchdata was created/updated successfully");
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
- 	    //return ResponseEntity.ok(researchdata); //zum Testen
+ 	    //return ResponseEntity.ok(researchdata); // to test
  	   return "redirect:" +  props.getFrlUrl() + "resource/" + pid;
     }
 

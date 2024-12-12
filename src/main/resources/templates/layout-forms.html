@@ -19,6 +19,7 @@
     
     <!-- JQuery CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.webui-popover.css}">
     
     <!-- Icons CSS -->
     <!--  link rel="stylesheet" type="text/css" th:href="@{/webjars/octicons/build/octicons.min.css" /-->
@@ -93,18 +94,18 @@
 	<script type="text/javascript" th:src="@{/js/jquery.webui-popover.js}"></script>
 	<script type="text/javascript" th:src="@{/js/use-bootstrap-select.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/main.js}"></script>
-	<!-- script type="text/javascript" th:src="@{/js/ktblEnablingOptions.js}"></script>
+	<script type="text/javascript" th:src="@{/js/updateKtblOptions.js}"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
-			enableKtblOptions();	
-		});
-	/script -->
+		updateKtblOptions();
+	});
+	</script>
 	<script type="text/javascript">
 		$(function() {
 			if(itIsIE11()){
 				$("body").attr("style","position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;");
 			}
-			enablePopover();
+			enableHelptext();
 			enableAutocompletionEndpoints();
 			addActionsToRemoveAndAddButtons();
 			window.addEventListener("message", handleMessage, false);
