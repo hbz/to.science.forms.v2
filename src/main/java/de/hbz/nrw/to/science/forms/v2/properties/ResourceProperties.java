@@ -13,7 +13,8 @@ import lombok.Data;
  */
 @Data
 @Configuration
-@PropertySource(value = "file:/etc/forms/application.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/etc/forms/application.properties", ignoreResourceNotFound = true) // for prod
+//@PropertySource(value = "file:/etc/forms-dev/application.properties", ignoreResourceNotFound = true) // for dev
 @ConfigurationProperties(prefix = "resource")
 public class ResourceProperties {
 	

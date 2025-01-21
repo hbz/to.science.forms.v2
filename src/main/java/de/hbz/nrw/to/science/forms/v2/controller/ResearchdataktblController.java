@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.hbz.nrw.to.science.forms.v2.data.FormsData;
 import de.hbz.nrw.to.science.forms.v2.model.forms.Researchdata;
-import de.hbz.nrw.to.science.forms.v2.properties.ResourceProperties;
 import de.hbz.nrw.to.science.forms.v2.service.ResearchdataService;
 import de.hbz.nrw.to.science.forms.v2.service.WebClientService;
 import lombok.AllArgsConstructor;
@@ -31,7 +30,6 @@ public class ResearchdataktblController {
     private final WebClientService client;
     private final ResearchdataService researchdataService;
     private final FormsData formsData;
-    private final ResourceProperties props;
     
     @ModelAttribute
     public void addCommonAttributes(Model model) {
@@ -85,7 +83,7 @@ public class ResearchdataktblController {
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
  	    //return ResponseEntity.ok(researchdata); // to test
- 	    return "redirect:" +  props.getFrlUrl() + "resource/" + pid;
+ 	   return "redirect:/researchdataktbl/" + pid;
     }
 
 }

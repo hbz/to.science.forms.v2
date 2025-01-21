@@ -250,6 +250,7 @@
 
 
 	<build>
+		<!-- <finalName>forms-dev</finalName> -->
 		<finalName>forms</finalName>
 		<plugins>
 			<plugin>

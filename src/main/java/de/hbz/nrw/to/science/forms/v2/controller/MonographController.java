@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.hbz.nrw.to.science.forms.v2.data.FormsData;
 import de.hbz.nrw.to.science.forms.v2.model.forms.Monograph;
-import de.hbz.nrw.to.science.forms.v2.properties.ResourceProperties;
 import de.hbz.nrw.to.science.forms.v2.service.MonographService;
 import de.hbz.nrw.to.science.forms.v2.service.WebClientService;
 import lombok.AllArgsConstructor;
@@ -28,7 +27,6 @@ public class MonographController {
     private final WebClientService client;
     private final MonographService monographService;
     private final FormsData formsData;
-    private final ResourceProperties props;
     
     @ModelAttribute
     public void addCommonAttributes(Model model) {
@@ -76,7 +74,7 @@ public class MonographController {
 	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
 	    //return ResponseEntity.ok(monograph); // to test
-	    return "redirect:" +  props.getFrlUrl() + "resource/" + pid;
+	    return "redirect:/monograph/" + pid;
 	    
 	}
 
