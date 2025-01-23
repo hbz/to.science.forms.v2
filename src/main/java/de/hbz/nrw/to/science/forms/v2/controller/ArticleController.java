@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.hbz.nrw.to.science.forms.v2.data.FormsData;
 import de.hbz.nrw.to.science.forms.v2.model.forms.Article;
+import de.hbz.nrw.to.science.forms.v2.properties.ResourceProperties;
 import de.hbz.nrw.to.science.forms.v2.service.ArticleService;
 import de.hbz.nrw.to.science.forms.v2.service.WebClientService;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class ArticleController {
     private final WebClientService client;
     private final ArticleService articleService;
     private final FormsData formsData;
+    private final ResourceProperties link;
     
     @ModelAttribute
     public void addCommonAttributes(Model model) {
@@ -83,7 +85,8 @@ public class ArticleController {
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
  	    //return ResponseEntity.ok(article); // to test
- 		return "redirect:/article/" + pid;
+ 		//return "redirect:/article/" + pid;
+ 	    return "redirect:" + link.getFrlUrl() + "resource/" + pid;
     }
 
 }
