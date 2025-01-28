@@ -125,7 +125,7 @@ public class Article {
 	private List<Subject> subject;
 	
 	// Externe und interne Referenzen
-	private List<String> publisherVersion;
+	private List<SimpleObject> publisherVersion;
 	private List<String> fulltextVersion;
 	private List<String> additionalMaterial;
 	private List<String> internalReference;
