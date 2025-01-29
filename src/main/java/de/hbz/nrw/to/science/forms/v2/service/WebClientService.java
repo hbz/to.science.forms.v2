@@ -210,6 +210,7 @@ public class WebClientService {
 	}
 	
 	public <T> T getData(String pid, Class<T> clazz) {
+		log.info("Current FrlApiUrl: {}", props.getFrlApiUrl());
 	    return webClient.get()
 	                    .uri(props.getFrlApiUrl() + pid + "/toscience")
 	                    .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))

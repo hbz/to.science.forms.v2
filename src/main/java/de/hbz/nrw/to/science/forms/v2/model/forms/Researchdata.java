@@ -128,7 +128,7 @@ public class Researchdata {
 	// // Publications
 	private List<String> reference;
 	private List<String> associatedPublication;
-	private List<String> associatedDataset;
+	private List<SimpleObject> associatedDataset;
 	private List<String> nextVersion;
 	private List<String> previousVersion;
 	
