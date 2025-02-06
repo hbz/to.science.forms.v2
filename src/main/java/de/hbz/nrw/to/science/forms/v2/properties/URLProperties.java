@@ -2,13 +2,10 @@ package de.hbz.nrw.to.science.forms.v2.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import lombok.Data;
 
 @Configuration
-@PropertySource(value = "file:/etc/forms/application.properties", ignoreResourceNotFound = true) // for prod
-//@PropertySource(value = "file:/etc/forms-dev/application.properties", ignoreResourceNotFound = true) // for dev
 @ConfigurationProperties("url.to")
 @Data
 public class URLProperties {

@@ -149,7 +149,7 @@ public class Researchdata {
 	private List<JoinedFunding> joinedFunding;
 	private String primaryTopic;
 	private List<SimpleObject> rdftype;
-	private List<String> relatedDatasets;
+	private List<SimpleObject> relatedDatasets;
 	
 	/***************** Formularvariablen ENDE *******************/
 	
