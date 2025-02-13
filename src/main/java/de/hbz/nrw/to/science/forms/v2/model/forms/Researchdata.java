@@ -88,7 +88,8 @@ public class Researchdata {
 	//private List<SimpleObject> hasPart; // Woher kommen die hasPart Daten?
 	// Source data
 	@Valid
-	private List<@FieldNotEmpty(value = "Publicationyear",message = "{field.not.empty.en}") String> issued;
+	@FieldNotEmpty(value = "Publicationyear",message = "{field.not.empty.en}")
+	private String issued;
 	
 	// Collection Assignment
 	private List<Institution> institution;

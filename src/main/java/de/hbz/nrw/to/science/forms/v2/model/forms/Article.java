@@ -97,7 +97,7 @@ public class Article {
 	@Valid
 	private List<@AtLeastOne(value = "Erschienen als", message = "{at.least.one.de}") SimpleObject> containedIn;
 	private List<String> bibliographicCitation;
-	private List<String> issued;
+	private String issued;
 	@Valid
 	private List<@FieldNotEmpty(value = "Erscheinungsjahr", message = "{field.not.empty.de}") String> publicationYear;
 	

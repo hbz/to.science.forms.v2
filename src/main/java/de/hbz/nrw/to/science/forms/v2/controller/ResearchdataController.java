@@ -83,7 +83,6 @@ public class ResearchdataController {
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
  	    //return ResponseEntity.ok(researchdata); // to test
- 	   //return "redirect:/researchdata/" + pid;
  	   return "redirect:" + link.getFrlUrl() + "resource/" + pid;
     }
 
