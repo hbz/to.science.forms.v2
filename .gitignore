@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Forms ###
+src/main/resources/env-dev.properties
+src/main/resources/env-prod.properties
+env-*.properties

@@ -5,7 +5,7 @@
 	  layout:decorate="~{layout-forms}" >
 
 <head>
-	<title>Researchdata with KTBL</title>
+	<title>Ktbldata</title>
 </head>
 <body>
 
@@ -14,7 +14,7 @@
 		
 			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 		
-			<form th:action="@{/researchdataktbl/{pid}(pid=${pid})}" th:object="${researchdata}" method="post">
+			<form th:action="@{/ktbldata/{pid}(pid=${pid})}" th:object="${researchdata}" method="post">
 				<a th:href="@{${@environment.getProperty('zettel.researchdata.helpText')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
 				
 				<div class="accordion" id="accordion">

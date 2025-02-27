@@ -11,10 +11,10 @@ function updateKtblOptions() {
         
         livestockSelect.clearValue();
         addhousingSysSelect.clearValue();
-        
+        console.log("JAwohl");
 	    const optionsMap = {
 	        cattle: {
-	            production: ["diary_cattle_farming", "young_cattle_farming", "calf_raising", "calf_fattening", "cattle_fattening", "suckler_cow_farming"],
+	            production: ["dairy_cattle_farming", "young_cattle_farming", "calf_raising", "calf_fattening", "cattle_fattening", "suckler_cow_farming"],
 	            housing: ["solid_manure", "liquid_manure", "solid_floor", "perforated_floor", "pastures", "yard", "others"]
 	        },
 	        pig: {
@@ -72,7 +72,7 @@ function updateKtblOptions() {
         housingSysSelect.clearValue();
         
         const housingOptions = {
-	        'diary_cattle_farming': ['cubicle_h', 'loose_h_1_type_floor', 'loose_h_2_type_floor', 'others'],
+	        'dairy_cattle_farming': ['cubicle_h', 'loose_h_1_type_floor', 'loose_h_2_type_floor', 'others'],
 	        'young_cattle_farming': ['cubicle_h', 'loose_h_1_type_floor', 'loose_h_2_type_floor', 'others'],
 	        'cattle_fattening': ['cubicle_h', 'loose_h_1_type_floor', 'loose_h_2_type_floor', 'others'],
 	        'calf_raising': ['calf_boxes_h', 'igloo_or_hut_h', 'loose_h_1_type_floor', 'loose_h_2_type_floor', 'others'],

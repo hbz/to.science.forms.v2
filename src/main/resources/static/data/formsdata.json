@@ -505,7 +505,7 @@
 		"natural_ventilation_system": "natural ventilation"
 	},
 	"livestockProduction": {
-		"diary_cattle_farming": "diary cattle farming",
+		"dairy_cattle_farming": "dairy cattle farming",
 		"young_cattle_farming": "young cattle farming",
 		"calf_raising": "calf raising",
 		"calf_fattening": "calf fattening",

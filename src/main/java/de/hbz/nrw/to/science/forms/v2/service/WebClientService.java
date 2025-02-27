@@ -209,10 +209,10 @@ public class WebClientService {
 		return label != null ? label.asText() : "No Label found";
 	}
 	
-	public <T> T getData(String pid, Class<T> clazz) {
+	public <T> T getData(String pid, String endpoint, Class<T> clazz) {
 		log.info("Current FrlApiUrl: {}", props.getFrlApiUrl());
 	    return webClient.get()
-	                    .uri(props.getFrlApiUrl() + pid + "/toscience")
+	    				.uri(props.getFrlApiUrl() + pid + "/" + endpoint)
 	                    .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))
 	                    .retrieve()
 	                    .bodyToMono(clazz)
@@ -220,19 +220,19 @@ public class WebClientService {
 	}
 	
 	public Article getArticle(String pid) {
-	    return getData(pid, Article.class);
+	    return getData(pid, "toscience", Article.class);
 	}
 
 	public Researchdata getResearchData(String pid) {
-	    return getData(pid, Researchdata.class);
+	    return getData(pid, "toscience", Researchdata.class);
 	}
 
 	public Researchdata getKtbl(String pid) {
-	    return getData(pid, Researchdata.class);
+	    return getData(pid, "ktbl", Researchdata.class);
 	}
 
 	public Monograph getMonograph(String pid) {
-	    return getData(pid, Monograph.class);
+	    return getData(pid, "toscience", Monograph.class);
 	}
 	
 	public String getNameFromAdhocUri(String encodedVal) {

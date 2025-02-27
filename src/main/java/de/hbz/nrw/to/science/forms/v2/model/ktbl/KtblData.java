@@ -34,7 +34,7 @@ public class KtblData {
 	@JsonProperty("housing_systems")
 	private String housingSystems;
 	
-	@JsonProperty("additional_specifications_of_housing_systems")
+	@JsonProperty("additional_housing_systems")
 	private List<String> additionalHousingSystems;
 	
 	@JsonProperty("emi_measurement_techniques")

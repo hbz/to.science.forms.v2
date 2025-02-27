@@ -25,8 +25,8 @@ import javax.validation.Valid;
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/researchdataktbl")
-public class ResearchdataktblController {
+@RequestMapping("/ktbldata")
+public class KtbldataController {
 
     private final WebClientService client;
     private final ResearchdataService researchdataService;
@@ -39,53 +39,53 @@ public class ResearchdataktblController {
     }
 
     @GetMapping
-	public String addResearchdataKtbl(Model model) {
+	public String addKtbldata(Model model) {
     	Researchdata researchdata = new Researchdata();
 		model.addAttribute(RESEARCHDATA, researchdata);
-		return "researchdata-ktbl";
+		return "ktbldata";
 	}
 	
 	@GetMapping("/{pid}")
-	public String getResearchdataKtbl(@PathVariable String pid, Model model) {
+	public String getKtbldata(@PathVariable String pid, Model model) {
 		Researchdata researchData = client.getResearchData(pid);
 		Researchdata ktbl = client.getKtbl(pid);
 		researchData.setInfo(ktbl.getInfo());
 		model.addAttribute(RESEARCHDATA, researchData);
-		return "researchdata-ktbl";
+		return "ktbldata";
 	}
 	
 	@PostMapping
-	public Object postResearchdataKtbl(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, RedirectAttributes redirectAttributes) {		
+	public Object postKtbldata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, RedirectAttributes redirectAttributes) {		
 		
 		String pid = null;
 		
 		if(!result.hasErrors()) {
 			pid = client.createResource("researchData");
 			//pid="frl:65050050"; // to test
-			log.info("PID_RESEARCHDATA_KTBL: {}", pid);
+			log.info("PID_KTBLDATA: {}", pid);
 		}
 				
-		return researchdataKtblWithPid(researchdata, result, pid, redirectAttributes);
+		return ktbldataWithPid(researchdata, result, pid, redirectAttributes);
 	}
 
 	@PostMapping("/{pid}")
-	public Object researchdataKtblWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {		
+	public Object ktbldataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {		
 
 		researchdataService.populateResearchdataFields(researchdata, pid);
         
         if(result.hasErrors()) {
 			log.error("Still validation errors available");
-			return "researchdata-ktbl";
+			return "ktbldata";
 		}
         
         // Metadaten hochladen
  		client.uploadMetadataResearchdata(researchdata, pid);
  		
- 		redirectAttributes.addFlashAttribute("message", "Researchdata with KTBL was created/updated successfully");
+ 		redirectAttributes.addFlashAttribute("message", "Ktbldata was created/updated successfully");
  	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
  	    
  	    //return ResponseEntity.ok(researchdata); // to test
- 	   //return "redirect:/researchdataktbl/" + pid;
+ 	   //return "redirect:/ktbldata/" + pid;
  	   return "redirect:" + link.getFrlUrl() + "resource/" + pid;
     }
 
