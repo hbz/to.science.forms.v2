@@ -455,8 +455,9 @@
 		"http://id.loc.gov/vocabulary/iso639-2/ita": "Italian"
 	},
 	"role": {
-		"principle_investigator": "principle investigator",
-		"principle_investigator_subproject": "principle investigator subproject",
+		"principal_investigator": "principal investigator",
+		"principal_investigator_subproject": "principal investigator subproject",
+		"project_manager": "project manager",
 		"scientific_supervisor": "scientific supervisor",
 		"data_analyst": "data analyst",
 		"technical_assistant": "technical assistant",
@@ -569,6 +570,7 @@
 		"feed_supplements": "feed supplements (FS)",
 		"manure_belt": "manure belt (MB)",
 		"slurry_cooling": "slurry cooling (SC)",
+		"slit_sealing_flaps": "slit sealing flaps (SSF)",
 		"underfl_scrap_faeces_urine_sep": "underfloor scraper with faeces and urine separation (USFUS)",
 		"grooved_floor_finger_scraper": "grooved floor with finger scraper (GFFS)",
 		"slurry_channel_reduction": "slurry channel reduction (SCR)",
