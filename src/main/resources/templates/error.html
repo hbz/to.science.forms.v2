@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fehler</title>
+</head>
+<body>
+    <h1>Ein Fehler ist aufgetreten</h1>
+    <p>Status Code: <span th:text="${status}">Unbekannt</span></p>
+    <p>Fehlermeldung: <span th:text="${error}">Keine Nachricht</span></p>
+    <p>Pfad: <span th:text="${path}">Unbekannt</span></p>
+    <p>Zeitpunkt: <span th:text="${timestamp}">-</span></p>
+</body>
+</html>
