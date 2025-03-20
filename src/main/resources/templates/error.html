@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <title>Fehler</title>
@@ -10,5 +11,12 @@
     <p>Fehlermeldung: <span th:text="${error}">Keine Nachricht</span></p>
     <p>Pfad: <span th:text="${path}">Unbekannt</span></p>
     <p>Zeitpunkt: <span th:text="${timestamp}">-</span></p>
+    
+    <h3>Fehlermeldung senden</h3>
+    <p>
+        Bitte senden Sie eine E-Mail an <strong>toscience@hbz-nrw.de</strong> mit Angabe der o.g. Ressourcen-ID:  
+        <strong th:text="${path != null ? path.substring(path.lastIndexOf('/') + 1) : 'Unbekannt'}">---</strong>
+
+    </p>
 </body>
 </html>
