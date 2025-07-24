@@ -82,6 +82,7 @@ public class Article {
 	@Valid
 	private List<@FieldNotEmpty(value = "Titel", message = "{field.not.empty.de}") String> title;
 	private List<String> alternative;
+	private List<String> edition;
 	
 	// Angaben zur Urheberschaft
 	@Valid
@@ -125,10 +126,14 @@ public class Article {
 	private List<Subject> subject;
 	
 	// Externe und interne Referenzen
+	private List<String> doi;
+	private List<String> urn;
 	private List<SimpleObject> publisherVersion;
 	private List<String> fulltextVersion;
 	private List<String> additionalMaterial;
 	private List<String> internalReference;
+	private List<String> nextVersion;
+	private List<String> previousVersion;
 	
 	// Angaben zur Förderung
 	private List<SimpleObject> fundingId;

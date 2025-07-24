@@ -251,7 +251,7 @@
 
 	<build>
 		<!-- <finalName>forms-dev</finalName> -->
-		<finalName>forms</finalName>
+		<finalName>forms-dev</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

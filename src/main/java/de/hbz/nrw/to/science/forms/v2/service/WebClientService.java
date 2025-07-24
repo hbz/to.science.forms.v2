@@ -206,6 +206,7 @@ public class WebClientService {
 								 .bodyToMono(JsonNode.class)
 								 .block();
 		JsonNode label = node.at("/prefLabel/Label/literalForm/content");
+		//JsonNode label = node.at("/message/name");
 		return label != null ? label.asText() : "No Label found";
 	}
 	

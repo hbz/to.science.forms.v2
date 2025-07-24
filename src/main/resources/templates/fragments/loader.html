@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+
+	<!-- Lade-Overlay Fragment -->
+	<div th:fragment="loadingOverlay">
+	    <div id="loadingOverlay" class="d-none">
+	        <div class="overlay-background"></div>
+	        <div class="overlay-spinner">
+	            <button class="btn btn-primary" type="button" disabled>
+	                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+	                Loading...
+	            </button>
+	        </div>
+	    </div>
+	</div>
+
+</body>
+</html>

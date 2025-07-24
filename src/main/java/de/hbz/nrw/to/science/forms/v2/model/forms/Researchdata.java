@@ -76,6 +76,7 @@ public class Researchdata {
 	@Valid
 	private List<@FieldNotEmpty(value = "Title", message = "{field.not.empty.en}") String> title;
 	private List<String> alternative;
+	private List<String> edition;
 	
 	// Creatorship data
 	@Valid
@@ -130,6 +131,7 @@ public class Researchdata {
 	private List<String> reference;
 	private List<String> associatedPublication;
 	private List<SimpleObject> associatedDataset;
+	private List<String> additionalMaterial;
 	private List<String> nextVersion;
 	private List<String> previousVersion;
 	

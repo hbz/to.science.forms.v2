@@ -98,6 +98,10 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		updateKtblOptions();
+		$('#saveForm').on('submit', function () {
+		    // Overlay anzeigen
+		    $('#loadingOverlay').removeClass('d-none');
+		});
 	});
 	</script>
 	<script type="text/javascript">
