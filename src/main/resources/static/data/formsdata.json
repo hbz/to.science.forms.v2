@@ -455,6 +455,7 @@
 			"http://id.loc.gov/vocabulary/iso639-2/ita" : "Italian"
 		},
 		"role" : {
+			"project_manager" : "project manager",
 			"principal_investigator" : "principal investigator",
 			"principal_investigator_subproject" : "principal investigator subproject",
 			"scientific_supervisor" : "scientific supervisor",
@@ -465,8 +466,7 @@
 			"it_consultant" : "IT consultant",
 			"database_consultant" : "database consultant",
 			"programmer_developer" : "programmer (developer)",
-			"scientific_consultant" : "scientific consultant",
-			"project_manager" : "project manager"
+			"scientific_consultant" : "scientific consultant"
 		},
 		"personLookupEndpoints" : {
 			"/forms/orcidAutocomplete" : "ORCiD",
@@ -562,9 +562,9 @@
 			"co2" : "CO\u2082 (carbon dioxide)",
 			"ch4" : "CH\u2084 (methane)",
 			"n2o" : "N\u2082O (nitrous oxide)",
-			"odour" : "odour",
-			"particles" : "particles (dust)",
-			"others" : "others"
+			"odour" : "Odour",
+			"particles" : "Particles (dust)",
+			"others" : "Others"
 		},
 		"emissionReductionMethods" : {
 			"feed_supplements" : "feed supplements (FS)",
@@ -577,6 +577,7 @@
 			"slurry_treatment_whey" : "slurry treatment whey (W)",
 			"urease_inhibitor" : "urease inhibitor (UI)",
 			"nutrition_reduced_feeding" : "nutrition reduced feeding (NRF)",
+			"slat_sealing_flaps" : "slat sealing flaps",
 			"reduced_slat_ratio" : "reduced slat ratio (RSR)",
 			"faeces_urine_separation" : "faeces urine separation (FUS)",
 			"underfloor_scraper" : "underfloor scraper (US)",
