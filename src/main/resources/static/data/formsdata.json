@@ -455,8 +455,8 @@
 			"http://id.loc.gov/vocabulary/iso639-2/ita" : "Italian"
 		},
 		"role" : {
-			"principle_investigator" : "principle investigator",
-			"principle_investigator_subproject" : "principle investigator subproject",
+			"principal_investigator" : "principal investigator",
+			"principal_investigator_subproject" : "principal investigator subproject",
 			"scientific_supervisor" : "scientific supervisor",
 			"data_analyst" : "data analyst",
 			"technical_assistant" : "technical assistant",
@@ -465,7 +465,8 @@
 			"it_consultant" : "IT consultant",
 			"database_consultant" : "database consultant",
 			"programmer_developer" : "programmer (developer)",
-			"scientific_consultant" : "scientific consultant"
+			"scientific_consultant" : "scientific consultant",
+			"project_manager" : "project manager"
 		},
 		"personLookupEndpoints" : {
 			"/forms/orcidAutocomplete" : "ORCiD",

@@ -137,7 +137,7 @@
 								<div class="select-livestockproduction">
 									<select id="livestockproduction0" class="form-select input-widget" data-searchable="true" tabindex="31" th:field="*{info.ktbl.livestockProduction}">
 										  <option value="">Please select...</option>
-										  <option th:each="v : ${researchdataData.livestockProduction}" th:value="${v.key}" th:text="${v.value}" disabled></option>
+										  <option th:each="v : ${researchdataData.livestockProduction}" th:value="${v.key}" th:text="${v.value}"></option> <!-- bei ktblOptions: disabled hinzufügen  -->
 									</select>
 								</div>
 				 			</div>
@@ -160,7 +160,7 @@
 								<div class="select-housingsystems">
 									<select id="housingsystems0" class="form-select input-widget" data-searchable="true" tabindex="32" th:field="*{info.ktbl.housingSystems}">
 										  <option value="">Please select...</option>
-										  <option th:each="v : ${researchdataData.housingSystems}" th:value="${v.key}" th:text="${v.value}" disabled></option>
+										  <option th:each="v : ${researchdataData.housingSystems}" th:value="${v.key}" th:text="${v.value}"></option><!-- bei ktblOptions: disabled hinzufügen  -->
 									</select>
 								</div>
 				 			</div>
@@ -183,7 +183,7 @@
 								<div class="select-additionalhousingsystems">
 									<select id="additionalhousingsystems0" class="form-select" multiple data-searchable="true" tabindex="33" th:field="*{info.ktbl.additionalHousingSystems}">
 										  <option value="">Please select...</option>
-										  <option th:each="e : ${researchdataData.additionalHousingSystems}" th:value="${e.key}" th:text="${e.value}" disabled></option>
+										  <option th:each="e : ${researchdataData.additionalHousingSystems}" th:value="${e.key}" th:text="${e.value}"></option> <!-- bei ktblOptions: disabled hinzufügen  -->
 									</select>
 								</div>
 	   				 		</div>

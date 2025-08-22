@@ -98,448 +98,739 @@
 	  					  				<!-- ******** Accordion Panel 2 (Creatorship data) ******** -->
 	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingTwo','collapseTwo','creator-section','Authorship information')}"> 
 	  	
-						<div layout:fragment="accordionPanel-content">		      				
-		      				<!-- Creator -->	
-		      				<div class="multi-field-wrapper">
-		      					<ol class="multi-fields" id="creator">
-		      					
-			      					<!-- Feld gefüllt -->
-			      					<th:block th:each="cre,i : ${researchdata.creator}">
-			      						<li class="multi-field mb-3">
-			      							<div class="first-child-of-multi-field">
-			      								<div>
-		        									<label for="creator[0]">Author</label>
-		  											<button type="button" class="inline-help" name="creator">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="creator" style="display: none;">
-														<button name="creator" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>
-												<div class="search">
-													<div class="input-group">
-														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{creator[__${i.index}__].id}" style="display: none;"/>
-														<p class="input-field-heading">
-															<b th:text="*{creator[__${i.index}__].prefLabel}"></b>
-															<a th:href="*{creator[__${i.index}__].id}" target="_blank">
-																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
-															</a>
-														</p>
-														<input type="hidden" autocomplete="off" th:field="*{creator[__${i.index}__].prefLabel}" style="display:none;"/>
-														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-														<select class="form-select" style="display:none;max-width:fit-content;">
-															<option value="/forms/localAutocomplete">local</option>
-												  			<option th:each="art : ${researchdataData.personLookupEndpoints}" th:value="${art.key}" th:text="${art.value}"></option>
-														</select>
-													</div>
-												</div>
-												
-												<!-- MULTISELECT AREA START -->	
-							      				<div class="roles-container">
-								      				<div class="role-field">
-														<div>
-							        						<label th:for="'role-creator' + ${i.index}">Role/s</label>
-							  								<button type="button" class="inline-help" th:name="'role-creator' + ${i.index}">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" th:name="'role-creator' + ${i.index}" style="display: none;">
-																<button th:name="'role-creator' + ${i.index}" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select th:id="'role-creator' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{creator[__${i.index}__].role}">
-																<option value="">Please select...</option>
-																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>
-												<!-- MULTISELECT AREA END -->
-												
-			      							</div>
+						<div layout:fragment="accordionPanel-content">
+							
+							<!-- Creator -->
+							<div class="multi-field-wrapper">
+							  <ol class="multi-fields" id="creator">
 
-											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
-			      							<div class="buttonBox">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>	
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>
-												<div></div>
-											</div>
-			      						</li>
-			      					</th:block>
-		      						<!-- Feld gefüllt ENDE -->
+							    <th:block th:each="cre, i : ${#lists.isEmpty(researchdata.creator) ? {null} : researchdata.creator}">
+							      <li class="multi-field">
+							
+							        <div class="first-child-of-multi-field">
+							
+							          <div>
+							            <label th:for="'creator[' + ${i.index} + ']'">Author</label>
+							            <button type="button" class="inline-help" th:name="'creator[' + ${i.index} + ']'">
+							              <span class="fas fa-question-circle"></span>
+							            </button>
+							            <div class="help-text" th:name="'creator[' + ${i.index} + ']'" style="display: none;">
+							              <button th:name="'creator[' + ${i.index} + ']'" type="button" class="close-help" style="float: right">
+							                <span class="fas fa-times-circle"></span>
+							              </button>
+							            </div>
+							          </div>
+							
+							          <div class="search">
+							            <div class="input-group">
+							              <input type="text"
+							                     class="form-control search input-widget focus ui-autocomplete-input"
+							                     th:placeholder="${cre == null} ? 'Please type...' : ''"
+							                     autocomplete="off"
+							                     th:field="*{creator[__${i.index}__].id}"
+							                     th:style="${cre == null} ? '' : 'display:none;'" />
+							
+							              <p class="input-field-heading" th:if="${cre != null}">
+							                <b th:text="*{creator[__${i.index}__].prefLabel}"></b>
+							                <a th:href="*{creator[__${i.index}__].id}" target="_blank">
+							                  <span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+							                </a>
+							              </p>
+							
+							              <input type="hidden" th:if="${cre != null}"
+							                     th:field="*{creator[__${i.index}__].prefLabel}" />
+							
+							              <select class="form-select endpointselect"
+							                      th:style="${cre == null} ? 'max-width:fit-content;' : 'display:none;max-width:fit-content;'">
+							                <option value="/forms/localAutocomplete">local</option>
+							                <option th:each="con : ${researchdataData.personLookupEndpoints}"
+							                        th:value="${con.key}" th:text="${con.value}"></option>
+							              </select>
+							            </div>
+							          </div>
+							
+							          <!-- Rollen -->
+							          <div class="roles-container" th:style="${cre == null} ? 'display:none;' : ''">
+							            <div class="role-field">
+							              <div>
+							                <label th:for="'role-creator' + ${i.index}">Role/s</label>
+							                <button type="button" class="inline-help" th:name="'role-creator' + ${i.index}">
+							                  <span class="fas fa-question-circle"></span>
+							                </button>
+							                <div class="help-text" th:name="'role-creator' + ${i.index}" style="display:none;">
+							                  <button th:name="'role-creator' + ${i.index}" type="button" class="close-help" style="float:right">
+							                    <span class="fas fa-times-circle"></span>
+							                  </button>
+							                </div>
+							              </div>
+							              <div>
+							                <select th:id="'role-creator' + ${i.index}"
+							                        data-searchable="true"
+							                        multiple
+							                        class="form-select"
+							                        th:field="*{creator[__${i.index}__].role}">
+							                  <option value="">Please select...</option>
+							                  <option th:each="rol : ${researchdataData.role}"
+							                          th:value="${rol.key}" th:text="${rol.value}"></option>
+							                </select>
+							              </div>
+							            </div>
+							          </div>
+							        </div>
+							
+									<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
+									
+							        <!-- Buttons -->
+							        <div class="buttonBox">
+							          <div class="btn-group">
+							            <button type="button" class="add-field"><span class="fas fa-plus-circle"></span></button>
+							            <button type="button" class="remove-field"><span class="fas fa-minus-circle"></span></button>
+							          </div>
+							          <div class="btn-group">
+							            <button type="button" class="moveUp"><span class="fas fa-arrow-circle-up"></span></button>
+							            <button type="button" class="moveDown"><span class="fas fa-arrow-circle-down"></span></button>
+							          </div>
+							        </div>
+							
+							      </li>
+							    </th:block>
+							  </ol>
+							</div>
+							<!-- Creator END -->
+							      				
+<!-- 		      				Creator	 -->
+<!-- 		      				<div class="multi-field-wrapper"> -->
+<!-- 		      					<ol class="multi-fields" id="creator"> -->
+		      					
+<!-- 			      					Feld gefüllt -->
+<!-- 			      					<th:block th:each="cre,i : ${researchdata.creator}"> -->
+<!-- 			      						<li class="multi-field mb-3"> -->
+<!-- 			      							<div class="first-child-of-multi-field"> -->
+<!-- 			      								<div> -->
+<!-- 		        									<label for="creator[0]">Author</label> -->
+<!-- 		  											<button type="button" class="inline-help" name="creator"> -->
+<!-- 														<span class="fas fa-question-circle"></span> -->
+<!-- 													</button> -->
+<!-- 													<div class="help-text" name="creator" style="display: none;"> -->
+<!-- 														<button name="creator" type="button" class="close-help" style="float: right"> -->
+<!-- 															<span class="fas fa-times-circle"></span> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												<div class="search"> -->
+<!-- 													<div class="input-group"> -->
+<!-- 														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{creator[__${i.index}__].id}" style="display: none;"/> -->
+<!-- 														<p class="input-field-heading"> -->
+<!-- 															<b th:text="*{creator[__${i.index}__].prefLabel}"></b> -->
+<!-- 															<a th:href="*{creator[__${i.index}__].id}" target="_blank"> -->
+<!-- 																<span class="fa fa-external-link-alt" style="color: #375b9a"></span> -->
+<!-- 															</a> -->
+<!-- 														</p> -->
+<!-- 														<input type="hidden" autocomplete="off" th:field="*{creator[__${i.index}__].prefLabel}" style="display:none;"/> -->
+<!-- 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> -->
+<!-- 														<select class="form-select" style="display:none;max-width:fit-content;"> -->
+<!-- 															<option value="/forms/localAutocomplete">local</option> -->
+<!-- 												  			<option th:each="art : ${researchdataData.personLookupEndpoints}" th:value="${art.key}" th:text="${art.value}"></option> -->
+<!-- 														</select> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+												
+<!-- 												MULTISELECT AREA START	 -->
+<!-- 							      				<div class="roles-container"> -->
+<!-- 								      				<div class="role-field"> -->
+<!-- 														<div> -->
+<!-- 							        						<label th:for="'role-creator' + ${i.index}">Role/s</label> -->
+<!-- 							  								<button type="button" class="inline-help" th:name="'role-creator' + ${i.index}"> -->
+<!-- 																<span class="fas fa-question-circle"></span> -->
+<!-- 															</button> -->
+<!-- 															<div class="help-text" th:name="'role-creator' + ${i.index}" style="display: none;"> -->
+<!-- 																<button th:name="'role-creator' + ${i.index}" type="button" class="close-help" style="float: right"> -->
+<!-- 																	<span class="fas fa-times-circle"></span> -->
+<!-- 																</button> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 														<div> -->
+<!-- 															<select th:id="'role-creator' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{creator[__${i.index}__].role}"> -->
+<!-- 																<option value="">Please select...</option> -->
+<!-- 																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option> -->
+<!-- 															</select> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
+<!-- 												</div> -->
+<!-- 												MULTISELECT AREA END -->
+												
+<!-- 			      							</div> -->
+
+<!-- 											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div> -->
+<!-- 			      							<div class="buttonBox"> -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button> -->
+<!-- 													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button> -->
+<!-- 													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button> -->
+<!-- 												</div> -->
+<!-- 												<div></div> -->
+<!-- 											</div> -->
+<!-- 			      						</li> -->
+<!-- 			      					</th:block> -->
+<!-- 		      						Feld gefüllt ENDE -->
 		      							
-		      						<!-- Feld leer -->
-		      						<th:block th:if="${#lists.isEmpty(researchdata.creator)}">
-			      						<li class="multi-field mb-3">
-			      							<div class="first-child-of-multi-field">
-			      								<div>
-		        									<label for="creator[0]">Author</label>
-		  											<button type="button" class="inline-help" name="creator">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="creator" style="display: none;">
-														<button name="creator" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>										
-												<div class="search">
-													<div class="input-group">
-														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Please type..." autocomplete="off" th:field="*{creator[0].id}"/>
-														<p class="input-field-heading"></p>
-														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-														<select class="form-select endpointselect" style="max-width:fit-content;">
-															<option value="/forms/localAutocomplete">local</option>
-												  			<option th:each="art : ${researchdataData.personLookupEndpoints}" th:value="${art.key}" th:text="${art.value}"></option>
-														</select>
-													</div>
-												</div>
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container" style="display:none;">
-								      				<div class="role-field">
-														<div>
-							        						<label for="role-creator0">Role/s</label>
-							  								<button type="button" class="inline-help" name="role-creator0">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" name="role-creator0" style="display: none;">
-																<button name="role-creator0" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select id="role-creator0" data-searchable="true" multiple class="form-select" th:field="*{creator[0].role}">
-																<option value="">Please select...</option>
-																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
+<!-- 		      						Feld leer -->
+<!-- 		      						<th:block th:if="${#lists.isEmpty(researchdata.creator)}"> -->
+<!-- 			      						<li class="multi-field mb-3"> -->
+<!-- 			      							<div class="first-child-of-multi-field"> -->
+<!-- 			      								<div> -->
+<!-- 		        									<label for="creator[0]">Author</label> -->
+<!-- 		  											<button type="button" class="inline-help" name="creator"> -->
+<!-- 														<span class="fas fa-question-circle"></span> -->
+<!-- 													</button> -->
+<!-- 													<div class="help-text" name="creator" style="display: none;"> -->
+<!-- 														<button name="creator" type="button" class="close-help" style="float: right"> -->
+<!-- 															<span class="fas fa-times-circle"></span> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div>										 -->
+<!-- 												<div class="search"> -->
+<!-- 													<div class="input-group"> -->
+<!-- 														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Please type..." autocomplete="off" th:field="*{creator[0].id}"/> -->
+<!-- 														<p class="input-field-heading"></p> -->
+<!-- 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> -->
+<!-- 														<select class="form-select endpointselect" style="max-width:fit-content;"> -->
+<!-- 															<option value="/forms/localAutocomplete">local</option> -->
+<!-- 												  			<option th:each="art : ${researchdataData.personLookupEndpoints}" th:value="${art.key}" th:text="${art.value}"></option> -->
+<!-- 														</select> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												MULTISELECT AREA START		 -->
+<!-- 							      				<div class="roles-container" style="display:none;"> -->
+<!-- 								      				<div class="role-field"> -->
+<!-- 														<div> -->
+<!-- 							        						<label for="role-creator0">Role/s</label> -->
+<!-- 							  								<button type="button" class="inline-help" name="role-creator0"> -->
+<!-- 																<span class="fas fa-question-circle"></span> -->
+<!-- 															</button> -->
+<!-- 															<div class="help-text" name="role-creator0" style="display: none;"> -->
+<!-- 																<button name="role-creator0" type="button" class="close-help" style="float: right"> -->
+<!-- 																	<span class="fas fa-times-circle"></span> -->
+<!-- 																</button> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 														<div> -->
+<!-- 															<select id="role-creator0" data-searchable="true" multiple class="form-select" th:field="*{creator[0].role}"> -->
+<!-- 																<option value="">Please select...</option> -->
+<!-- 																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option> -->
+<!-- 															</select> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
+<!-- 												</div>	 -->
+<!-- 												MULTISELECT AREA END -->
 												
-											</div>
+<!-- 											</div> -->
 												
-											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
+<!-- 											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div> -->
 			      	
-			      							<div class="buttonBox">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>	
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>
-											</div>
-			      						</li>
+<!-- 			      							<div class="buttonBox"> -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button> -->
+<!-- 													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button> -->
+<!-- 													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button> -->
+<!-- 												</div> -->
+<!-- 											</div> -->
+<!-- 			      						</li> -->
 			      					
-		      						<!-- Feld leer ENDE -->
+<!-- 		      						Feld leer ENDE -->
 		      						
-		      					</ol>
-	   				 		</div>
-	   				 		<!-- Creator END -->
-		   				 		
+<!-- 		      					</ol> -->
+<!-- 	   				 		</div> -->
+<!-- 	   				 		Creator END -->
+	   				 		
 	   				 		<!-- Contributor -->
-		      				<div class="multi-field-wrapper">
-		      					<ol class="multi-fields" id="contributor">
+							<div class="multi-field-wrapper">
+							  <ol class="multi-fields" id="contributor">
+
+							    <th:block th:each="cre, i : ${#lists.isEmpty(researchdata.contributor) ? {null} : researchdata.contributor}">
+							      <li class="multi-field">
+							
+							        <div class="first-child-of-multi-field">
+							
+							          <div>
+							            <label th:for="'contributor[' + ${i.index} + ']'">Contributor</label>
+							            <button type="button" class="inline-help" th:name="'contributor[' + ${i.index} + ']'">
+							              <span class="fas fa-question-circle"></span>
+							            </button>
+							            <div class="help-text" th:name="'contributor[' + ${i.index} + ']'" style="display: none;">
+							              <button th:name="'contributor[' + ${i.index} + ']'" type="button" class="close-help" style="float: right">
+							                <span class="fas fa-times-circle"></span>
+							              </button>
+							            </div>
+							          </div>
+							
+							          <div class="search">
+							            <div class="input-group">
+							              <input type="text"
+							                     class="form-control search input-widget focus ui-autocomplete-input"
+							                     th:placeholder="${cre == null} ? 'Please type...' : ''"
+							                     autocomplete="off"
+							                     th:field="*{contributor[__${i.index}__].id}"
+							                     th:style="${cre == null} ? '' : 'display:none;'" />
+							
+							              <p class="input-field-heading" th:if="${cre != null}">
+							                <b th:text="*{contributor[__${i.index}__].prefLabel}"></b>
+							                <a th:href="*{contributor[__${i.index}__].id}" target="_blank">
+							                  <span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+							                </a>
+							              </p>
+							
+							              <input type="hidden" th:if="${cre != null}"
+							                     th:field="*{contributor[__${i.index}__].prefLabel}" />
+							
+							              <select class="form-select endpointselect"
+							                      th:style="${cre == null} ? 'max-width:fit-content;' : 'display:none;max-width:fit-content;'">
+							                <option value="/forms/localAutocomplete">local</option>
+							                <option th:each="con : ${researchdataData.personLookupEndpoints}"
+							                        th:value="${con.key}" th:text="${con.value}"></option>
+							              </select>
+							            </div>
+							          </div>
+							
+							          <!-- Rollen -->
+							          <div class="roles-container" th:style="${cre == null} ? 'display:none;' : ''">
+							            <div class="role-field">
+							              <div>
+							                <label th:for="'role-contributor' + ${i.index}">Role/s</label>
+							                <button type="button" class="inline-help" th:name="'role-contributor' + ${i.index}">
+							                  <span class="fas fa-question-circle"></span>
+							                </button>
+							                <div class="help-text" th:name="'role-contributor' + ${i.index}" style="display:none;">
+							                  <button th:name="'role-contributor' + ${i.index}" type="button" class="close-help" style="float:right">
+							                    <span class="fas fa-times-circle"></span>
+							                  </button>
+							                </div>
+							              </div>
+							              <div>
+							                <select th:id="'role-contributor' + ${i.index}"
+							                        data-searchable="true"
+							                        multiple
+							                        class="form-select"
+							                        th:field="*{contributor[__${i.index}__].role}">
+							                  <option value="">Please select...</option>
+							                  <option th:each="rol : ${researchdataData.role}"
+							                          th:value="${rol.key}" th:text="${rol.value}"></option>
+							                </select>
+							              </div>
+							            </div>
+							          </div>
+							        </div>
+							
+							        <!-- Buttons -->
+							        <div class="buttonBox">
+							          <div class="btn-group">
+							            <button type="button" class="add-field"><span class="fas fa-plus-circle"></span></button>
+							            <button type="button" class="remove-field"><span class="fas fa-minus-circle"></span></button>
+							          </div>
+							          <div class="btn-group">
+							            <button type="button" class="moveUp"><span class="fas fa-arrow-circle-up"></span></button>
+							            <button type="button" class="moveDown"><span class="fas fa-arrow-circle-down"></span></button>
+							          </div>
+							        </div>
+							
+							      </li>
+							    </th:block>
+							  </ol>
+							</div>
+							<!-- Contributor END -->
+		   				 		
+<!-- 	   				 		Contributor -->
+<!-- 		      				<div class="multi-field-wrapper"> -->
+<!-- 		      					<ol class="multi-fields" id="contributor"> -->
 		      					
-		      						<!-- Feld gefüllt -->
-		      						<th:block th:each="cre,i : ${researchdata.contributor}">
-			      						<li class="multi-field">
-			      							<div class="first-child-of-multi-field">
-					        					<div>
-					        						<label for="contributor[0]">Contributor</label>
-					  								<button type="button" class="inline-help" name="contributor">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="contributor" style="display: none;">
-														<button name="contributor" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>
-												<div class="search">
-													<div class="input-group">
-														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" value="" autocomplete="off" th:field="*{contributor[__${i.index}__].id}" style="display: none;"/>
-														<p class="input-field-heading">
-															<b th:text="*{contributor[__${i.index}__].prefLabel}"></b>
-															<a th:href="*{contributor[__${i.index}__].id}" target="_blank">
-																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
-															</a>
-														</p>
-														<input type="hidden" autocomplete="off" th:field="*{contributor[__${i.index}__].prefLabel}" style="display:none;"/>
-														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
-															<option value="/forms/localAutocomplete">local</option>
-														  	<option th:each="con : ${researchdataData.personLookupEndpoints}" th:value="${con.key}" th:text="${con.value}"></option>
-														</select>
-													</div>
-												</div>
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container">
-								      				<div class="role-field">
-														<div>
-							        						<label th:for="'role-contributor' + ${i.index}">Role/s</label>
-							  								<button type="button" class="inline-help" th:name="'role-contributor' + ${i.index}">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" th:name="'role-contributor' + ${i.index}" style="display: none;">
-																<button th:name="'role-contributor' + ${i.index}" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select th:id="'role-contributor' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{contributor[__${i.index}__].role}">
-																<option value="">Please select...</option>
-																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-					   				 		</div>
+<!-- 		      						Feld gefüllt -->
+<!-- 		      						<th:block th:each="cre,i : ${researchdata.contributor}"> -->
+<!-- 			      						<li class="multi-field"> -->
+<!-- 			      							<div class="first-child-of-multi-field"> -->
+<!-- 					        					<div> -->
+<!-- 					        						<label for="contributor[0]">Contributor</label> -->
+<!-- 					  								<button type="button" class="inline-help" name="contributor"> -->
+<!-- 														<span class="fas fa-question-circle"></span> -->
+<!-- 													</button> -->
+<!-- 													<div class="help-text" name="contributor" style="display: none;"> -->
+<!-- 														<button name="contributor" type="button" class="close-help" style="float: right"> -->
+<!-- 															<span class="fas fa-times-circle"></span> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												<div class="search"> -->
+<!-- 													<div class="input-group"> -->
+<!-- 														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{contributor[__${i.index}__].id}" style="display: none;"/> -->
+<!-- 														<p class="input-field-heading"> -->
+<!-- 															<b th:text="*{contributor[__${i.index}__].prefLabel}"></b> -->
+<!-- 															<a th:href="*{contributor[__${i.index}__].id}" target="_blank"> -->
+<!-- 																<span class="fa fa-external-link-alt" style="color: #375b9a"></span> -->
+<!-- 															</a> -->
+<!-- 														</p> -->
+<!-- 														<input type="hidden" autocomplete="off" th:field="*{contributor[__${i.index}__].prefLabel}" style="display:none;"/> -->
+<!-- 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> -->
+<!-- 														<select class="form-select endpointselect" style="display:none;max-width:fit-content;"> -->
+<!-- 															<option value="/forms/localAutocomplete">local</option> -->
+<!-- 														  	<option th:each="con : ${researchdataData.personLookupEndpoints}" th:value="${con.key}" th:text="${con.value}"></option> -->
+<!-- 														</select> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												MULTISELECT AREA START		 -->
+<!-- 							      				<div class="roles-container"> -->
+<!-- 								      				<div class="role-field"> -->
+<!-- 														<div> -->
+<!-- 							        						<label th:for="'role-contributor' + ${i.index}">Role/s</label> -->
+<!-- 							  								<button type="button" class="inline-help" th:name="'role-contributor' + ${i.index}"> -->
+<!-- 																<span class="fas fa-question-circle"></span> -->
+<!-- 															</button> -->
+<!-- 															<div class="help-text" th:name="'role-contributor' + ${i.index}" style="display: none;"> -->
+<!-- 																<button th:name="'role-contributor' + ${i.index}" type="button" class="close-help" style="float: right"> -->
+<!-- 																	<span class="fas fa-times-circle"></span> -->
+<!-- 																</button> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 														<div> -->
+<!-- 															<select th:id="'role-contributor' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{contributor[__${i.index}__].role}"> -->
+<!-- 																<option value="">Please select...</option> -->
+<!-- 																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option> -->
+<!-- 															</select> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
+<!-- 												</div>	 -->
+<!-- 												MULTISELECT AREA END -->
+<!-- 					   				 		</div> -->
 											
-				   				 			<div class="buttonBox">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>	
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>		
-											</div>
-			      						</li>
-		      						</th:block>
-		      						<!-- Feld gefüllt ENDE -->
+<!-- 				   				 			<div class="buttonBox"> -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button> -->
+<!-- 													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button> -->
+<!-- 													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button> -->
+<!-- 												</div>		 -->
+<!-- 											</div> -->
+<!-- 			      						</li> -->
+<!-- 		      						</th:block> -->
+<!-- 		      						Feld gefüllt ENDE -->
 		      						
-		      						<!-- Feld leer -->
-		      						<th:block th:if="${#lists.isEmpty(researchdata.contributor)}">
-			      						<li class="multi-field">
-			      							<div class="first-child-of-multi-field">
-					        					<div>
-					        						<label for="contributor[0]">Contributor</label>
-					  								<button type="button" class="inline-help" name="contributor">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="contributor" style="display: none;">
-														<button name="contributor" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>									
-												<div class="search">
-													<div class="input-group">
-														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Please type..." autocomplete="off" th:field="*{contributor[0].id}"/>
-														<p class="input-field-heading"></p>
-														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-														<select class="form-select endpointselect" style="max-width:fit-content;">
-															<option value="/forms/localAutocomplete">local</option>
-														  	<option th:each="con : ${researchdataData.personLookupEndpoints}" th:value="${con.key}" th:text="${con.value}"></option>
-														</select>
-													</div>
-												</div>	
+<!-- 		      						Feld leer -->
+<!-- 		      						<th:block th:if="${#lists.isEmpty(researchdata.contributor)}"> -->
+<!-- 			      						<li class="multi-field"> -->
+<!-- 			      							<div class="first-child-of-multi-field"> -->
+<!-- 					        					<div> -->
+<!-- 					        						<label for="contributor[0]">Contributor</label> -->
+<!-- 					  								<button type="button" class="inline-help" name="contributor"> -->
+<!-- 														<span class="fas fa-question-circle"></span> -->
+<!-- 													</button> -->
+<!-- 													<div class="help-text" name="contributor" style="display: none;"> -->
+<!-- 														<button name="contributor" type="button" class="close-help" style="float: right"> -->
+<!-- 															<span class="fas fa-times-circle"></span> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div>									 -->
+<!-- 												<div class="search"> -->
+<!-- 													<div class="input-group"> -->
+<!-- 														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Please type..." autocomplete="off" th:field="*{contributor[0].id}"/> -->
+<!-- 														<p class="input-field-heading"></p> -->
+<!-- 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> -->
+<!-- 														<select class="form-select endpointselect" style="max-width:fit-content;"> -->
+<!-- 															<option value="/forms/localAutocomplete">local</option> -->
+<!-- 														  	<option th:each="con : ${researchdataData.personLookupEndpoints}" th:value="${con.key}" th:text="${con.value}"></option> -->
+<!-- 														</select> -->
+<!-- 													</div> -->
+<!-- 												</div>	 -->
 												
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container" style="display:none;">
-								      				<div class="role-field">
-														<div>
-							        						<label for="role-contributor0">Role/s</label>
-							  								<button type="button" class="inline-help" name="role-contributor0">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" name="role-contributor0" style="display: none;">
-																<button name="role-contributor0" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select id="role-contributor0" data-searchable="true" multiple class="form-select" th:field="*{contributor[0].role}">
-																<option value="">Please select...</option>
-																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-					   				 		</div>
+<!-- 												MULTISELECT AREA START		 -->
+<!-- 							      				<div class="roles-container" style="display:none;"> -->
+<!-- 								      				<div class="role-field"> -->
+<!-- 														<div> -->
+<!-- 							        						<label for="role-contributor0">Role/s</label> -->
+<!-- 							  								<button type="button" class="inline-help" name="role-contributor0"> -->
+<!-- 																<span class="fas fa-question-circle"></span> -->
+<!-- 															</button> -->
+<!-- 															<div class="help-text" name="role-contributor0" style="display: none;"> -->
+<!-- 																<button name="role-contributor0" type="button" class="close-help" style="float: right"> -->
+<!-- 																	<span class="fas fa-times-circle"></span> -->
+<!-- 																</button> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 														<div> -->
+<!-- 															<select id="role-contributor0" data-searchable="true" multiple class="form-select" th:field="*{contributor[0].role}"> -->
+<!-- 																<option value="">Please select...</option> -->
+<!-- 																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option> -->
+<!-- 															</select> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
+<!-- 												</div>	 -->
+<!-- 												MULTISELECT AREA END -->
+<!-- 					   				 		</div> -->
 					   				 		
-				   				 			<div class="buttonBox">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>	
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>		
-											</div>
-			      						</li>
-		      						</th:block>
-		      						<!-- Feld leer ENDE -->
+<!-- 				   				 			<div class="buttonBox"> -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button> -->
+<!-- 													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button> -->
+<!-- 													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button> -->
+<!-- 												</div>		 -->
+<!-- 											</div> -->
+<!-- 			      						</li> -->
+<!-- 		      						</th:block> -->
+<!-- 		      						Feld leer ENDE -->
 		      						
-		      					</ol>
-	   				 		</div>
+<!-- 		      					</ol> -->
+<!-- 	   				 		</div> -->
 	   				 		
-	   				 		<!-- Contributor END -->
+<!-- 	   				 		Contributor END -->
+
+							<!-- Other -->
+							<div class="multi-field-wrapper">
+							  <ol class="multi-fields" id="other">
+
+							    <th:block th:each="cre, i : ${#lists.isEmpty(researchdata.other) ? {null} : researchdata.other}">
+							      <li class="multi-field">
+							
+							        <div class="first-child-of-multi-field">
+							
+							          <div>
+							            <label th:for="'other[' + ${i.index} + ']'">Other</label>
+							            <button type="button" class="inline-help" th:name="'other[' + ${i.index} + ']'">
+							              <span class="fas fa-question-circle"></span>
+							            </button>
+							            <div class="help-text" th:name="'other[' + ${i.index} + ']'" style="display: none;">
+							              <button th:name="'other[' + ${i.index} + ']'" type="button" class="close-help" style="float: right">
+							                <span class="fas fa-times-circle"></span>
+							              </button>
+							            </div>
+							          </div>
+							
+							          <div class="search">
+							            <div class="input-group">
+							              <input type="text"
+							                     class="form-control search input-widget focus ui-autocomplete-input"
+							                     th:placeholder="${cre == null} ? 'Please type...' : ''"
+							                     autocomplete="off"
+							                     th:field="*{other[__${i.index}__].id}"
+							                     th:style="${cre == null} ? '' : 'display:none;'" />
+							
+							              <p class="input-field-heading" th:if="${cre != null}">
+							                <b th:text="*{other[__${i.index}__].prefLabel}"></b>
+							                <a th:href="*{other[__${i.index}__].id}" target="_blank">
+							                  <span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+							                </a>
+							              </p>
+							
+							              <input type="hidden" th:if="${cre != null}"
+							                     th:field="*{other[__${i.index}__].prefLabel}" />
+							
+							              <select class="form-select endpointselect"
+							                      th:style="${cre == null} ? 'max-width:fit-content;' : 'display:none;max-width:fit-content;'">
+							                <option value="/forms/localAutocomplete">local</option>
+							                <option th:each="oth : ${researchdataData.personLookupEndpoints}"
+							                        th:value="${oth.key}" th:text="${oth.value}"></option>
+							              </select>
+							            </div>
+							          </div>
+							
+							          <!-- Rollen -->
+							          <div class="roles-container" th:style="${cre == null} ? 'display:none;' : ''">
+							            <div class="role-field">
+							              <div>
+							                <label th:for="'role-other' + ${i.index}">Role/s</label>
+							                <button type="button" class="inline-help" th:name="'role-other' + ${i.index}">
+							                  <span class="fas fa-question-circle"></span>
+							                </button>
+							                <div class="help-text" th:name="'role-other' + ${i.index}" style="display:none;">
+							                  <button th:name="'role-other' + ${i.index}" type="button" class="close-help" style="float:right">
+							                    <span class="fas fa-times-circle"></span>
+							                  </button>
+							                </div>
+							              </div>
+							              <div>
+							                <select th:id="'role-other' + ${i.index}"
+							                        data-searchable="true"
+							                        multiple
+							                        class="form-select"
+							                        th:field="*{other[__${i.index}__].role}">
+							                  <option value="">Please select...</option>
+							                  <option th:each="rol : ${researchdataData.role}"
+							                          th:value="${rol.key}" th:text="${rol.value}"></option>
+							                </select>
+							              </div>
+							            </div>
+							          </div>
+							        </div>
+							
+							        <!-- Buttons -->
+							        <div class="buttonBox">
+							          <div class="btn-group">
+							            <button type="button" class="add-field"><span class="fas fa-plus-circle"></span></button>
+							            <button type="button" class="remove-field"><span class="fas fa-minus-circle"></span></button>
+							          </div>
+							          <div class="btn-group">
+							            <button type="button" class="moveUp"><span class="fas fa-arrow-circle-up"></span></button>
+							            <button type="button" class="moveDown"><span class="fas fa-arrow-circle-down"></span></button>
+							          </div>
+							        </div>
+							
+							      </li>
+							    </th:block>
+							  </ol>
+							</div>
+							<!-- Other END -->
 	   				 		
-	   				 		<!-- Other -->
-		      				<div class="multi-field-wrapper">
-		      					<ol class="multi-fields" id="other">
+<!-- 	   				 		Other -->
+<!-- 		      				<div class="multi-field-wrapper"> -->
+<!-- 		      					<ol class="multi-fields" id="other"> -->
 		      					
-		      						<!-- Feld gefüllt -->
-		      						<th:block th:each="cre,i : ${researchdata.other}">
-			      						<li class="multi-field">
-			      							<div class="first-child-of-multi-field">
-					        					<div>
-					        						<label for="other[0]">Other</label>
-					  								<button type="button" class="inline-help" name="other">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="other" style="display: none;">
-														<button name="other" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>
-												<div class="search">
-													<div class="input-group">
-														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{other[__${i.index}__].id}" style="display: none;"/>
-														<p class="input-field-heading">
-															<b th:text="*{other[__${i.index}__].prefLabel}"></b>
-															<a th:href="*{other[__${i.index}__].id}" target="_blank">
-																<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
-															</a>
-														</p>
-														<input type="hidden" autocomplete="off" th:field="*{other[__${i.index}__].prefLabel}" style="display:none;"/>
-														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-														<select class="form-select endpointselect" style="display:none;max-width:fit-content;">
-															<option value="/forms/localAutocomplete">local</option>
-														  	<option th:each="oth : ${researchdataData.personLookupEndpoints}" th:value="${oth.key}" th:text="${oth.value}">local</option>
-														</select>
-													</div>
-												</div>
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container">
-								      				<div class="role-field">
-														<div>
-							        						<label th:for="'role-other' + ${i.index}">Role/s</label>
-							  								<button type="button" class="inline-help" th:name="'role-other' + ${i.index}">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" th:name="'role-other' + ${i.index}" style="display: none;">
-																<button th:name="'role-other' + ${i.index}" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select th:id="'role-other' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{other[__${i.index}__].role}">
-																<option value="">Please select...</option>
-																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-					   				 		</div>
+<!-- 		      						Feld gefüllt -->
+<!-- 		      						<th:block th:each="cre,i : ${researchdata.other}"> -->
+<!-- 			      						<li class="multi-field"> -->
+<!-- 			      							<div class="first-child-of-multi-field"> -->
+<!-- 					        					<div> -->
+<!-- 					        						<label for="other[0]">Other</label> -->
+<!-- 					  								<button type="button" class="inline-help" name="other"> -->
+<!-- 														<span class="fas fa-question-circle"></span> -->
+<!-- 													</button> -->
+<!-- 													<div class="help-text" name="other" style="display: none;"> -->
+<!-- 														<button name="other" type="button" class="close-help" style="float: right"> -->
+<!-- 															<span class="fas fa-times-circle"></span> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												<div class="search"> -->
+<!-- 													<div class="input-group"> -->
+<!-- 														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" autocomplete="off" th:field="*{other[__${i.index}__].id}" style="display: none;"/> -->
+<!-- 														<p class="input-field-heading"> -->
+<!-- 															<b th:text="*{other[__${i.index}__].prefLabel}"></b> -->
+<!-- 															<a th:href="*{other[__${i.index}__].id}" target="_blank"> -->
+<!-- 																<span class="fa fa-external-link-alt" style="color: #375b9a"></span> -->
+<!-- 															</a> -->
+<!-- 														</p> -->
+<!-- 														<input type="hidden" autocomplete="off" th:field="*{other[__${i.index}__].prefLabel}" style="display:none;"/> -->
+<!-- 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> -->
+<!-- 														<select class="form-select endpointselect" style="display:none;max-width:fit-content;"> -->
+<!-- 															<option value="/forms/localAutocomplete">local</option> -->
+<!-- 														  	<option th:each="oth : ${researchdataData.personLookupEndpoints}" th:value="${oth.key}" th:text="${oth.value}">local</option> -->
+<!-- 														</select> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
+<!-- 												MULTISELECT AREA START		 -->
+<!-- 							      				<div class="roles-container"> -->
+<!-- 								      				<div class="role-field"> -->
+<!-- 														<div> -->
+<!-- 							        						<label th:for="'role-other' + ${i.index}">Role/s</label> -->
+<!-- 							  								<button type="button" class="inline-help" th:name="'role-other' + ${i.index}"> -->
+<!-- 																<span class="fas fa-question-circle"></span> -->
+<!-- 															</button> -->
+<!-- 															<div class="help-text" th:name="'role-other' + ${i.index}" style="display: none;"> -->
+<!-- 																<button th:name="'role-other' + ${i.index}" type="button" class="close-help" style="float: right"> -->
+<!-- 																	<span class="fas fa-times-circle"></span> -->
+<!-- 																</button> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 														<div> -->
+<!-- 															<select th:id="'role-other' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{other[__${i.index}__].role}"> -->
+<!-- 																<option value="">Please select...</option> -->
+<!-- 																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option> -->
+<!-- 															</select> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
+<!-- 												</div>	 -->
+<!-- 												MULTISELECT AREA END -->
+<!-- 					   				 		</div> -->
 					   				 		
-				   				 			<div class="buttonBox">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>	
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>	
-											</div>
-		   				 				</li>
-		   							</th:block>
-		   							<!-- Feld gefüllt ENDE -->
+<!-- 				   				 			<div class="buttonBox"> -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button> -->
+<!-- 													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button> -->
+<!-- 													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 											</div> -->
+<!-- 		   				 				</li> -->
+<!-- 		   							</th:block> -->
+<!-- 		   							Feld gefüllt ENDE -->
 		   							
-		   							<!-- Feld leer -->
-		      						<th:block th:if="${#lists.isEmpty(researchdata.other)}">
-			      						<li class="multi-field">
-			      							<div class="first-child-of-multi-field">
-					        					<div>
-					        						<label for="other[0]">Other</label>
-					  								<button type="button" class="inline-help" name="other">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="other" style="display: none;">
-														<button name="other" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>										
-												<div class="search">
-													<div class="input-group">
-														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Please type..." autocomplete="off" th:field="*{other[0].id}"/>
-														<p class="input-field-heading"></p>
-														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-														<select class="form-select endpointselect" style="max-width:fit-content;">
-															<option value="/forms/localAutocomplete">local</option>
-														  	<option th:each="oth : ${researchdataData.personLookupEndpoints}" th:value="${oth.key}" th:text="${oth.value}">local</option>
-														</select>
-													</div>
-												</div>
+<!-- 		   							Feld leer -->
+<!-- 		      						<th:block th:if="${#lists.isEmpty(researchdata.other)}"> -->
+<!-- 			      						<li class="multi-field"> -->
+<!-- 			      							<div class="first-child-of-multi-field"> -->
+<!-- 					        					<div> -->
+<!-- 					        						<label for="other[0]">Other</label> -->
+<!-- 					  								<button type="button" class="inline-help" name="other"> -->
+<!-- 														<span class="fas fa-question-circle"></span> -->
+<!-- 													</button> -->
+<!-- 													<div class="help-text" name="other" style="display: none;"> -->
+<!-- 														<button name="other" type="button" class="close-help" style="float: right"> -->
+<!-- 															<span class="fas fa-times-circle"></span> -->
+<!-- 														</button> -->
+<!-- 													</div> -->
+<!-- 												</div>										 -->
+<!-- 												<div class="search"> -->
+<!-- 													<div class="input-group"> -->
+<!-- 														<input type="text" class="form-control search input-widget focus ui-autocomplete-input" placeholder="Please type..." autocomplete="off" th:field="*{other[0].id}"/> -->
+<!-- 														<p class="input-field-heading"></p> -->
+<!-- 														<span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span> -->
+<!-- 														<select class="form-select endpointselect" style="max-width:fit-content;"> -->
+<!-- 															<option value="/forms/localAutocomplete">local</option> -->
+<!-- 														  	<option th:each="oth : ${researchdataData.personLookupEndpoints}" th:value="${oth.key}" th:text="${oth.value}">local</option> -->
+<!-- 														</select> -->
+<!-- 													</div> -->
+<!-- 												</div> -->
 												
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container" style="display:none;">
-								      				<div class="role-field">
-														<div>
-							        						<label for="role-other0">Role/s</label>
-							  								<button type="button" class="inline-help" name="role-other0">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" name="role-other0" style="display: none;">
-																<button name="role-other0" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select id="role-other0" data-searchable="true" multiple class="form-select" th:field="*{other[0].role}">
-																<option value="">Please select...</option>
-																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-					   				 		</div>
+<!-- 												MULTISELECT AREA START		 -->
+<!-- 							      				<div class="roles-container" style="display:none;"> -->
+<!-- 								      				<div class="role-field"> -->
+<!-- 														<div> -->
+<!-- 							        						<label for="role-other0">Role/s</label> -->
+<!-- 							  								<button type="button" class="inline-help" name="role-other0"> -->
+<!-- 																<span class="fas fa-question-circle"></span> -->
+<!-- 															</button> -->
+<!-- 															<div class="help-text" name="role-other0" style="display: none;"> -->
+<!-- 																<button name="role-other0" type="button" class="close-help" style="float: right"> -->
+<!-- 																	<span class="fas fa-times-circle"></span> -->
+<!-- 																</button> -->
+<!-- 															</div> -->
+<!-- 														</div> -->
+<!-- 														<div> -->
+<!-- 															<select id="role-other0" data-searchable="true" multiple class="form-select" th:field="*{other[0].role}"> -->
+<!-- 																<option value="">Please select...</option> -->
+<!-- 																<option th:each="rol : ${researchdataData.role}" th:value="${rol.key}" th:text="${rol.value}"></option> -->
+<!-- 															</select> -->
+<!-- 														</div> -->
+<!-- 													</div>	 -->
+<!-- 												</div>	 -->
+<!-- 												MULTISELECT AREA END -->
+<!-- 					   				 		</div> -->
 					   				 		
-				   				 			<div class="buttonBox">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>	
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>	
-											</div>
-		   				 				</li>
-		   							</th:block>
-		   							<!-- Feld leer ENDE -->
+<!-- 				   				 			<div class="buttonBox"> -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button> -->
+<!-- 													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 												<div class="btn-group"> -->
+<!-- 													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button> -->
+<!-- 													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button> -->
+<!-- 												</div>	 -->
+<!-- 											</div> -->
+<!-- 		   				 				</li> -->
+<!-- 		   							</th:block> -->
+<!-- 		   							Feld leer ENDE -->
 		   							
-		      					</ol>
-	   				 		</div>
-	   				 		<!-- Other END -->	
+<!-- 		      					</ol> -->
+<!-- 	   				 		</div> -->
+<!-- 	   				 		Other END	 -->
 		   				</div>
 		   				 		
 			      	</div>		
