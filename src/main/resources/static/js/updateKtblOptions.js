@@ -11,7 +11,7 @@ function updateKtblOptions() {
         
         livestockSelect.clearValue();
         addhousingSysSelect.clearValue();
-        console.log("JAwohl");
+        
 	    const optionsMap = {
 	        cattle: {
 	            production: ["dairy_cattle_farming", "young_cattle_farming", "calf_raising", "calf_fattening", "cattle_fattening", "suckler_cow_farming"],
