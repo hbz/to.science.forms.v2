@@ -339,7 +339,7 @@ function enableHelptext() {
 	
 	$('button[name="isLike').webuiPopover({
 	    title:'ähnlich zu',
-	    content:'Angabe der dauerhaften URL unter der die Daten an einem anderen Ort außerhalb des FRL abrufbar sind. Gilt nur für Zweitveröffentlichungen.<br />Link-Feld | Mehrfachnennungen möglich',
+	    content:'Angabe der dauerhaften URL unter der die Daten an einem anderen Ort außerhalb des FRL abrufbar sind. Gilt nur für Zweitveröffentlichungen.<br />Link-Feld',
 	    trigger: 'hover',
 	    width:'400px'
 	});
