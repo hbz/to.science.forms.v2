@@ -52,8 +52,8 @@ public class MonographController {
 	@PostMapping
 	public Object postMonograph(@ModelAttribute Monograph monograph, RedirectAttributes redirectAttributes) {		
 		
-		String pid = client.createResource(MONOGRAPH);
-		//String pid="frl:65050050"; // to test
+		String pid = client.createResource(MONOGRAPH); // prod
+		//String pid="frl:65050050"; // testing
 		log.info("PID_MONOGRAPH: {}", pid);
 		
 		return postMonographWithPid(monograph, pid, redirectAttributes);
@@ -75,8 +75,7 @@ public class MonographController {
 	    redirectAttributes.addFlashAttribute("message", "Monograph was created/updated successfully");
 	    redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 
-	    //return ResponseEntity.ok(monograph); // to test
-	    //return "redirect:/monograph/" + pid;
+	    //return ResponseEntity.ok(monograph); // testing
 	    return "redirect:" + link.getFrlUrl() + "resource/" + pid;
 	    
 	}

@@ -14,6 +14,6 @@ import lombok.EqualsAndHashCode;
 public class PartOf extends SimpleObject {
 	
 	private List<SimpleObject> hasSuperordinate;
-	private String numbering;
+	//private String numbering;
 	
 }

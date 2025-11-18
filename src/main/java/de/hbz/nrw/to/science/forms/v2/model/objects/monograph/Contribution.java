@@ -17,9 +17,6 @@ public class Contribution {
 	@JsonProperty(access = WRITE_ONLY, value = "agent")
 	private Agent agent;
 	
-	@JsonProperty(access = READ_ONLY, value = "agent")
-	private List<Agent> agentList;
-	
 	@JsonProperty(access = READ_ONLY)
 	private List<SimpleObject> rdftype;
 	

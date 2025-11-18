@@ -1,5 +1,6 @@
 package de.hbz.nrw.to.science.forms.v2.model.forms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -148,5 +149,45 @@ public class Article {
 	private List<String> additionalNotes;
 	
 	/***************** Formularvariablen ENDE *******************/ 
+	
+	@JsonProperty("issued")
+    public void setIssuedByDataType(Object issuedVal) {
+        if (issuedVal instanceof String) {
+            // Case1 (issued is a String): "issued": "YYYY"
+            this.issued = (String) issuedVal;
+        } else if (issuedVal instanceof List) {
+            // Case2 (issued is a List of String): "issued": ["YYYY"]
+            List<?> list = (List<?>) issuedVal;
+            if (!list.isEmpty() && list.get(0) instanceof String) {
+                this.issued = (String) list.get(0);
+            }
+        } else {
+            this.issued = null;
+        }
+    }
+	
+	@JsonProperty("additionalMaterial")
+    public void setAdditionalMaterialByType(List<?> values) {
+        if (values == null) {
+            this.additionalMaterial = null;
+            return;
+        }
+        List<String> result = new ArrayList<>();
+        for (Object item : values) {
+            if (item instanceof String) {
+            	// Case1 (additionalMaterial is List of String): "additionalMaterial": ["lorem ipsum.."]
+                result.add((String) item);
+            } else if (item instanceof SimpleObject) {
+            	// Case2 (additionalMaterial is List of SimpleObject): "additionalMaterial": [{"id":"lorem ipsum..", "prefLabel":"lorem ipsum.."}]
+                SimpleObject so = (SimpleObject) item;
+                if (so.getId() != null) {
+                    result.add(so.getId());
+                } else if (so.getPrefLabel() != null) {
+                    result.add(so.getPrefLabel());
+                }
+            }
+        }
+        this.additionalMaterial = result;
+    }
 
 }

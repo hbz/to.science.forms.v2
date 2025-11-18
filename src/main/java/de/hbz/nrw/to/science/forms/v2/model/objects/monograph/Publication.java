@@ -13,9 +13,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class Publication extends SimpleObject{
 	
+	private String startDate;
 	private List<String> location;
 	private List<String> publishedBy;
-	private String startDate;
 	//private String endDate;
 	//private String publicationHistory;
 
