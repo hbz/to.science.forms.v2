@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Slf4j
 @Controller
