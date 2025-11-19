@@ -6,14 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import de.hbz.nrw.to.science.forms.v2.model.clientresponse.Label;
 import de.hbz.nrw.to.science.forms.v2.model.forms.Monograph;
-import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.CatalogLink;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Contribution;
-import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.DescribedBy;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Publication;
-import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Result;
-import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.ResultObject;
 import de.hbz.nrw.to.science.forms.v2.model.parent.CreatorObject;
 import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.properties.URLProperties;
