@@ -46,7 +46,7 @@ public class AutoCompletionController {
 	 * @param q the query will be redirected to geonames
 	 * @return the response from api.geonames.org
 	 */
-	@GetMapping("/geoSearch")
+	@GetMapping({"/geoSearch/", "/geoSearch"})
 	@ResponseBody 
 	public ResponseEntity<JsonNode> geoSearch(@RequestParam(required = false) String q) {
 		JsonNode response = webClient.build()
@@ -88,7 +88,7 @@ public class AutoCompletionController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/orcidAutocomplete")
+	@GetMapping({"/orcidAutocomplete/", "/orcidAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> orcidAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -135,7 +135,7 @@ public class AutoCompletionController {
 		
 	}
 	
-	@GetMapping("/agrovocAutocomplete")
+	@GetMapping({"/agrovocAutocomplete/", "/agrovocAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> agrovocAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -184,7 +184,7 @@ public class AutoCompletionController {
 		
 	}
 	
-	@GetMapping("/agrovocAutocompleteEN")
+	@GetMapping({"/agrovocAutocompleteEN/", "/agrovocAutocompleteEN"})
 	@ResponseBody
 	public ResponseEntity<String> agrovocAutocompleteEN(
 			@RequestParam(required = false) String q, 
@@ -233,7 +233,7 @@ public class AutoCompletionController {
 		
 	}
 
-	@GetMapping("/bookAutocomplete")
+	@GetMapping({"/bookAutocomplete/", "/bookAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> bookAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -241,7 +241,7 @@ public class AutoCompletionController {
 		return typedAutocomplete(q, "Book", request);
 	}
 
-	@GetMapping("/seriesAutocomplete")
+	@GetMapping({"/seriesAutocomplete/", "/seriesAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> seriesAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -249,7 +249,7 @@ public class AutoCompletionController {
 		return typedAutocomplete(q, "Series", request);
 	}
 
-	@GetMapping("/journalAutocomplete")
+	@GetMapping({"/journalAutocomplete/", "/journalAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> journalAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -257,7 +257,7 @@ public class AutoCompletionController {
 		return typedAutocomplete(q, "Periodical", request);
 	}
 
-	@GetMapping("/allAutocomplete")
+	@GetMapping({"/allAutocomplete/", "/allAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> allAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -333,7 +333,7 @@ public class AutoCompletionController {
 		return label.toString();
 	}
 	
-	@GetMapping("/localAutocomplete")
+	@GetMapping({"/localAutocomplete/", "/localAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> localAutocomplete(String q, HttpServletRequest request) {
 
@@ -358,7 +358,7 @@ public class AutoCompletionController {
 	 * @return a jsonp result
 	 */
 	// Mit Spring
-	@GetMapping("/subjectAutocomplete")
+	@GetMapping({"/subjectAutocomplete/", "/subjectAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> subjectAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -372,7 +372,7 @@ public class AutoCompletionController {
 	 * @return a jsonp result
 	 */
 	// Mit Spring
-	@GetMapping("/personAutocomplete")
+	@GetMapping({"/personAutocomplete/", "/personAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> personAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -386,7 +386,7 @@ public class AutoCompletionController {
 	 * @return a jsonp result
 	 */
 	// Mit Spring
-	@GetMapping("/corporateBodyAutocomplete")
+	@GetMapping({"/corporateBodyAutocomplete/", "/corporateBodyAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> corporateBodyAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -399,7 +399,7 @@ public class AutoCompletionController {
 	 * @param q a query against lobid
 	 * @return a jsonp result
 	 */
-	@GetMapping("/conferenceAutocomplete")
+	@GetMapping({"/conferenceAutocomplete/", "/conferenceAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> conferenceAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -465,7 +465,7 @@ public class AutoCompletionController {
 	 * @param q a query against lobid
 	 * @return a jsonp result
 	 */
-	@GetMapping("/lobidAutocomplete")
+	@GetMapping({"/lobidAutocomplete/", "/lobidAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> lobidAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -539,7 +539,7 @@ public class AutoCompletionController {
 	 * @return a jsonp result
 	 */
 	// Mit Spring
-	@GetMapping("/crossrefAutocomplete")
+	@GetMapping({"/crossrefAutocomplete/", "/crossrefAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> crossrefAutocomplete(
 			@RequestParam(required = false) String q, 
@@ -597,7 +597,7 @@ public class AutoCompletionController {
 	}
 
 	// Mit Spring
-	@GetMapping("/conferenceAlephAutocomplete")
+	@GetMapping({"/conferenceAlephAutocomplete/", "/conferenceAlephAutocomplete"})
 	@ResponseBody
 	public ResponseEntity<String> conferenceAlephAutocomplete(
 			@RequestParam(required = false) String q, 

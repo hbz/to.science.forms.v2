@@ -22,7 +22,7 @@ import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.*;
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/monograph")
+@RequestMapping({"/monograph/", "/monograph"})
 public class MonographController {
 
     private final WebClientService client;
@@ -35,21 +35,21 @@ public class MonographController {
     	model.addAttribute("monographData", formsData.getMonographData());
     }
 
-    @GetMapping
+    @GetMapping({"/", ""})
 	public String getMonograph(Model model) {
     	Monograph monograph = new Monograph();
 		model.addAttribute(MONOGRAPH, monograph);
 		return "monograph";	
 	}
 	
-	@GetMapping("/{pid}")
+	@GetMapping({"/{pid}/", "/{pid}"})
 	public String getMonograph(@PathVariable String pid, Model model) {
 		Monograph monograph = client.getMonograph(pid);
 		model.addAttribute(MONOGRAPH, monograph);
 		return "monograph";
 	}
 	
-	@PostMapping
+	@PostMapping({"/", ""})
 	public Object postMonograph(@ModelAttribute Monograph monograph, RedirectAttributes redirectAttributes) {		
 		
 		String pid = client.createResource(MONOGRAPH); // prod
@@ -60,7 +60,7 @@ public class MonographController {
 		
 	}
 	
-	@PostMapping("/{pid}")
+	@PostMapping({"/{pid}/", "/{pid}"})
 	public Object postMonographWithPid(@ModelAttribute Monograph monograph, @PathVariable String pid, RedirectAttributes redirectAttributes) {
 		
 		// VON LOBID HOLEN

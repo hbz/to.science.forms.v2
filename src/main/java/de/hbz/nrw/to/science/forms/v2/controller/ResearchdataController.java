@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/researchdata")
+@RequestMapping({"/researchdata/", "/researchdata"})
 public class ResearchdataController {
 
     private final WebClientService client;
@@ -38,21 +38,21 @@ public class ResearchdataController {
         model.addAttribute("researchdataData", formsData.getResearchdataData());
     }
 
-    @GetMapping
+    @GetMapping({"/", ""})
 	public String addResearchdata(Model model) {
     	Researchdata researchdata = new Researchdata();
 		model.addAttribute(RESEARCHDATA, researchdata);
 		return "researchdata";
 	}
 	
-	@GetMapping("/{pid}")
+	@GetMapping({"/{pid}/", "/{pid}"})
 	public String getResearchdata(@PathVariable String pid, Model model) {
 		Researchdata researchData = client.getResearchData(pid);
 		model.addAttribute(RESEARCHDATA, researchData);
 		return "researchdata";
 	}
 	
-	@PostMapping
+	@PostMapping({"/", ""})
 	public Object postResearchdata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, RedirectAttributes redirectAttributes) {		
 		
 		String pid = null;
@@ -66,7 +66,7 @@ public class ResearchdataController {
 		return researchdataWithPid(researchdata, result, pid, redirectAttributes);
 	}
 
-	@PostMapping("/{pid}")
+	@PostMapping({"/{pid}/", "/{pid}"})
 	public Object researchdataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {
 
 		researchdataService.populateResearchdataFields(researchdata, pid);

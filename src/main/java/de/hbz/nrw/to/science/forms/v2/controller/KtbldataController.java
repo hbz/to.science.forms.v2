@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/ktbldata")
+@RequestMapping({"/ktbldata/", "/ktbldata"})
 public class KtbldataController {
 
     private final WebClientService client;
@@ -38,14 +38,14 @@ public class KtbldataController {
         model.addAttribute("researchdataData", formsData.getResearchdataData());
     }
 
-    @GetMapping
+    @GetMapping({"/", ""})
 	public String addKtbldata(Model model) {
     	Researchdata researchdata = new Researchdata();
 		model.addAttribute(RESEARCHDATA, researchdata);
 		return "ktbldata";
 	}
 	
-	@GetMapping("/{pid}")
+	@GetMapping({"/{pid}/", "/{pid}"})
 	public String getKtbldata(@PathVariable String pid, Model model) {
 		Researchdata researchData = client.getResearchData(pid);
 		Researchdata ktbl = client.getKtbl(pid);
@@ -54,7 +54,7 @@ public class KtbldataController {
 		return "ktbldata";
 	}
 	
-	@PostMapping
+	@PostMapping({"/", ""})
 	public Object postKtbldata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, RedirectAttributes redirectAttributes) {		
 		
 		String pid = null;
@@ -68,7 +68,7 @@ public class KtbldataController {
 		return ktbldataWithPid(researchdata, result, pid, redirectAttributes);
 	}
 
-	@PostMapping("/{pid}")
+	@PostMapping({"/{pid}/", "/{pid}"})
 	public Object ktbldataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {		
 
 		researchdataService.populateResearchdataFields(researchdata, pid);

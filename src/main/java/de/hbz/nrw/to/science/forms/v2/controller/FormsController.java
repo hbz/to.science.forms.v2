@@ -19,7 +19,7 @@ public class FormsController {
 	 * 
 	 */
 	
-	@GetMapping("/")
+	@GetMapping({"/", ""})
 	public String getForms() {
 			return "forms";
 	}

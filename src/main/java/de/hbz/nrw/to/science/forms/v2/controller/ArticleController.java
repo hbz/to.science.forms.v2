@@ -38,7 +38,7 @@ public class ArticleController {
     	model.addAttribute("articleData", formsData.getArticleData());
     }
 
-    @GetMapping
+    @GetMapping({"/", ""})
     public String addArticle(Model model) {
     	Article article = new Article();
     	model.addAttribute("articleData", formsData.getArticleData());
@@ -46,7 +46,7 @@ public class ArticleController {
         return "article";
     }
 
-    @GetMapping("/{pid}")
+    @GetMapping({"/{pid}", "/{pid}/"})
     public String getArticle(@PathVariable String pid, Model model) {
         Article fetchedArticle = client.getArticle(pid);
         model.addAttribute("articleData", formsData.getArticleData());
@@ -54,7 +54,7 @@ public class ArticleController {
         return "article";
     }
 
-    @PostMapping
+    @PostMapping({"/", ""})
     public Object postArticle(@Valid @ModelAttribute Article article, BindingResult result, RedirectAttributes redirectAttributes) {
       
     	String pid = null;
@@ -68,7 +68,7 @@ public class ArticleController {
 		return postArticleWithPid(article, result, pid,redirectAttributes);
     }
 
-    @PostMapping("/{pid}")
+    @PostMapping({"/{pid}", "/{pid}/"})
     public Object postArticleWithPid(@Valid @ModelAttribute Article article, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {
 
         articleService.populateArticleFields(article, pid);
