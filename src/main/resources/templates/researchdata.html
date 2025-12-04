@@ -1951,9 +1951,15 @@
 														</button>
 													</div>
 												</div>
-												<div>
-													<div class="numbering"></div>
-													<input type="text" class="form-control input-widget focus" tabindex="28" th:field="*{isLike[__${i.index}__].id}"/>
+												<div class="numbering">
+													<input type="text" class="form-control input-widget focus" style="display:none" tabindex="28" th:field="*{isLike[__${i.index}__].id}"/>
+													<input type="hidden" autocomplete="off" th:field="*{isLike[__${i.index}__].prefLabel}" style="display: none;"/>
+													<p class="input-field-heading">
+														<b th:text="*{isLike[__${i.index}__].prefLabel}"></b>
+														<a th:href="*{isLike[__${i.index}__].id}" target="_blank">
+															<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
+														</a>
+													</p>
 												</div>
 					   				 		</div>
 					   				 		
