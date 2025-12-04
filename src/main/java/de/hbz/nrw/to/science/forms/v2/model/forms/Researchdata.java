@@ -138,7 +138,7 @@ public class Researchdata {
 	// Identifiers
 	private List<String> urn;
 	private List<String> doi;
-	private List<String> isLike; //
+	private List<SimpleObject> isLike;
 	
 	//ktbl associated variables for ResearchDataForm 
 	private KtblObject info;
