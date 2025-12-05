@@ -49,6 +49,8 @@ public class ResearchdataService {
 		json.fillLanguages(researchdata.getLanguage(), false);
 		json.fillMedia(researchdata.getMedium());
 		json.getFundingLabels(researchdata.getFundingId());
+		json.setPreflabelFromId(researchdata.getAssociatedDataset());
+		json.setPreflabelFromId(researchdata.getIsLike()); 
 		json.fillSimpleObjectChilds(researchdata.getInstitution(), null);
 		json.fillSimpleObjectChilds(researchdata.getCreator(), null);
 		json.fillSimpleObjectChilds(researchdata.getContributor(), null);

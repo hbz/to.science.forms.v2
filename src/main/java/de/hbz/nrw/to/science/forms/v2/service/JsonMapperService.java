@@ -191,6 +191,11 @@ public class JsonMapperService {
     public void fillPublicationStatus(List<Publication> status) {
 		status.forEach(stat -> stat.setPrefLabel(formsData.getArticleData().getPublicationStatus().get(stat.getId())));
 	}
+    
+    // AssociatedDataset, IsLike
+    public void setPreflabelFromId(List<SimpleObject> list) {
+		list.forEach(li -> li.setPrefLabel(li.getId()));
+	}
 	
 	// isPrimaryTopicOf
 	public List<PrimaryTopicOf> fillPrimaryTopicOf(String articleId) {

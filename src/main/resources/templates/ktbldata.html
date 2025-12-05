@@ -19,7 +19,7 @@
 				
 				<div class="accordion" id="accordion">
 	 
-	 				<th:block th:replace="researchdata :: researchdataFragment">
+	 				<th:block th:replace="~{researchdata :: researchdataFragment}">
 						<!-- wird aus researchdata.html eingefügt -->
 	  				</th:block>
 	  					  				
@@ -289,7 +289,7 @@
 			</form>
 			
 			<!-- Fullscreen Overlay (initial versteckt) -->
-    		<th:block th:replace="fragments/loader :: loadingOverlay"></th:block>
+    		<th:block th:replace="~{fragments/loader :: loadingOverlay}"></th:block>
 			
 		</div>
 	</div>
