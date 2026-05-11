@@ -1,5 +1,6 @@
 package de.hbz.nrw.to.science.forms.v2.model.forms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.*;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.Contribution;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.DescribedBy;
 import de.hbz.nrw.to.science.forms.v2.model.objects.monograph.PartOf;
@@ -25,7 +27,7 @@ import lombok.Data;
 
 /**
  * @author Alessio Pellerito
- *
+ * @author Hasan Adoud
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder(alphabetic = true)
@@ -98,8 +100,6 @@ public class Monograph {
 	
 	private List<String> edition;
 	
-	@JsonProperty(access = WRITE_ONLY, value = "extent")
-	private String extentLobid;
 	private List<String> extent;
 	
 	private List<SimpleObject> fulltextOnline;
@@ -130,10 +130,76 @@ public class Monograph {
 	@JsonProperty(access = WRITE_ONLY, value = "zdbId")
 	private String zdbIdLobid;  // zdbId gibt es bei Monographie nicht
 	private List<String> zdbId;
-	
-	@JsonProperty(access = WRITE_ONLY, value = "hbzId")
-	private String hbzIdLobid;
 	private List<String> hbzId;
+
+	@JsonSetter("extent")
+	public void setExtentFromJson(Object extentValue) {
+		if (extentValue == null) {
+			this.extent = null;
+			return;
+		}
+		if (extentValue instanceof String s) {
+			this.extent = List.of(s);
+			return;
+		}
+		if (extentValue instanceof List<?> list) {
+			List<String> normalized = new ArrayList<>();
+			for (Object item : list) {
+				if (item != null) {
+					normalized.add(item.toString());
+				}
+			}
+			this.extent = normalized.isEmpty() ? null : normalized;
+			return;
+		}
+		this.extent = List.of(extentValue.toString());
+	}
+
+	@JsonSetter("title")
+	public void setTitleFromJson(Object titleValue) {
+		if (titleValue == null) {
+			this.title = null;
+			return;
+		}
+		if (titleValue instanceof String s) {
+			this.title = s;
+			return;
+		}
+		if (titleValue instanceof List<?> list) {
+			for (Object item : list) {
+				if (item != null && !item.toString().isBlank()) {
+					this.title = item.toString();
+					return;
+				}
+			}
+			this.title = null;
+			return;
+		}
+		this.title = titleValue.toString();
+	}
+
+	@JsonSetter("hbzId")
+	public void setHbzIdFromJson(Object hbzIdValue) {
+		if (hbzIdValue == null) {
+			this.hbzId = null;
+			return;
+		}
+		if (hbzIdValue instanceof String s) {
+			this.hbzId = List.of(s);
+			return;
+		}
+		if (hbzIdValue instanceof List<?> list) {
+			List<String> normalized = new ArrayList<>();
+			for (Object item : list) {
+				if (item != null) {
+					normalized.add(item.toString());
+				}
+			}
+			this.hbzId = normalized.isEmpty() ? null : normalized;
+			return;
+		}
+		this.hbzId = List.of(hbzIdValue.toString());
+	}
 	
 	// ---------------------------------------------
 	

@@ -15,6 +15,10 @@ import de.hbz.nrw.to.science.forms.v2.properties.URLProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author Alessio Pellerito
+ * @author Hasan Adoud
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -25,6 +29,14 @@ public class MonographService {
 	private URLProperties url;
 	
     public Monograph enrichMonographFromLobid(Monograph monograph) {
+        if (monograph == null
+                || monograph.getParallelEdition() == null
+                || monograph.getParallelEdition().isEmpty()
+                || monograph.getParallelEdition().get(0) == null
+                || monograph.getParallelEdition().get(0).getId() == null
+                || monograph.getParallelEdition().get(0).getId().isBlank()) {
+            throw new IllegalArgumentException("Bitte eine gültige lobid-URL in der Suche auswählen.");
+        }
         String url = monograph.getParallelEdition().get(0).getId();
         return client.getLobidAsMonograph(url);
     }
@@ -34,15 +46,13 @@ public class MonographService {
         monograph.setCatalogId(json.getCatalogId(pid));
         //monograph.setAlmaMmsIdList(List.of(monograph.getAlmaMmsId()));
         //monograph.setBibliographicLevelList(List.of(monograph.getBibliographicLevel()));
-        monograph.setCatalogLink(createCatalogLink(monograph));
         
         enrichContainedInFromIsPartOf(monograph);
         enrichContributions(monograph);
         enrichCatalogLinkFromDeprecatedUri(monograph);
-        enrichExtent(monograph);    
         enrichIssuedFromPublication(monograph);
         enrichAlmaMmsId(monograph);
-        enrichHbzId(monograph);
+        monograph.setCatalogLink(createCatalogLink(monograph));
         enrichLicenseFromDescribedBy(monograph);
         
         
@@ -62,9 +72,13 @@ public class MonographService {
     // From isPartOf to containedIn
     public void enrichContainedInFromIsPartOf(Monograph monograph) {
     	if (monograph == null) return;
+    	if (monograph.getIsPartOf() == null) return;
         List<SimpleObject> containedIn = monograph.getIsPartOf().stream()
                 .flatMap(part -> part.getHasSuperordinate().stream())
                 .map(superordinate -> {
+                    if (superordinate == null || superordinate.getId() == null || superordinate.getId().isBlank()) {
+                    	return null;
+                    }
                     String cleanedId = superordinate.getId().replace("#!", "#");
 
                     SimpleObject obj = new SimpleObject();
@@ -73,6 +87,7 @@ public class MonographService {
 
                     return obj;
                 })
+                .filter(obj -> obj != null)
                 .collect(Collectors.toList());
         monograph.setContainedIn(containedIn);
     }
@@ -80,6 +95,7 @@ public class MonographService {
     // From contribution to creator or contributors
     private void enrichContributions(Monograph monograph) {
         if (monograph == null) return;
+        if (monograph.getContribution() == null) return;
 
         List<CreatorObject> creators = new ArrayList<>();
         List<CreatorObject> contributors = new ArrayList<>();
@@ -111,12 +127,6 @@ public class MonographService {
         }
     }
     
-    private void enrichExtent(Monograph monograph) {
-    	if (monograph.getExtentLobid() != null && !monograph.getExtentLobid().isBlank()) {
-            monograph.setExtent(List.of(monograph.getExtentLobid()));
-        }
-    }
-    
     private void enrichIssuedFromPublication(Monograph monograph) {
     	 if (monograph.getPublicationLobid() != null && !monograph.getPublicationLobid().isEmpty()) {
              Publication publication = monograph.getPublicationLobid().get(0);
@@ -132,13 +142,10 @@ public class MonographService {
         }
     }
     
-    private void enrichHbzId(Monograph monograph) {
-    	if (monograph.getHbzIdLobid() != null && !monograph.getHbzIdLobid().isBlank()) {
-            monograph.setHbzId(List.of(monograph.getHbzIdLobid()));
-        }
-    }
-    
     private List<SimpleObject> createCatalogLink(Monograph monograph) {
+    	if (monograph.getHbzId() == null || monograph.getHbzId().isEmpty()) {
+    		return null;
+    	}
     	SimpleObject so = new SimpleObject();
         so.setId(url.getLobid() + monograph.getHbzId().get(0));
         so.setPrefLabel(monograph.getHbzId().get(0));

@@ -1173,7 +1173,7 @@
 													</div>
 												</div>
 												<div>
-					    							<input type="text" class="form-control input-widget focus" tabindex="29" autocomplete="off" th:field="*{projectId[0]}"/>
+					    							<input type="text" class="form-control input-widget focus" tabindex="29" autocomplete="off" th:field="*{projectId[__${i.index}__]}"/>
 												</div>
 					   				 		</div>
 					   				 		<br/>
@@ -1193,7 +1193,7 @@
 													</div>
 												</div>
 												<div>
-					    							<input type="text" class="form-control input-widget focus" tabindex="30" autocomplete="off" th:field="*{fundingProgram[0]}" value="-"/>
+					    							<input type="text" class="form-control input-widget focus" tabindex="30" autocomplete="off" th:field="*{fundingProgram[__${i.index}__]}" value="-"/>
 												</div>
 					   				 		</div>
 					   				 		<!-- Förderprogramm END-->
@@ -1601,75 +1601,117 @@
 		      				<!-- Reference -->
 		      				<div class="multi-field-wrapper">
 		      					<ol class="multi-fields" id="reference">
-		      						<li class="multi-field">
-		      							<div class="first-child-of-multi-field">
-				        					<div>
-				        						<label for="reference[0]">Source</label>
-				  								<button type="button" class="inline-help" name="reference">
-													<span class="fas fa-question-circle"></span>
-												</button>
-												<div class="help-text" name="reference" style="display: none;">
-													<button name="reference" type="button" class="close-help" style="float: right">
-														<span class="fas fa-times-circle"></span>
+		      						<!-- Feld gefüllt -->
+		      						<th:block th:each="cre, i : ${researchdata.reference}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="reference[0]">Source</label>
+					  								<button type="button" class="inline-help" name="reference">
+														<span class="fas fa-question-circle"></span>
 													</button>
+													<div class="help-text" name="reference" style="display: none;">
+														<button name="reference" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
 												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" value="" tabindex="21" th:field="*{reference[__${i.index}__]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
 											</div>
-											<div>
-												<div class="numbering"></div>
-												<input type="text" class="form-control input-widget focus" value="" tabindex="21" th:field="*{reference[0]}"/>
+											<br/>	
+					   				 	</li>
+					   				 </th:block>
+				      				<!-- Feld gefüllt ENDE -->
+				      				
+				      				<!-- Feld leer -->
+				      				<th:block th:if="${#lists.isEmpty(researchdata.reference)}">
+			      						<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="reference[0]">Source</label>
+					  								<button type="button" class="inline-help" name="reference">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="reference" style="display: none;">
+														<button name="reference" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" value="" tabindex="21" th:field="*{reference[0]}"/>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
 											</div>
-				   				 		</div>
-				   				 		
-				   				 		<div class="buttonBox">
-											<div class="btn-group">
-												<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-												<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-											</div>	
-											<div class="btn-group">
-												<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-												<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-											</div>	
-										</div>
-										<br/>	
-				   				 	</li>
+											<br/>	
+					   				 	</li>
+					   				</th:block>
+				      				<!-- Feld leer ENDE -->
 				   				 </ol>
 				   			</div>
 				   			<!-- Reference END -->
 				   			
-				   			<!-- Associated publications -->
+				 			<!-- Associated publications -->
 		      				<div class="multi-field-wrapper">
 		      					<ol class="multi-fields" id="associatedPublication">
-		      						<li class="multi-field">
-		      							<div class="first-child-of-multi-field">
-				        					<div>
-				        						<label for="associatedPublication[0]">Related text publication</label>
-				  								<button type="button" class="inline-help" name="associatedPublication">
-													<span class="fas fa-question-circle"></span>
-												</button>
-												<div class="help-text" name="associatedPublication" style="display: none;">
-													<button name="associatedPublication" type="button" class="close-help" style="float: right">
-														<span class="fas fa-times-circle"></span>
+		      						<th:block th:each="cre, i : ${#lists.isEmpty(researchdata.associatedPublication) ? {''} : researchdata.associatedPublication}">
+				      					<li class="multi-field">
+				      						<div class="first-child-of-multi-field">
+						        				<div>
+						        					<label for="associatedPublication[0]">Related text publication</label>
+						  							<button type="button" class="inline-help" name="associatedPublication">
+														<span class="fas fa-question-circle"></span>
 													</button>
+													<div class="help-text" name="associatedPublication" style="display: none;">
+														<button name="associatedPublication" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
 												</div>
-											</div>
-											<div>
-												<div class="numbering"></div>
-												<input type="text" class="form-control input-widget focus" tabindex="22" th:field="*{associatedPublication[0]}"/>
-											</div>
-				   				 		</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="text" class="form-control input-widget focus" tabindex="22" th:field="*{associatedPublication[__${i.index}__]}"/>
+												</div>
+				   				 			</div>
 				   				 		
-				   				 		<div class="buttonBox">
-											<div class="btn-group">
-												<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-												<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-											</div>	
-											<div class="btn-group">
-												<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-												<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-											</div>	
-										</div>
-										<br/>	
-				   				 	</li>
+				   				 			<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>
+											<br/>	
+				   				 		</li>
+				   				 	</th:block>
 				   				 </ol>
 				   			</div>
 				   			<!-- Associated publications END -->
@@ -1694,14 +1736,20 @@
 												</div>
 											</div>
 											<div class="numbering">
-												<input type="text" class="form-control input-widget focus" style="display:none" tabindex="23" th:field="*{associatedDataset[__${i.index}__].id}"/>
-												<input type="hidden" autocomplete="off" th:field="*{associatedDataset[__${i.index}__].prefLabel}" style="display: none;"/>
-												<p class="input-field-heading">
-													<b th:text="*{associatedDataset[__${i.index}__].prefLabel}"></b>
-													<a th:href="*{associatedDataset[__${i.index}__].id}" target="_blank">
-														<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
-													</a>
-												</p>
+												<input type="url"
+													   class="form-control input-widget"
+													   tabindex="23"
+													   th:field="*{associatedDataset[__${i.index}__].id}"
+													   th:classappend="${#fields.hasErrors('associatedDataset[' + i.index + '].id')} ? ' is-invalid' : ''"
+													   placeholder="https://example.com"
+													   title="Please enter a valid URL, e.g. https://example.com"
+													   oninvalid="this.classList.add('is-invalid'); this.setCustomValidity('Please fill in the field Related data publication with a valid URL!')"
+													   oninput="this.setCustomValidity(''); this.classList.remove('is-invalid'); this.parentElement.querySelector('input[name$=.prefLabel]').value=this.value"/>
+												<input type="hidden" autocomplete="off" th:field="*{associatedDataset[__${i.index}__].prefLabel}"/>
+												<div class="invalid-feedback"
+													 style="display:block;"
+													 th:if="${#fields.hasErrors('associatedDataset[' + i.index + '].id')}"
+													 th:errors="*{associatedDataset[__${i.index}__].id}"></div>
 											</div>
 				   				 		</div>
 				   				 		
@@ -1737,8 +1785,19 @@
 												</div>
 											</div>
 											<div>
-												<div class="numbering"></div>
-												<input type="text" class="form-control input-widget focus" tabindex="23" th:field="*{associatedDataset[0].id}"/>
+												<div class="numbering">
+													<input type="url"
+														   class="form-control input-widget focus"
+														   tabindex="23"
+														   th:field="*{associatedDataset[0].id}"
+														   th:classappend="${#fields.hasErrors('associatedDataset[0].id')} ? ' is-invalid' : ''"
+														   placeholder="https://example.com"
+														   title="Please enter a valid URL, e.g. https://example.com"
+														   oninvalid="this.classList.add('is-invalid'); this.setCustomValidity('Please fill in the field Related data publication with a valid URL!')"
+														   oninput="this.setCustomValidity(''); this.classList.remove('is-invalid'); this.parentElement.querySelector('input[name$=.prefLabel]').value=this.value"/>
+													<input type="hidden" autocomplete="off" th:field="*{associatedDataset[0].prefLabel}"/>
+													<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('associatedDataset[0].id')}" th:errors="*{associatedDataset[0].id}"></div>
+												</div>
 											</div>
 				   				 		</div>
 				   				 		
@@ -1765,11 +1824,13 @@
 				   			<!-- Additional Material -->
 		      				<div class="multi-field-wrapper">
 		      					<ol class="multi-fields" id="additionalMaterial">
-		      						<th:block th:each="cre, i : ${#lists.isEmpty(researchdata.additionalMaterial) ? {''} : researchdata.additionalMaterial}">
+		      						<!-- Case 1: list has entries -->
+		      						<th:block th:if="${researchdata.additionalMaterial != null and !#lists.isEmpty(researchdata.additionalMaterial)}"
+		      								  th:each="cre, i : ${researchdata.additionalMaterial}">
 			      						<li class="multi-field">
 			      							<div class="first-child-of-multi-field">
 					        					<div>
-					        						<label for="additionalMaterial[' + ${i.index} + ']'">Additional Material</label>
+					        						<label th:for="${'additionalMaterial_' + i.index}">Additional Material</label>
 					  								<button type="button" class="inline-help" name="additionalMaterial">
 														<span class="fas fa-question-circle"></span>
 													</button>
@@ -1781,7 +1842,64 @@
 												</div>
 												<div>
 													<div class="numbering"></div>
-													<input type="text" class="form-control input-widget focus" tabindex="26" th:field="*{additionalMaterial[__${i.index}__]}"/>
+													<input type="url"
+														   class="form-control input-widget focus"
+														   tabindex="26"
+														   th:field="*{additionalMaterial[__${i.index}__].id}"
+														   th:classappend="${#fields.hasErrors('additionalMaterial[' + i.index + '].id')} ? ' is-invalid' : ''"
+														   placeholder="https://example.com"
+														   title="Please enter a valid URL, e.g. https://example.com"
+														   oninvalid="this.classList.add('is-invalid'); this.setCustomValidity('Please fill in the field Additional Material with a valid URL!')"
+														   oninput="this.setCustomValidity(''); this.classList.remove('is-invalid'); this.parentElement.querySelector('input[name$=.prefLabel]').value=this.value"/>
+													<input type="hidden" autocomplete="off" th:field="*{additionalMaterial[__${i.index}__].prefLabel}"/>
+													<div class="invalid-feedback"
+														 style="display:block;"
+														 th:if="${#fields.hasErrors('additionalMaterial[' + i.index + '].id')}"
+														 th:errors="*{additionalMaterial[__${i.index}__].id}"></div>
+												</div>
+					   				 		</div>
+					   				 		
+					   				 		<div class="buttonBox">
+												<div class="btn-group">
+													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
+													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
+												</div>	
+												<div class="btn-group">
+													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
+													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
+												</div>	
+											</div>	
+					   				 	</li>
+				   				 	</th:block>
+				   				 	
+				   				 	<!-- Case 2: list is null or empty -->
+				   				 	<th:block th:if="${researchdata.additionalMaterial == null or #lists.isEmpty(researchdata.additionalMaterial)}">
+				   				 		<li class="multi-field">
+			      							<div class="first-child-of-multi-field">
+					        					<div>
+					        						<label for="additionalMaterial_0">Additional Material</label>
+					  								<button type="button" class="inline-help" name="additionalMaterial">
+														<span class="fas fa-question-circle"></span>
+													</button>
+													<div class="help-text" name="additionalMaterial" style="display: none;">
+														<button name="additionalMaterial" type="button" class="close-help" style="float: right">
+															<span class="fas fa-times-circle"></span>
+														</button>
+													</div>
+												</div>
+												<div>
+													<div class="numbering"></div>
+													<input type="url"
+														   class="form-control input-widget focus"
+														   tabindex="26"
+														   th:field="*{additionalMaterial[0].id}"
+														   th:classappend="${#fields.hasErrors('additionalMaterial[0].id')} ? ' is-invalid' : ''"
+														   placeholder="https://example.com"
+														   title="Please enter a valid URL, e.g. https://example.com"
+														   oninvalid="this.classList.add('is-invalid'); this.setCustomValidity('Please fill in the field Additional Material with a valid URL!')"
+														   oninput="this.setCustomValidity(''); this.classList.remove('is-invalid'); this.parentElement.querySelector('input[name$=.prefLabel]').value=this.value"/>
+													<input type="hidden" autocomplete="off" th:field="*{additionalMaterial[0].prefLabel}"/>
+													<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('additionalMaterial[0].id')}" th:errors="*{additionalMaterial[0].id}"></div>
 												</div>
 					   				 		</div>
 					   				 		
@@ -1953,14 +2071,20 @@
 												</div>
 												<div>
 												<div class="numbering">
-													<input type="text" class="form-control input-widget focus" style="display:none" tabindex="28" th:field="*{isLike[__${i.index}__].id}"/>
-													<input type="hidden" autocomplete="off" th:field="*{isLike[__${i.index}__].prefLabel}" style="display: none;"/>
-													<p class="input-field-heading">
-														<b th:text="*{isLike[__${i.index}__].prefLabel}"></b>
-														<a th:href="*{isLike[__${i.index}__].id}" target="_blank">
-															<span class="fa fa-external-link-alt" style="color: #375b9a"></span>
-														</a>
-													</p>
+													<input type="url"
+														   class="form-control input-widget"
+														   tabindex="28"
+														   th:field="*{isLike[__${i.index}__].id}"
+														   th:classappend="${#fields.hasErrors('isLike[' + i.index + '].id')} ? ' is-invalid' : ''"
+														   placeholder="https://example.com"
+														   title="Please enter a valid URL, e.g. https://example.com"
+														   oninvalid="this.classList.add('is-invalid'); this.setCustomValidity('Please fill in the field Similar to with a valid URL!')"
+														   oninput="this.setCustomValidity(''); this.classList.remove('is-invalid'); this.parentElement.querySelector('input[name$=.prefLabel]').value=this.value"/>
+													<input type="hidden" autocomplete="off" th:field="*{isLike[__${i.index}__].prefLabel}"/>
+													<div class="invalid-feedback"
+														 style="display:block;"
+														 th:if="${#fields.hasErrors('isLike[' + i.index + '].id')}"
+														 th:errors="*{isLike[__${i.index}__].id}"></div>
 												</div>
 												</div>
 					   				 		</div>
@@ -1996,8 +2120,19 @@
 													</div>
 												</div>
 												<div>
-													<div class="numbering"></div>
-													<input type="text" class="form-control input-widget focus" tabindex="28" th:field="*{isLike[0].id}"/>
+													<div class="numbering">
+														<input type="url"
+															   class="form-control input-widget focus"
+															   tabindex="28"
+															   th:field="*{isLike[0].id}"
+															   th:classappend="${#fields.hasErrors('isLike[0].id')} ? ' is-invalid' : ''"
+															   placeholder="https://example.com"
+															   title="Please enter a valid URL, e.g. https://example.com"
+															   oninvalid="this.classList.add('is-invalid'); this.setCustomValidity('Please fill in the field Similar to with a valid URL!')"
+															   oninput="this.setCustomValidity(''); this.classList.remove('is-invalid'); this.parentElement.querySelector('input[name$=.prefLabel]').value=this.value"/>
+														<input type="hidden" autocomplete="off" th:field="*{isLike[0].prefLabel}"/>
+														<div class="invalid-feedback" style="display:block;" th:if="${#fields.hasErrors('isLike[0].id')}" th:errors="*{isLike[0].id}"></div>
+													</div>
 												</div>
 					   				 		</div>
 					   				 		

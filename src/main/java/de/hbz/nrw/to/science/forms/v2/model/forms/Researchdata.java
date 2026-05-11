@@ -2,6 +2,7 @@ package de.hbz.nrw.to.science.forms.v2.model.forms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.validation.Valid;
 
@@ -28,12 +29,13 @@ import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.validator.AtLeastOne;
 import de.hbz.nrw.to.science.forms.v2.validator.FieldNotEmpty;
 import de.hbz.nrw.to.science.forms.v2.validator.NotBothFieldsEmpty;
+import de.hbz.nrw.to.science.forms.v2.validator.ValidAssociatedDatasetUrls;
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.RESEARCHDATA;
 import lombok.Data;
 
 /**
  * @author Alessio Pellerito
- *
+ * @author Hasan Adoud
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder(alphabetic = true)
@@ -47,6 +49,7 @@ import lombok.Data;
 					field1="Creator",
 					field2="Contributor",
 					message="{not.both.fields.empty.en}")
+@ValidAssociatedDatasetUrls(message = "Please fill in the field \"Related data publication\" with a valid URL!")
 public class Researchdata {
 	
 	/***************** Systemvariablen *******************/
@@ -131,7 +134,7 @@ public class Researchdata {
 	private List<String> reference;
 	private List<String> associatedPublication;
 	private List<SimpleObject> associatedDataset;
-	private List<String> additionalMaterial;
+	private List<SimpleObject> additionalMaterial;
 	private List<String> nextVersion;
 	private List<String> previousVersion;
 	
@@ -155,5 +158,39 @@ public class Researchdata {
 	private List<SimpleObject> relatedDatasets;
 	
 	/***************** Formularvariablen ENDE *******************/
+
+	@JsonProperty("additionalMaterial")
+    public void setAdditionalMaterialByType(List<?> values) {
+        if (values == null) {
+            this.additionalMaterial = null;
+            return;
+        }
+        List<SimpleObject> result = new ArrayList<>();
+        for (Object item : values) {
+            if (item instanceof String) {
+                SimpleObject so = new SimpleObject();
+                so.setId((String) item);
+                so.setPrefLabel((String) item);
+                result.add(so);
+            } else if (item instanceof SimpleObject) {
+                result.add((SimpleObject) item);
+            } else if (item instanceof Map) {
+                Map<?, ?> map = (Map<?, ?>) item;
+                Object id = map.get("@id");
+                if (id == null) {
+                    id = map.get("id");
+                }
+                Object prefLabel = map.get("prefLabel");
+                if (id != null || prefLabel != null) {
+                    SimpleObject so = new SimpleObject();
+                    String value = id != null ? id.toString() : prefLabel.toString();
+                    so.setId(value);
+                    so.setPrefLabel(prefLabel != null ? prefLabel.toString() : value);
+                    result.add(so);
+                }
+            }
+        }
+        this.additionalMaterial = result;
+    }
 	
 }

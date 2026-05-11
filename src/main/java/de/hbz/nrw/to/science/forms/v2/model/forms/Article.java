@@ -2,6 +2,7 @@ package de.hbz.nrw.to.science.forms.v2.model.forms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.validation.Valid;
 
@@ -25,13 +26,14 @@ import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.validator.AtLeastOne;
 import de.hbz.nrw.to.science.forms.v2.validator.FieldNotEmpty;
 import de.hbz.nrw.to.science.forms.v2.validator.NotBothFieldsEmpty;
+import de.hbz.nrw.to.science.forms.v2.validator.ValidArticleAdditionalMaterialUrls;
 
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.ARTICLE;
 import lombok.Data;
 
 /**
  * @author Alessio Pellerito
- *
+ * @author Hasan Adoud
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -42,6 +44,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @NotBothFieldsEmpty(first = "creator[0].id", second = "contributor[0].id", field1 = "Autor/in", field2 = "Mitwirkende/r", message = "{not.both.fields.empty.de}")
+@ValidArticleAdditionalMaterialUrls
 public class Article {
 	
 	/***************** Systemvariablen *******************/
@@ -131,7 +134,7 @@ public class Article {
 	private List<String> urn;
 	private List<SimpleObject> publisherVersion;
 	private List<String> fulltextVersion;
-	private List<String> additionalMaterial;
+	private List<SimpleObject> additionalMaterial;
 	private List<String> internalReference;
 	private List<String> nextVersion;
 	private List<String> previousVersion;
@@ -165,6 +168,40 @@ public class Article {
             this.issued = null;
         }
     }
+
+	@JsonProperty("publisherVersion")
+    public void setPublisherVersionByType(List<?> values) {
+        if (values == null) {
+            this.publisherVersion = null;
+            return;
+        }
+        List<SimpleObject> result = new ArrayList<>();
+        for (Object item : values) {
+            if (item instanceof String) {
+                SimpleObject so = new SimpleObject();
+                so.setId((String) item);
+                so.setPrefLabel((String) item);
+                result.add(so);
+            } else if (item instanceof SimpleObject) {
+                result.add((SimpleObject) item);
+            } else if (item instanceof Map) {
+                Map<?, ?> map = (Map<?, ?>) item;
+                Object id = map.get("@id");
+                if (id == null) {
+                    id = map.get("id");
+                }
+                Object prefLabel = map.get("prefLabel");
+                if (id != null || prefLabel != null) {
+                    SimpleObject so = new SimpleObject();
+                    String value = id != null ? id.toString() : prefLabel.toString();
+                    so.setId(value);
+                    so.setPrefLabel(prefLabel != null ? prefLabel.toString() : value);
+                    result.add(so);
+                }
+            }
+        }
+        this.publisherVersion = result;
+    }
 	
 	@JsonProperty("additionalMaterial")
     public void setAdditionalMaterialByType(List<?> values) {
@@ -172,18 +209,31 @@ public class Article {
             this.additionalMaterial = null;
             return;
         }
-        List<String> result = new ArrayList<>();
+        List<SimpleObject> result = new ArrayList<>();
         for (Object item : values) {
             if (item instanceof String) {
-            	// Case1 (additionalMaterial is List of String): "additionalMaterial": ["lorem ipsum.."]
-                result.add((String) item);
+                // Case1 (additionalMaterial is List of String): ["lorem ipsum.."]
+                SimpleObject so = new SimpleObject();
+                so.setId((String) item);
+                so.setPrefLabel((String) item);
+                result.add(so);
             } else if (item instanceof SimpleObject) {
-            	// Case2 (additionalMaterial is List of SimpleObject): "additionalMaterial": [{"id":"lorem ipsum..", "prefLabel":"lorem ipsum.."}]
-                SimpleObject so = (SimpleObject) item;
-                if (so.getId() != null) {
-                    result.add(so.getId());
-                } else if (so.getPrefLabel() != null) {
-                    result.add(so.getPrefLabel());
+                // Case2 (additionalMaterial is List of SimpleObject)
+                result.add((SimpleObject) item);
+            } else if (item instanceof Map) {
+                // Case3 (additionalMaterial is List of JSON objects/maps)
+                Map<?, ?> map = (Map<?, ?>) item;
+                Object id = map.get("@id");
+                if (id == null) {
+                    id = map.get("id");
+                }
+                Object prefLabel = map.get("prefLabel");
+                if (id != null || prefLabel != null) {
+                    SimpleObject so = new SimpleObject();
+                    String value = id != null ? id.toString() : prefLabel.toString();
+                    so.setId(value);
+                    so.setPrefLabel(prefLabel != null ? prefLabel.toString() : value);
+                    result.add(so);
                 }
             }
         }

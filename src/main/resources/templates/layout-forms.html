@@ -99,6 +99,7 @@
 	$(document).ready(function() {
 		//updateKtblOptions();
 		$('#saveForm').on('submit', function () {
+			removeEmptyAssociatedPublication();
 		    // Overlay anzeigen
 		    $('#loadingOverlay').removeClass('d-none');
 		});

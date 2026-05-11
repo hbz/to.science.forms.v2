@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.hbz.nrw.to.science.forms.v2.data.FormsData;
 import de.hbz.nrw.to.science.forms.v2.model.forms.Researchdata;
+import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 import de.hbz.nrw.to.science.forms.v2.properties.ResourceProperties;
 import de.hbz.nrw.to.science.forms.v2.service.ResearchdataService;
 import de.hbz.nrw.to.science.forms.v2.service.WebClientService;
@@ -21,7 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.*;
 
 import jakarta.validation.Valid;
+import java.beans.PropertyEditorSupport;
 
+/**
+ * @author Alessio Pellerito
+ * @author Hasan Adoud
+ */
 @Slf4j
 @Controller
 @AllArgsConstructor
@@ -36,6 +44,23 @@ public class ResearchdataController {
     @ModelAttribute
     public void addCommonAttributes(Model model) {
         model.addAttribute("researchdataData", formsData.getResearchdataData());
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(SimpleObject.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                if (text == null || text.trim().isEmpty()) {
+                    setValue(null);
+                    return;
+                }
+                SimpleObject so = new SimpleObject();
+                so.setId(text);
+                so.setPrefLabel(text);
+                setValue(so);
+            }
+        });
     }
 
     @GetMapping({"/", ""})

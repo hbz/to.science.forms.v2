@@ -10,6 +10,10 @@ import de.hbz.nrw.to.science.forms.v2.model.forms.Article;
 import de.hbz.nrw.to.science.forms.v2.model.parent.CreatorObject;
 import lombok.AllArgsConstructor;
 
+/**
+ * @author Alessio Pellerito
+ * @author Hasan Adoud
+ */
 @Service
 @AllArgsConstructor
 public class ArticleService {

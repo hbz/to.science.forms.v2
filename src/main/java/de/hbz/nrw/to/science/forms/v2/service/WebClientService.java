@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * This client class manages all the different requests
  * @author Alessio Pellerito
- *
+ * @author Hasan Adoud
  */
 @Slf4j
 @Component
@@ -145,15 +145,18 @@ public class WebClientService {
 	 * @return Monograph lobid ressource mapped to Monograph
 	 */
 	public Monograph getLobidAsMonograph(String url) {
-		url.replace("#!", "");
-		String num = url.substring(url.lastIndexOf("/")+1);
+		if (url == null || url.isBlank()) {
+			throw new IllegalArgumentException("Lobid-URL fehlt oder ist leer.");
+		}
+		String sanitizedUrl = url.replace("#!", "");
+		String num = sanitizedUrl.substring(sanitizedUrl.lastIndexOf("/") + 1);
 		return webClient.get()
 						.uri(urlTo.getLobid() + num, uriBuilder -> uriBuilder
 							.queryParam("format", "json")
 							.build() )
 						.retrieve()
-				        .bodyToMono(Monograph.class)   
-				        .block();
+						.bodyToMono(Monograph.class)
+						.block();
 	}
 	
 	

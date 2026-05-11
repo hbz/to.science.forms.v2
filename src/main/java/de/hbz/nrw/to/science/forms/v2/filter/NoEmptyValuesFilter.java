@@ -1,6 +1,7 @@
 package de.hbz.nrw.to.science.forms.v2.filter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -13,6 +14,10 @@ import de.hbz.nrw.to.science.forms.v2.model.ktbl.KtblObject;
 import de.hbz.nrw.to.science.forms.v2.model.objects.JoinedFunding;
 import de.hbz.nrw.to.science.forms.v2.model.parent.SimpleObject;
 
+/**
+ * @author Alessio Pellerito
+ * @author Hasan Adoud
+ */
 public class NoEmptyValuesFilter extends SimpleBeanPropertyFilter {
 
 	@Override
@@ -36,6 +41,11 @@ public class NoEmptyValuesFilter extends SimpleBeanPropertyFilter {
             
             // Filtere leere Listen
             if(list.isEmpty() || list == null) {
+            	return;
+            }
+
+            // Filtere Listen, die nur null-Werte enthalten (z.B. [null, null])
+            if (list.stream().filter(Objects::nonNull).findAny().isEmpty()) {
             	return;
             }
             

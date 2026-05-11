@@ -187,7 +187,11 @@ function fixIds(elem, cntr) {
     });
     $(elem).find("[id]").each(function() {
         $(this).attr("id",$(this).attr("id").replace(/\d+/, cntr));
-    })
+    });
+    // Keep inline oninput handlers in sync for dynamic rows (e.g. additionalMaterial)
+    $(elem).find("[oninput]").each(function() {
+        $(this).attr("oninput",$(this).attr("oninput").replace(/\d+/, cntr));
+    });
     
 }
 
@@ -325,6 +329,19 @@ function addActionsToRemoveAndAddButtons() {
 		});
 
 	});
+}
+
+function removeEmptyAssociatedPublication() {
+	var $wrapper = $('#associatedPublication');
+	if (!$wrapper.length) {
+		return;
+	}
+	$wrapper.find('input[name^="associatedPublication"]').each(function() {
+		if ($.trim($(this).val()) === '') {
+			$(this).closest('li.multi-field').remove();
+		}
+	});
+	resetIds();
 }
 
 function addActionsToRemoveAndAddButtonsSubDropdown() {
