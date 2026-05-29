@@ -69,14 +69,8 @@ public class MonographController {
 	@PostMapping({"/{pid}/", "/{pid}"})
 	public Object postMonographWithPid(@ModelAttribute Monograph monograph, @PathVariable String pid, RedirectAttributes redirectAttributes) {
 		try {
-			// VON LOBID HOLEN
-			monograph = monographService.enrichMonographFromLobid(monograph);
-
-			// ANREICHERN FÜR FRL
-			monograph = monographService.enrichMonographForFRL(monograph, pid);
-
-			// METADATEN HOCHLADEN
-			client.uploadMetadataMonograph(monograph, pid);
+			String lobidMetadata = monographService.getRawMonographFromLobid(monograph);
+			client.uploadMetadataMonographJson(lobidMetadata, pid);
 
 			redirectAttributes.addFlashAttribute("message", "Monograph was created/updated successfully");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-success");

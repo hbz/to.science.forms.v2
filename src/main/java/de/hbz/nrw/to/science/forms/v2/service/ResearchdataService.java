@@ -2,6 +2,7 @@ package de.hbz.nrw.to.science.forms.v2.service;
 
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.RESEARCHDATA;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,9 @@ public class ResearchdataService {
 		}
 		
 		//researchdata.getRecordingCoordinates().removeIf(coordinate -> coordinate.getId().isBlank());
+		if (researchdata.getRecordingLocation() == null) {
+			researchdata.setRecordingLocation(new ArrayList<>());
+		}
 		json.fillRecordLocations(researchdata.getRecordingLocation());
 		
 		SimpleObject obj = new SimpleObject();

@@ -37,8 +37,25 @@ public class MonographService {
                 || monograph.getParallelEdition().get(0).getId().isBlank()) {
             throw new IllegalArgumentException("Bitte eine gültige lobid-URL in der Suche auswählen.");
         }
-        String url = monograph.getParallelEdition().get(0).getId();
+        String url = getLobidUrl(monograph);
         return client.getLobidAsMonograph(url);
+    }
+
+    public String getRawMonographFromLobid(Monograph monograph) {
+        String url = getLobidUrl(monograph);
+        return client.getLobidAsJson(url);
+    }
+
+    private String getLobidUrl(Monograph monograph) {
+        if (monograph == null
+                || monograph.getParallelEdition() == null
+                || monograph.getParallelEdition().isEmpty()
+                || monograph.getParallelEdition().get(0) == null
+                || monograph.getParallelEdition().get(0).getId() == null
+                || monograph.getParallelEdition().get(0).getId().isBlank()) {
+            throw new IllegalArgumentException("Bitte eine gültige lobid-URL in der Suche auswählen.");
+        }
+        return monograph.getParallelEdition().get(0).getId();
     }
 
     public Monograph enrichMonographForFRL(Monograph monograph, String pid) {

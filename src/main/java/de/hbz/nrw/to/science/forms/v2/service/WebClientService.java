@@ -1,6 +1,7 @@
 package de.hbz.nrw.to.science.forms.v2.service;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -100,6 +101,10 @@ public class WebClientService {
 	public void uploadMetadataMonograph(Monograph monographObj, String resourcePid) {
 		uploadMetadata(monographObj, resourcePid, MONOGRAPH);
 	}
+
+	public void uploadMetadataMonographJson(String metadataJson, String resourcePid) {
+		uploadRawJsonMetadata(metadataJson, resourcePid, MONOGRAPH);
+	}
 	
 	public void uploadMetadata(Object metadataObj, String resourcePid, String metadataType) {
 		Path tmpFile = null;
@@ -122,6 +127,38 @@ public class WebClientService {
 	            log.error("Temporary file handling failed for metadata type: {}", metadataType, e);
 	        } catch (Exception e) {
 	            log.error("Uploading metadata of type {} for resource {} failed", metadataType, resourcePid, e);
+	        } finally {
+	            if (tmpFile != null) {
+	                try {
+	                    Files.deleteIfExists(tmpFile);
+	                } catch (IOException e) {
+	                    log.warn("Failed to delete temporary file: {}", tmpFile, e);
+	                }
+	            }
+	        }
+	}
+
+	private void uploadRawJsonMetadata(String metadataJson, String resourcePid, String metadataType) {
+		Path tmpFile = null;
+		try {
+			tmpFile = Files.createTempFile("forms", ".json");
+			Files.writeString(tmpFile, metadataJson, StandardCharsets.UTF_8);
+
+			MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
+			bodyBuilder.part("data", new FileSystemResource(tmpFile)).contentType(MediaType.APPLICATION_JSON);
+	        
+	        webClient.put()
+	                 .uri(props.getFrlApiUrl() + resourcePid + "/uploadUpdateMetadata")
+	                 .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))
+	                 .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
+	                 .retrieve()
+	                 .toBodilessEntity()
+	                 .block();
+	        
+		} catch (IOException e) {
+	            log.error("Temporary file handling failed for metadata type: {}", metadataType, e);
+	        } catch (Exception e) {
+	            log.error("Uploading raw metadata of type {} for resource {} failed", metadataType, resourcePid, e);
 	        } finally {
 	            if (tmpFile != null) {
 	                try {
@@ -156,6 +193,21 @@ public class WebClientService {
 							.build() )
 						.retrieve()
 						.bodyToMono(Monograph.class)
+						.block();
+	}
+
+	public String getLobidAsJson(String url) {
+		if (url == null || url.isBlank()) {
+			throw new IllegalArgumentException("Lobid-URL fehlt oder ist leer.");
+		}
+		String sanitizedUrl = url.replace("#!", "");
+		String num = sanitizedUrl.substring(sanitizedUrl.lastIndexOf("/") + 1);
+		return webClient.get()
+						.uri(urlTo.getLobid() + num, uriBuilder -> uriBuilder
+							.queryParam("format", "json")
+							.build() )
+						.retrieve()
+						.bodyToMono(String.class)
 						.block();
 	}
 	
