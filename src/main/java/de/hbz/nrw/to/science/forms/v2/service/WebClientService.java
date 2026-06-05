@@ -319,29 +319,33 @@ public class WebClientService {
 	 */
 	
 	public String getSubjectLabel(String url, String langShort) {	
-		JsonNode rootNode = webClient.get()
-								 .uri(urlTo.getAgrovocData(), uriBuilder -> uriBuilder
-										.queryParam("uri", url)
-										.queryParam("format", MediaType.APPLICATION_JSON_VALUE)
-										.build() )
-								.retrieve()
-				                .bodyToMono(JsonNode.class)   
-				                .block();
-		
-		String prefLabelValue = null;
-		JsonNode graphArray = rootNode.path("graph");
-		for (JsonNode node : graphArray) {
-            if (node.path("uri").asText().equals(url)) {
-                JsonNode prefLabels = node.path("prefLabel");
-                for (JsonNode label : prefLabels) {
-                    if (label.path("lang").asText().equals(langShort)) {
-                        prefLabelValue = label.path("value").asText();
-                    }
-                }
-            }
-        }
+		try {
+			JsonNode rootNode = webClient.get()
+									 .uri(urlTo.getAgrovocData(), uriBuilder -> uriBuilder
+											.queryParam("uri", url)
+											.queryParam("format", MediaType.APPLICATION_JSON_VALUE)
+											.build() )
+									.retrieve()
+					                .bodyToMono(JsonNode.class)   
+					                .block();
+			
+			String prefLabelValue = null;
+			JsonNode graphArray = rootNode.path("graph");
+			for (JsonNode node : graphArray) {
+	            if (node.path("uri").asText().equals(url)) {
+	                JsonNode prefLabels = node.path("prefLabel");
+	                for (JsonNode label : prefLabels) {
+	                    if (label.path("lang").asText().equals(langShort)) {
+	                        prefLabelValue = label.path("value").asText();
+	                    }
+	                }
+	            }
+	        }
 
-		return prefLabelValue != null ? prefLabelValue : "No Label found";
+			return prefLabelValue != null ? prefLabelValue : url;
+		} catch (RuntimeException ex) {
+			return url;
+		}
 	}
 	
 	/**

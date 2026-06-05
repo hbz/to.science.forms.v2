@@ -522,13 +522,21 @@ function enableHelpCloseButtons(){
 function addGeonamesLookup(){	
 	$('#recordingLocation').after('<div id="geoSearchDiv"><div class="input-group"><input class="form-control" id="geoSearchQuery"></input><button class="btn btn-primary" type="button" id="geofind-button">Find</button></div></div>');
 	$('.input-widget.geonames-lookup').css('display','none');
+	$('.input-widget.geonames-lookup').removeClass('active-geonames-target');
+	$('.input-widget.geonames-lookup').first().addClass('active-geonames-target');
+	$(document).off('click.recordingLocationTarget', '#recordingLocation .geonames-lookup');
+	$(document).on('click.recordingLocationTarget', '#recordingLocation .geonames-lookup', function() {
+		$('.input-widget.geonames-lookup').removeClass('active-geonames-target');
+		$(this).find('.input-widget.geonames-lookup').first().addClass('active-geonames-target');
+	});
 	var findButton=$('#geofind-button');
 	$('#geoSearchQuery').bind('keypress keydown keyup', function(e){
 	      if(e.keyCode == 13) { e.preventDefault(); findButton.click();}
 	});
 	findButton.on("click",function(){
 		var geoSearchQuery=$('#geoSearchQuery').val();
-		var geoNamesUrl = "geoSearch?q="+geoSearchQuery;
+		var geoSearchBaseUrl = document.body.dataset.geosearchUrl || "geoSearch";
+		var geoNamesUrl = geoSearchBaseUrl + "?q=" + encodeURIComponent(geoSearchQuery);
 		$.ajax({
 			type : 'GET',
 			url : geoNamesUrl,
@@ -559,8 +567,13 @@ function displayMap(geonamesArr){
 			mymap=initMap(lat,lng);
 		}
 		L.marker([lat, lng]).addTo(mymap).on('click',function(e){
-			$('input.geonames-lookup.focus:last').val("http://www.geonames.org/"+value.geonameId);
-			$('input.geonames-lookup.focus:last').siblings(".input-field-heading").html(
+			var selectedLocation = $('input.geonames-lookup.active-geonames-target:last');
+			if (!selectedLocation.length) {
+				selectedLocation = $('input.geonames-lookup.focus:last');
+			}
+			selectedLocation.val("http://www.geonames.org/"+value.geonameId);
+			selectedLocation.siblings('input[type="hidden"]').val(value.name);
+			selectedLocation.siblings(".input-field-heading").html(
 					"<b>" + value.name + "  </b><a href=\"http://www.geonames.org/"+value.geonameId+"\" target=\"_blank\"><span class=\"fa fa-external-link-alt\" style=\"color:#375b9a\"></span></a>");
 		}).on('mouseover',function(e){
 			this.openPopup();

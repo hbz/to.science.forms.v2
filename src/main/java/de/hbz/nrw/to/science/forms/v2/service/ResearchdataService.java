@@ -36,7 +36,13 @@ public class ResearchdataService {
 		if (researchdata.getRecordingLocation() == null) {
 			researchdata.setRecordingLocation(new ArrayList<>());
 		}
-		json.fillRecordLocations(researchdata.getRecordingLocation());
+		researchdata.getRecordingLocation().removeIf(location ->
+			location == null || StringUtils.isBlank(location.getId()));
+		researchdata.getRecordingLocation().forEach(location -> {
+			if (StringUtils.isBlank(location.getPrefLabel())) {
+				location.setPrefLabel(location.getId());
+			}
+		});
 		
 		SimpleObject obj = new SimpleObject();
 		obj.setId(url.getMember() + RESEARCHDATA);

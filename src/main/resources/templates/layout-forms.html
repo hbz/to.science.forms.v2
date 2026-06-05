@@ -34,11 +34,11 @@
     
   </head>
   <!--[if IE]>
-    <body style="position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;">
+    <body th:attr="data-geosearch-url=@{/geoSearch}" style="position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px;">
   <![endif]-->
   <!--[if !IE]-->
   
-  <body>
+  <body th:attr="data-geosearch-url=@{/geoSearch}">
   <!--[endif]-->
 	<div th:object="${zettelModel}">
 		<div id="id" class="data" th:text="${id}">Default ID</div>

@@ -371,7 +371,8 @@ function addGeonamesLookup(){
 	});
 	findButton.on("click",function(){
 		var geoSearchQuery=$('#geoSearchQuery').val();
-		var geoNamesUrl = "geoSearch?q="+geoSearchQuery;
+		var contextPath = document.body.dataset.contextPath || "";
+		var geoNamesUrl = contextPath + "/geoSearch?q=" + encodeURIComponent(geoSearchQuery);
 		$.ajax({
 			type : 'GET',
 			url : geoNamesUrl,
