@@ -2,14 +2,23 @@ package de.hbz.nrw.to.science.forms.v2.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class GeneralConfig {
 	
 	@Bean
-	WebClient getWebClientBuilder() {
-		return WebClient.builder().build();
+	WebClient getWebClientBuilder(ObjectMapper objectMapper) {
+		return WebClient.builder()
+				.codecs(configurer -> {
+					configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper));
+					configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper));
+				})
+				.build();
 	}
 
 }

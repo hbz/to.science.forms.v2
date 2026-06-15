@@ -6,6 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
@@ -19,7 +20,10 @@ public class JsonConfig implements WebMvcConfigurer {
     ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
         SimpleFilterProvider filterProvider = new SimpleFilterProvider();
         filterProvider.addFilter("noEmptyValuesFilter", new NoEmptyValuesFilter());
-        return builder.filters(filterProvider).build();
+        return builder
+                .filters(filterProvider)
+                .featuresToEnable(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS)
+                .build();
     }
 	
 	// Import json file
