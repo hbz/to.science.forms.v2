@@ -14,7 +14,7 @@
 		
 			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 		
-			<form th:action="@{/article/{pid}(pid=${pid})}" id="saveForm" th:object="${article}" method="post">
+			<form th:action="@{/article/{pid}(pid=${pid},drupalUserId=${drupalUserId},drupalToken=${drupalToken})}" id="saveForm" th:object="${article}" method="post">
 				<a th:href="@{${@environment.getProperty('resource.frlUrlHelptext')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
 				
 				<div class="accordion" id="accordion">

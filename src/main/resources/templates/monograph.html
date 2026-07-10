@@ -14,7 +14,7 @@
 		
 			<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 		
-			<form th:action="@{/monograph/{pid}(pid=${pid})}" th:object="${monograph}" method="post">
+			<form th:action="@{/monograph/{pid}(pid=${pid},drupalUserId=${drupalUserId},drupalToken=${drupalToken})}" th:object="${monograph}" method="post">
 				<a th:href="@{${@environment.getProperty('zettel.monograph.helpText')}}" id="helpTextUrl" style="float:right" target="blank">Hilfe</a>
 				
 				<div class="accordion" id="accordion">

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.hbz.nrw.to.science.forms.v2.data.FormsData;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import static de.hbz.nrw.to.science.forms.v2.constants.ContentType.*;
+
 
 /**
  * @author Alessio Pellerito
@@ -40,25 +42,32 @@ public class MonographController {
     }
 
     @GetMapping({"/", ""})
-	public String getMonograph(Model model) {
+	public String getMonograph(@RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
+		if (missingDrupalContext(drupalUserId, drupalToken)) {
+			return drupalFormsV2StartUrl("monograph");
+		}
     	Monograph monograph = new Monograph();
     	model.addAttribute("pid", "");
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
 		model.addAttribute(MONOGRAPH, monograph);
 		return "monograph";	
 	}
 	
 	@GetMapping({"/{pid}/", "/{pid}"})
-	public String getMonograph(@PathVariable String pid, Model model) {
+	public String getMonograph(@PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
 		Monograph monograph = client.getMonograph(pid);
 		model.addAttribute("pid", pid);
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
 		model.addAttribute(MONOGRAPH, monograph);
 		return "monograph";
 	}
 	
 	@PostMapping({"/", ""})
-	public Object postMonograph(@ModelAttribute Monograph monograph, RedirectAttributes redirectAttributes) {		
+	public Object postMonograph(@ModelAttribute Monograph monograph, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes) {
 		
-		String pid = client.createResource(MONOGRAPH); // prod
+		String pid = client.createResourceViaDrupal(MONOGRAPH, drupalUserId, drupalToken); // prod
 		//String pid="frl:65050050"; // testing
 		log.info("PID_MONOGRAPH: {}", pid);
 		
@@ -85,4 +94,12 @@ public class MonographController {
 		}
 	}
 
+    private boolean missingDrupalContext(String drupalUserId, String drupalToken) {
+        return drupalUserId == null || drupalUserId.isBlank() || drupalToken == null || drupalToken.isBlank();
+    }
+
+    private String drupalFormsV2StartUrl(String bundleType) {
+        String frlUrl = link.getFrlUrl();
+        return "redirect:" + (frlUrl.endsWith("/") ? frlUrl : frlUrl + "/") + "edoweb/forms-v2/start/" + bundleType;
+    }
 }

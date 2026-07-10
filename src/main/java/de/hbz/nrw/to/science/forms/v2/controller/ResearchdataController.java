@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,26 +65,35 @@ public class ResearchdataController {
     }
 
     @GetMapping({"/", ""})
-	public String addResearchdata(Model model) {
+	public String addResearchdata(@RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
+		if (missingDrupalContext(drupalUserId, drupalToken)) {
+			return drupalFormsV2StartUrl("researchData");
+		}
     	Researchdata researchdata = new Researchdata();
+		model.addAttribute("pid", "");
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
 		model.addAttribute(RESEARCHDATA, researchdata);
 		return "researchdata";
 	}
 	
 	@GetMapping({"/{pid}/", "/{pid}"})
-	public String getResearchdata(@PathVariable String pid, Model model) {
+	public String getResearchdata(@PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
 		Researchdata researchData = client.getResearchData(pid);
+		model.addAttribute("pid", pid);
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
 		model.addAttribute(RESEARCHDATA, researchData);
 		return "researchdata";
 	}
 	
 	@PostMapping({"/", ""})
-	public Object postResearchdata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, RedirectAttributes redirectAttributes) {		
+	public Object postResearchdata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes) {
 		
 		String pid = null;
 		
 		if(!result.hasErrors()) {
-			pid = client.createResource("researchData");
+			pid = client.createResourceViaDrupal("researchData", drupalUserId, drupalToken);
 			//pid="frl:65055533"; // to test
 			log.info("PID_RESEARCHDATA: {}", pid);
 		}
@@ -111,4 +121,12 @@ public class ResearchdataController {
  	   return "redirect:" + link.getFrlUrl() + "resource/" + pid;
     }
 
+    private boolean missingDrupalContext(String drupalUserId, String drupalToken) {
+        return drupalUserId == null || drupalUserId.isBlank() || drupalToken == null || drupalToken.isBlank();
+    }
+
+    private String drupalFormsV2StartUrl(String bundleType) {
+        String frlUrl = link.getFrlUrl();
+        return "redirect:" + (frlUrl.endsWith("/") ? frlUrl : frlUrl + "/") + "edoweb/forms-v2/start/" + bundleType;
+    }
 }

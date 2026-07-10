@@ -56,18 +56,15 @@ public class WebClientService {
 	 * @return name of the new created child Resource
 	 */
 	public String createChildResource(String type, String parentPid) {
-		attr.setContentType(type);
-		attr.setParentPid(parentPid);
-		attr.setAccessScheme(props.getAccessScheme());
-		attr.setPublishScheme(props.getPublishScheme());
+		prepareResource(type, parentPid);
 		ResponseObject response = webClient.post() 
 								 .uri(props.getFrlApiUrl() + "frl")
 								 .contentType(MediaType.APPLICATION_JSON)
 								 .headers(h -> h.setBasicAuth(props.getFrlApiUser(), props.getFrlApiPassword()))
 								 .bodyValue(attr)
 								 .retrieve()
-				                 .bodyToMono(ResponseObject.class)   
-				                 .block();
+			                 .bodyToMono(ResponseObject.class)
+			                 .block();
 		log.info("Response text: {}", response.getText());
 		return response.getText().split(" ")[0];
 	}
@@ -81,6 +78,34 @@ public class WebClientService {
 	 */
 	public String createResource(String type) {
 		return createChildResource(type, null);
+	}
+
+	public String createResourceViaDrupal(String type, String drupalUserId, String drupalToken) {
+		prepareResource(type, null);
+		JsonNode response = webClient.post()
+								 .uri(drupalFormsV2ResourceUrl())
+								 .contentType(MediaType.APPLICATION_JSON)
+								 .headers(h -> {
+									 h.set("X-Drupal-User-Id", drupalUserId);
+									 h.set("X-Drupal-Forms-Token", drupalToken);
+								 })
+								 .bodyValue(attr)
+								 .retrieve()
+								 .bodyToMono(JsonNode.class)
+								 .block();
+		return response.path("pid").asText();
+	}
+
+	private void prepareResource(String type, String parentPid) {
+		attr.setContentType(type);
+		attr.setParentPid(parentPid);
+		attr.setAccessScheme(props.getAccessScheme());
+		attr.setPublishScheme(props.getPublishScheme());
+	}
+
+	private String drupalFormsV2ResourceUrl() {
+		String frlUrl = props.getFrlUrl();
+		return (frlUrl.endsWith("/") ? frlUrl : frlUrl + "/") + "edoweb/forms-v2/resource";
 	}
 	
 	/**
