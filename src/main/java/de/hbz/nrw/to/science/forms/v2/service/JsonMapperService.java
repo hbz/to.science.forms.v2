@@ -102,6 +102,10 @@ public class JsonMapperService {
 	    objects.forEach(obj -> {
 	        if (StringUtils.isBlank(obj.getId()))
 	            return;
+	        if (obj.getId().contains("adhoc/uri")) {
+	            obj.setPrefLabel(URLUtils.decode(StringUtils.substringAfterLast(obj.getId(), "/")));
+	            return;
+	        }
 	        String id = StringUtils.substringAfterLast(obj.getId(), "/");
 	        obj.setPrefLabel(idProcessor.apply(id));
 	    });
