@@ -444,8 +444,9 @@
 			"https://creativecommons.org/licenses/by/4.0" : "CC BY 4.0 (recommended)",
 			"https://creativecommons.org/publicdomain/zero/1.0/" : "CC0 1.0",
 			"https://www.gnu.org/licenses/gpl-3.0.de.html" : "GNU GPL 3.0",
+			"https://opensource.org/license/MIT" : "MIT License",
 			"https://opendatacommons.org/licenses/odbl/1-0/" : "ODbL",
-			"https://opensource.org/license/MIT" : "MIT License"
+			"http://opendatacommons.org/licenses/by/1.0/" : "ODC By"
 		},
 		"language" : {
 			"http://id.loc.gov/vocabulary/iso639-2/ger" : "German",
