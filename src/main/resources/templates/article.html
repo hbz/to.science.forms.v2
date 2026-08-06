@@ -229,31 +229,7 @@
 													</div>
 												</div>
 												
-												<!-- MULTISELECT AREA START -->	
-							      				<div class="roles-container px-2 pb-3">
-								      				<div class="role-field">
-														<div>
-							        						<label th:for="'role-creator' + ${i.index}">Rolle/n</label>
-							  								<button type="button" class="inline-help" th:name="'role-creator' + ${i.index}">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" th:name="'role-creator' + ${i.index}" style="display: none;">
-																<button th:name="'role-creator' + ${i.index}" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select th:id="'role-creator' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{creator[__${i.index}__].role}">
-																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
 												</div>
-												<!-- MULTISELECT AREA END -->
-												
-			      							</div>
 
 											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
 			      							<div class="buttonBox">
@@ -297,31 +273,7 @@
 														</select>
 													</div>
 												</div>
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container px-2 pb-3" style="display:none;">
-								      				<div class="role-field">
-														<div>
-							        						<label for="role-creator0">Rolle/n</label>
-							  								<button type="button" class="inline-help" name="role-creator0">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" name="role-creator0" style="display: none;">
-																<button name="role-creator0" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select id="role-creator0" data-searchable="true" multiple class="form-select" th:field="*{creator[0].role}">
-																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-												
-											</div>
+												</div>
 	
 											<div class="invalid-feedback" style="display:block;" th:if="${ #fields.hasErrors('creator[0]') }" th:errors="*{creator[0]}"></div>
 			      	
@@ -526,31 +478,7 @@
 														</select>
 													</div>
 												</div>
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container px-2 pb-3">
-								      				<div class="role-field">
-														<div>
-							        						<label th:for="'role-editor' + ${i.index}">Rolle/n</label>
-							  								<button type="button" class="inline-help" th:name="'role-editor' + ${i.index}">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" th:name="'role-editor' + ${i.index}" style="display: none;">
-																<button th:name="'role-editor' + ${i.index}" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select th:id="'role-editor' + ${i.index}" data-searchable="true" multiple class="form-select" th:field="*{editor[__${i.index}__].role}">
-																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-												
-					   				 		</div>
+												</div>
 					   				 		
 				   				 			<div class="buttonBox">
 												<div class="btn-group">
@@ -593,30 +521,7 @@
 													</div>
 												</div>
 												
-												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container px-2 pb-3" style="display:none;">
-								      				<div class="role-field">
-														<div>
-							        						<label for="role-editor0">Rolle/n</label>
-							  								<button type="button" class="inline-help" name="role-editor0">
-																<span class="fas fa-question-circle"></span>
-															</button>
-															<div class="help-text" name="role-editor0" style="display: none;">
-																<button name="role-editor0" type="button" class="close-help" style="float: right">
-																	<span class="fas fa-times-circle"></span>
-																</button>
-															</div>
-														</div>
-														<div>
-															<select id="role-editor0" class="form-select" data-searchable="true" multiple th:field="*{editor[0].role}">
-																<option value="">Bitte wählen...</option>
-																<option th:each="rol : ${articleData.role}" th:value="${rol.key}" th:text="${rol.value}"></option>
-															</select>
-														</div>
-													</div>	
-												</div>	
-												<!-- MULTISELECT AREA END -->
-					   				 		</div>
+												</div>
 											
 				   				 			<div class="buttonBox">
 												<div class="btn-group">
@@ -1600,47 +1505,6 @@
 	  				<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingEight','collapseEight','identifier-section','Externe und interne Referenzen')}">
 			      		
 			      		<div layout:fragment="accordionPanel-content">
-			      		
-			      			<!-- DOI -->
-			      			<div class="multi-field-wrapper">
-								<ol class="multi-fields" id="doi">
-									<th:block th:each="cre, i : ${#lists.isEmpty(article.doi) ? {''} : article.doi}">
-										<li class="multi-field">
-											<div class="first-child-of-multi-field">
-												<div>
-													<label th:for="'doi[' + ${i.index} + ']'">DOI</label>
-													<button type="button" class="inline-help" name="doi">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="doi" style="display: none;">
-														<button name="doi" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>
-												<div>
-													<div class="numbering"></div>
-													<input type="text" class="form-control input-widget focus" tabindex="27" th:field="*{doi[__${i.index}__]}" th:attr="readonly=${!#lists.isEmpty(article.doi)}"/>
-												</div>
-											</div>
-											<!--
-											<div class="buttonBox" th:if="${#lists.isEmpty(article.doi)}">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>
-											</div> -->
-											<br />
-										</li>
-									</th:block>
-								</ol>
-							</div>
-			      			<!-- DOI END -->
-			      			
 			      			<!-- URN -->
 		      				<div class="multi-field-wrapper">
 		      					<ol class="multi-fields" id="urn">

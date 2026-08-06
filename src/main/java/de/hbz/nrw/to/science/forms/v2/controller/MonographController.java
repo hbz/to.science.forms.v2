@@ -65,16 +65,34 @@ public class MonographController {
 	}
 	
 	@PostMapping({"/", ""})
-	public Object postMonograph(@ModelAttribute Monograph monograph, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes) {
-		
-		String pid = client.createResourceViaDrupal(MONOGRAPH, drupalUserId, drupalToken); // prod
-		//String pid="frl:65050050"; // testing
-		log.info("PID_MONOGRAPH: {}", pid);
-		
-		return postMonographWithPid(monograph, pid, redirectAttributes);
-		
+	public Object postMonograph(@ModelAttribute Monograph monograph, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes, Model model) {
+		try {
+			String lobidMetadata = monographService.getRawMonographFromLobid(monograph);
+			String pid = client.createResourceViaDrupal(MONOGRAPH, drupalUserId, drupalToken); // prod
+			//String pid="frl:65050050"; // testing
+			log.info("PID_MONOGRAPH: {}", pid);
+			return postMonographWithPid(lobidMetadata, pid, redirectAttributes);
+		} catch (Exception e) {
+			log.error("Monograph import failed", e);
+			model.addAttribute("pid", "");
+			model.addAttribute("drupalUserId", drupalUserId);
+			model.addAttribute("drupalToken", drupalToken);
+			model.addAttribute(MONOGRAPH, monograph);
+			model.addAttribute("message", e.getMessage() != null ? e.getMessage() : "Monograph-Import fehlgeschlagen.");
+			model.addAttribute("alertClass", "alert-danger");
+			return "monograph";
+		}
 	}
-	
+
+	private Object postMonographWithPid(String lobidMetadata, String pid, RedirectAttributes redirectAttributes) {
+		client.uploadMetadataMonographJson(lobidMetadata, pid);
+
+		redirectAttributes.addFlashAttribute("message", "Monograph was created/updated successfully");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+		return "redirect:" + link.getFrlUrl() + "resource/" + pid;
+	}
+
 	@PostMapping({"/{pid}/", "/{pid}"})
 	public Object postMonographWithPid(@ModelAttribute Monograph monograph, @PathVariable String pid, RedirectAttributes redirectAttributes) {
 		try {

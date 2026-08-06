@@ -45,6 +45,7 @@ public class ResearchdataController {
     @ModelAttribute
     public void addCommonAttributes(Model model) {
         model.addAttribute("researchdataData", formsData.getResearchdataData());
+        model.addAttribute("showCreatorRoles", false);
     }
 
     @InitBinder
@@ -88,7 +89,7 @@ public class ResearchdataController {
 	}
 	
 	@PostMapping({"/", ""})
-	public Object postResearchdata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes) {
+	public Object postResearchdata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes, Model model) {
 		
 		String pid = null;
 		
@@ -98,16 +99,17 @@ public class ResearchdataController {
 			log.info("PID_RESEARCHDATA: {}", pid);
 		}
 				
-		return researchdataWithPid(researchdata, result, pid, redirectAttributes);
+		return researchdataWithPid(researchdata, result, pid, drupalUserId, drupalToken, redirectAttributes, model);
 	}
 
 	@PostMapping({"/{pid}/", "/{pid}"})
-	public Object researchdataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {
+	public Object researchdataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, RedirectAttributes redirectAttributes, Model model) {
 
 		researchdataService.populateResearchdataFields(researchdata, pid);
         
         if(result.hasErrors()) {
 			log.error("Still validation errors available");
+			keepDrupalContext(model, pid, drupalUserId, drupalToken);
 			return "researchdata";
 		}
         
@@ -119,6 +121,13 @@ public class ResearchdataController {
  	    
  	    //return ResponseEntity.ok(researchdata); // to test
  	   return "redirect:" + link.getFrlUrl() + "resource/" + pid;
+    }
+
+
+    private void keepDrupalContext(Model model, String pid, String drupalUserId, String drupalToken) {
+        model.addAttribute("pid", pid == null ? "" : pid);
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
     }
 
     private boolean missingDrupalContext(String drupalUserId, String drupalToken) {

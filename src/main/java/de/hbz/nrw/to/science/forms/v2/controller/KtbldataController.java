@@ -45,6 +45,7 @@ public class KtbldataController {
     @ModelAttribute
     public void addCommonAttributes(Model model) {
         model.addAttribute("researchdataData", formsData.getResearchdataData());
+        model.addAttribute("showCreatorRoles", true);
     }
 
     @InitBinder
@@ -90,7 +91,7 @@ public class KtbldataController {
 	}
 	
 	@PostMapping({"/", ""})
-	public Object postKtbldata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes) {
+	public Object postKtbldata(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes, Model model) {
 		
 		String pid = null;
 		
@@ -100,16 +101,17 @@ public class KtbldataController {
 			log.info("PID_KTBLDATA: {}", pid);
 		}
 				
-		return ktbldataWithPid(researchdata, result, pid, redirectAttributes);
+		return ktbldataWithPid(researchdata, result, pid, drupalUserId, drupalToken, redirectAttributes, model);
 	}
 
 	@PostMapping({"/{pid}/", "/{pid}"})
-	public Object ktbldataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {
+	public Object ktbldataWithPid(@Valid @ModelAttribute Researchdata researchdata, BindingResult result, @PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, RedirectAttributes redirectAttributes, Model model) {
 
 		researchdataService.populateResearchdataFields(researchdata, pid);
         
         if(result.hasErrors()) {
 			log.error("Still validation errors available");
+			keepDrupalContext(model, pid, drupalUserId, drupalToken);
 			return "ktbldata";
 		}
         
@@ -122,6 +124,13 @@ public class KtbldataController {
  	    //return ResponseEntity.ok(researchdata); // to test
  	   //return "redirect:/ktbldata/" + pid;
  	   return "redirect:" + link.getFrlUrl() + "resource/" + pid;
+    }
+
+
+    private void keepDrupalContext(Model model, String pid, String drupalUserId, String drupalToken) {
+        model.addAttribute("pid", pid == null ? "" : pid);
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
     }
 
     private boolean missingDrupalContext(String drupalUserId, String drupalToken) {

@@ -90,7 +90,7 @@ public class ArticleController {
     }
 
     @PostMapping({"/", ""})
-    public Object postArticle(@Valid @ModelAttribute Article article, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes) {
+    public Object postArticle(@Valid @ModelAttribute Article article, BindingResult result, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes, Model model) {
       
     	String pid = null;
 		
@@ -100,16 +100,17 @@ public class ArticleController {
 			log.info("PID_ARTICLE: {}", pid);
 		}	
 		
-		return postArticleWithPid(article, result, pid,redirectAttributes);
+		return postArticleWithPid(article, result, pid, drupalUserId, drupalToken, redirectAttributes, model);
     }
 
     @PostMapping({"/{pid}", "/{pid}/"})
-    public Object postArticleWithPid(@Valid @ModelAttribute Article article, BindingResult result, @PathVariable String pid, RedirectAttributes redirectAttributes) {
+    public Object postArticleWithPid(@Valid @ModelAttribute Article article, BindingResult result, @PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, RedirectAttributes redirectAttributes, Model model) {
 
         articleService.populateArticleFields(article, pid);
         
         if(result.hasErrors()) {
 			log.error("Still validation errors available");
+			keepDrupalContext(model, pid, drupalUserId, drupalToken);
 			return "article";
 		}
         
@@ -122,6 +123,13 @@ public class ArticleController {
  	    //return ResponseEntity.ok(article); // to test
  		//return "redirect:/article/" + pid;
  	    return "redirect:" + link.getFrlUrl() + "resource/" + pid;
+    }
+
+
+    private void keepDrupalContext(Model model, String pid, String drupalUserId, String drupalToken) {
+        model.addAttribute("pid", pid == null ? "" : pid);
+        model.addAttribute("drupalUserId", drupalUserId);
+        model.addAttribute("drupalToken", drupalToken);
     }
 
     private boolean missingDrupalContext(String drupalUserId, String drupalToken) {

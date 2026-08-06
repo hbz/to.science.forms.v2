@@ -138,7 +138,7 @@
 												</div>
 												
 												<!-- MULTISELECT AREA START	-->
-							      				<div class="roles-container">
+												<div class="roles-container" th:if="${showCreatorRoles}">
 								      				<div class="role-field">
 														<div>
 							        						<label th:for="'role-creator' + ${i.index}">Role/s</label>
@@ -206,7 +206,7 @@
 													</div>
 												</div>
 												<!-- MULTISELECT AREA START -->		
-							      				<div class="roles-container" style="display:none;">
+												<div class="roles-container" style="display:none;" th:if="${showCreatorRoles}">
 								      				<div class="role-field">
 														<div>
 							        						<label for="role-creator0">Role/s</label>
@@ -1970,46 +1970,6 @@
 			      	<div layout:replace="~{fragments/accordionpanel :: accordionPanel('headingTen','collapseTen','identifier-section','External and internal references')}"> 
 		      					
 		      			<div layout:fragment="accordionPanel-content">
-		      			
-		      				<!-- DOI -->
-			      			<div class="multi-field-wrapper">
-								<ol class="multi-fields" id="doi">
-									<th:block th:each="cre, i : ${#lists.isEmpty(researchdata.doi) ? {''} : researchdata.doi}">
-										<li class="multi-field">
-											<div class="first-child-of-multi-field">
-												<div>
-													<label th:for="'doi[' + ${i.index} + ']'">DOI</label>
-													<button type="button" class="inline-help" name="doi">
-														<span class="fas fa-question-circle"></span>
-													</button>
-													<div class="help-text" name="doi" style="display: none;">
-														<button name="doi" type="button" class="close-help" style="float: right">
-															<span class="fas fa-times-circle"></span>
-														</button>
-													</div>
-												</div>
-												<div>
-													<div class="numbering"></div>
-													<input type="text" class="form-control input-widget focus" tabindex="27" th:field="*{doi[__${i.index}__]}" th:attr="readonly=${!#lists.isEmpty(researchdata.doi)}"/>
-												</div>
-											</div>
-											<!--  
-											<div class="buttonBox" th:if="${#lists.isEmpty(researchdata.doi)}">
-												<div class="btn-group">
-													<button type="button" class="add-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-plus-circle"></span></button>
-													<button type="button" class="remove-field" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-minus-circle"></span></button>
-												</div>
-												<div class="btn-group">
-													<button type="button" class="moveUp" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-up"></span></button>
-													<button type="button" class="moveDown" style="background:none;border:0;padding:0px;width:24px; text-align:center; vertical-align:middle"><span class="fas fa-arrow-circle-down"></span></button>
-												</div>
-											</div> -->
-											<br />
-										</li>
-									</th:block>
-								</ol>
-							</div>
-			      			<!-- DOI END -->
 		      				
 		      				<!-- URN -->
 		      				<div class="multi-field-wrapper">
