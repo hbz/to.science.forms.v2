@@ -662,7 +662,7 @@ function initRevMap(lat,lng){
 function addActionToCancelButton(){
 	if (top != self){
 		setTimeout(function(){
-		$("#cancel").click(function(){
+		$("input#cancel").click(function(){
 			emitCancel();
 		});},3000);
 	}else{
@@ -671,7 +671,7 @@ function addActionToCancelButton(){
 		if( sourceUrl !== targetUrl){
 			Cookies.set("cancel",document.referrer);
 		}
-		$("#cancel").click(function(){
+		$("input#cancel").click(function(){
 			window.location.href = Cookies.get("cancel");
 		});
 	}
