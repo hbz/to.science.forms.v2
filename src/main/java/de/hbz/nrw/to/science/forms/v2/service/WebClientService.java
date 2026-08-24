@@ -150,8 +150,10 @@ public class WebClientService {
 	        
 			} catch (IOException e) {
 	            log.error("Temporary file handling failed for metadata type: {}", metadataType, e);
+	            throw new IllegalStateException("Temporary file handling failed for metadata type: " + metadataType, e);
 	        } catch (Exception e) {
 	            log.error("Uploading metadata of type {} for resource {} failed", metadataType, resourcePid, e);
+	            throw new IllegalStateException("Uploading metadata of type " + metadataType + " for resource " + resourcePid + " failed", e);
 	        } finally {
 	            if (tmpFile != null) {
 	                try {
@@ -182,8 +184,10 @@ public class WebClientService {
 	        
 		} catch (IOException e) {
 	            log.error("Temporary file handling failed for metadata type: {}", metadataType, e);
+	            throw new IllegalStateException("Temporary file handling failed for metadata type: " + metadataType, e);
 	        } catch (Exception e) {
 	            log.error("Uploading raw metadata of type {} for resource {} failed", metadataType, resourcePid, e);
+	            throw new IllegalStateException("Uploading raw metadata of type " + metadataType + " for resource " + resourcePid + " failed", e);
 	        } finally {
 	            if (tmpFile != null) {
 	                try {
