@@ -80,9 +80,19 @@ public class KtbldataController {
 	
 	@GetMapping({"/{pid}/", "/{pid}"})
 	public String getKtbldata(@PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
-		Researchdata researchData = client.getResearchData(pid);
-		Researchdata ktbl = client.getKtbl(pid);
-		researchData.setInfo(ktbl.getInfo());
+		Researchdata researchData;
+		try {
+			researchData = client.getResearchData(pid);
+		} catch (Exception e) {
+			log.warn("No toscience metadata found for {}, using empty ktbldata form", pid);
+			researchData = new Researchdata();
+		}
+		try {
+			Researchdata ktbl = client.getKtbl(pid);
+			researchData.setInfo(ktbl.getInfo());
+		} catch (Exception e) {
+			log.warn("No ktbl metadata found for {}, using empty ktbl info", pid);
+		}
 		model.addAttribute("pid", pid);
         model.addAttribute("drupalUserId", drupalUserId);
         model.addAttribute("drupalToken", drupalToken);

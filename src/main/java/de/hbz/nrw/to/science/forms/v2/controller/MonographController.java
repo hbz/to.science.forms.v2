@@ -56,7 +56,13 @@ public class MonographController {
 	
 	@GetMapping({"/{pid}/", "/{pid}"})
 	public String getMonograph(@PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
-		Monograph monograph = client.getMonograph(pid);
+		Monograph monograph;
+		try {
+			monograph = client.getMonograph(pid);
+		} catch (Exception e) {
+			log.warn("No toscience metadata found for {}, using empty monograph form", pid);
+			monograph = new Monograph();
+		}
 		model.addAttribute("pid", pid);
         model.addAttribute("drupalUserId", drupalUserId);
         model.addAttribute("drupalToken", drupalToken);

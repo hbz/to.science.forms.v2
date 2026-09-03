@@ -80,7 +80,13 @@ public class ResearchdataController {
 	
 	@GetMapping({"/{pid}/", "/{pid}"})
 	public String getResearchdata(@PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
-		Researchdata researchData = client.getResearchData(pid);
+		Researchdata researchData;
+		try {
+			researchData = client.getResearchData(pid);
+		} catch (Exception e) {
+			log.warn("No toscience metadata found for {}, using empty researchdata form", pid);
+			researchData = new Researchdata();
+		}
 		model.addAttribute("pid", pid);
         model.addAttribute("drupalUserId", drupalUserId);
         model.addAttribute("drupalToken", drupalToken);

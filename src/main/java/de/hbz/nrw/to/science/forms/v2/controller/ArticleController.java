@@ -80,7 +80,13 @@ public class ArticleController {
 
     @GetMapping({"/{pid}", "/{pid}/"})
     public String getArticle(@PathVariable String pid, @RequestParam(value = "drupalUserId", required = false) String drupalUserId, @RequestParam(value = "drupalToken", required = false) String drupalToken, Model model) {
-        Article fetchedArticle = client.getArticle(pid);
+        Article fetchedArticle;
+        try {
+            fetchedArticle = client.getArticle(pid);
+        } catch (Exception e) {
+            log.warn("No toscience metadata found for {}, using empty article form", pid);
+            fetchedArticle = new Article();
+        }
         model.addAttribute("articleData", formsData.getArticleData());
         model.addAttribute("pid", pid);
         model.addAttribute("drupalUserId", drupalUserId);
