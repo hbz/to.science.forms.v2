@@ -107,7 +107,6 @@ public class KtbldataController {
 		
 		if(!result.hasErrors()) {
 			pid = client.createResourceViaDrupal("researchData", drupalUserId, drupalToken);
-			//pid="frl:65050050"; // to test
 			log.info("PID_KTBLDATA: {}", pid);
 		}
 				

@@ -102,7 +102,6 @@ public class ArticleController {
 		
 		if(!result.hasErrors()) {
 			pid = client.createResourceViaDrupal(ARTICLE, drupalUserId, drupalToken);
-			//pid="frl:65050050"; // to test
 			log.info("PID_ARTICLE: {}", pid);
 		}	
 		

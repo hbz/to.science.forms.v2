@@ -73,11 +73,9 @@ public class MonographController {
 	@PostMapping({"/", ""})
 	public Object postMonograph(@ModelAttribute Monograph monograph, @RequestParam("drupalUserId") String drupalUserId, @RequestParam("drupalToken") String drupalToken, RedirectAttributes redirectAttributes, Model model) {
 		try {
-			String lobidMetadata = monographService.getRawMonographFromLobid(monograph);
 			String pid = client.createResourceViaDrupal(MONOGRAPH, drupalUserId, drupalToken); // prod
-			//String pid="frl:65050050"; // testing
 			log.info("PID_MONOGRAPH: {}", pid);
-			return postMonographWithPid(lobidMetadata, pid, redirectAttributes);
+			return saveMonograph(monograph, pid, redirectAttributes);
 		} catch (Exception e) {
 			log.error("Monograph import failed", e);
 			model.addAttribute("pid", "");
@@ -90,8 +88,13 @@ public class MonographController {
 		}
 	}
 
-	private Object postMonographWithPid(String lobidMetadata, String pid, RedirectAttributes redirectAttributes) {
-		client.uploadMetadataMonographJson(lobidMetadata, pid);
+	private Object saveMonograph(Monograph monograph, String pid, RedirectAttributes redirectAttributes) {
+		if (hasLobidSelection(monograph)) {
+			client.uploadMetadataMonographJson(monographService.getRawMonographFromLobid(monograph), pid);
+		} else {
+			monograph.setParallelEdition(null);
+			client.uploadMetadataMonograph(monograph, pid);
+		}
 
 		redirectAttributes.addFlashAttribute("message", "Monograph was created/updated successfully");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
@@ -102,20 +105,22 @@ public class MonographController {
 	@PostMapping({"/{pid}/", "/{pid}"})
 	public Object postMonographWithPid(@ModelAttribute Monograph monograph, @PathVariable String pid, RedirectAttributes redirectAttributes) {
 		try {
-			String lobidMetadata = monographService.getRawMonographFromLobid(monograph);
-			client.uploadMetadataMonographJson(lobidMetadata, pid);
-
-			redirectAttributes.addFlashAttribute("message", "Monograph was created/updated successfully");
-			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-
-			//return ResponseEntity.ok(monograph); // testing
-			return "redirect:" + link.getFrlUrl() + "resource/" + pid;
+			return saveMonograph(monograph, pid, redirectAttributes);
 		} catch (Exception e) {
 			log.error("Monograph import failed for pid {}", pid, e);
 			redirectAttributes.addFlashAttribute("message", e.getMessage() != null ? e.getMessage() : "Monograph-Import fehlgeschlagen.");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 			return "redirect:/monograph";
 		}
+	}
+
+	private boolean hasLobidSelection(Monograph monograph) {
+		return monograph != null
+				&& monograph.getParallelEdition() != null
+				&& !monograph.getParallelEdition().isEmpty()
+				&& monograph.getParallelEdition().get(0) != null
+				&& monograph.getParallelEdition().get(0).getId() != null
+				&& !monograph.getParallelEdition().get(0).getId().isBlank();
 	}
 
     private boolean missingDrupalContext(String drupalUserId, String drupalToken) {
